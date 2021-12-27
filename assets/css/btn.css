@@ -1,0 +1,8 @@
+/* 解决引入第三方UI时，覆盖原页面某些会引起奇怪样式的css */
+.el-message-box__headerbtn{
+	box-shadow: inset 0 0 0 0 !important;
+}
+
+.el-button{
+	box-shadow: inset 0 0 0 0 !important;
+}

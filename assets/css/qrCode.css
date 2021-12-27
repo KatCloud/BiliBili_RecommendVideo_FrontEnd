@@ -1,0 +1,28 @@
+.image.main img {
+	width: 200 !important;
+	margin: 0 auto !important;
+}
+
+.guoqi {
+	width: 100%;
+	height: 50%;
+	text-align: center;
+	font-size: 1.25rem;
+	position:absolute; 
+	z-index:2;
+	left:0;
+	bottom:0;
+	color: #2B2B2B;
+	font-weight: bold;
+	
+}
+
+.contianer {
+	display: flex;
+	/* flex-direction: column; */
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	width: 100%;
+	height: 240px;
+}

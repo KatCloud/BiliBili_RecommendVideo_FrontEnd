@@ -1,0 +1,22 @@
+.versionBox {
+	font-size: 10px;
+	position: relative;
+	top: -1.25rem;
+	display: inline-block;
+	margin: 0 0 0 5px;
+	padding: 2px 4px;
+	vertical-align: super;
+	border-radius: 57px;
+	background: #7d8492;
+}
+
+.version {
+	margin: 0;
+	font-family: Titillium Web,sans-serif; 
+	color: #FFFFFF;
+	letter-spacing: 0.125rem;
+}
+
+.el-badge__content{
+	background-color: #FB7299 !important;
+}
