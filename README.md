@@ -1,6 +1,6 @@
 # KatCloud Tools
 
-https://img.shields.io/badge/vue-2.16.4-brightgreen?style=flat-square&logo=appveyor  https://img.shields.io/badge/element--ui-2.15.7-blue?style=flat-square&logo=appveyor https://img.shields.io/badge/vant-2.12-green?style=flat-square&logo=appveyor
+![](https://img.shields.io/badge/vue-2.16.4-brightgreen?style=flat-square&logo=appveyor)  ![](https://img.shields.io/badge/element--ui-2.15.7-blue?style=flat-square&logo=appveyor)  ![](https://img.shields.io/badge/vant-2.12-green?style=flat-square&logo=appveyor)
 
 > 前情提要
 >
@@ -10,4 +10,3 @@ https://img.shields.io/badge/vue-2.16.4-brightgreen?style=flat-square&logo=appve
 |  :---  | :---  |  :---  |
 | B站推荐视频 | 2.7 | 网页也能刷首页推荐了 |
 | B站封面获取 | 2.1 | 懂得都懂，获取视频封面 |
-
