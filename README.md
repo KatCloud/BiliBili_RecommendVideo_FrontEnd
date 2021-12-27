@@ -1,6 +1,6 @@
 # KatCloud Tools
 
-[vue](https://img.shields.io/badge/vue-2.16.4-brightgreen?style=flat-square&logo=appveyor)  [element-ui](https://img.shields.io/badge/element--ui-2.15.7-blue?style=flat-square&logo=appveyor) [vant](https://img.shields.io/badge/vant-2.12-green)
+https://img.shields.io/badge/vue-2.16.4-brightgreen?style=flat-square&logo=appveyor  https://img.shields.io/badge/element--ui-2.15.7-blue?style=flat-square&logo=appveyor https://img.shields.io/badge/vant-2.12-green?style=flat-square&logo=appveyor
 
 > 前情提要
 >
