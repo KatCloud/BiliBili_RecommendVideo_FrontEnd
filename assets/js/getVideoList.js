@@ -4,7 +4,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: 2.7, // 2021.12.7 update
+		biliToolVersion: 3.0, // 2022.1.4 update
 		// ---------
 		// 骨架屏
 		isSkeleton: false,
@@ -111,20 +111,20 @@ new Vue({
 				background: 'rgba(0, 0, 0, 0.7)'
 			})
 			$.ajax({
-				url: baseUrl + '/user/addWatchLater',
+				url: baseUrl + '/addWatchLater',
 				timeout: 30000,
 				type: 'POST',
 				data: {
-					sessionID: token,
+					loginToken: token,
 					aid: aid
 				},
 				success: (res) => {
 					loading.close()
 					// console.log(res)
-					if(res.state == 200){
+					if(res.code == 200){
 						this.showNotify('success', '搞定啦', '已添加到稍后再看', 2000)
 					}else{
-						this.showNotify('error', '出现问题', '（错误代码: ' + res.state + ', 错误信息: ' + res.msg + '）')
+						this.showNotify('error', '出现问题', '（错误代码: ' + res.code + '）')
 					}
 				},
 				complete: (res, status) => {
@@ -148,10 +148,10 @@ new Vue({
 		// 获取用户关注的直播列表
 		getLiveList(){
 			$.ajax({
-				url: baseUrl + '/user/getLiveList',
+				url: baseUrl + '/getLiveList',
 				type: 'GET',
 				data: {
-					sessionID: token
+					loginToken: token
 				},
 				success: (res) => {
 					// console.log(res)
@@ -164,7 +164,6 @@ new Vue({
 		
 		// 拿视频列表（首次）
 		getVideoList(){
-			// console.log('first')
 			// 全屏加载
 			const loading = this.$loading({
 				lock: true,
@@ -173,18 +172,18 @@ new Vue({
 			})
 			// this.isLoading = true
 			$.ajax({
-				url: baseUrl + '/recommend/index',
+				url: baseUrl + '/getVideoList',
 				timeout: 30000,
 				type: 'GET',
 				data: {
-					sessionID: token,
+					loginToken: token,
 					idx: this.idx
 				},
 				success: (res) => {
-					// console.log(res)
+					console.log(res)
 					// this.isLoading = false
 					// loading.close()
-					if(res.state == 200){
+					if(res.code == 200){
 						// 列表
 						const videoList = res.data.data.items
 						// console.log(videoList)
@@ -203,7 +202,7 @@ new Vue({
 							this.videolist = videoList
 						}
 						// 登录鉴定
-						if(res.isLogin){
+						if(res.data.isLogin){
 							this.isLogin = true
 							this.showNotify('info', '提示', '已登录', 1500)
 						}else{
@@ -212,7 +211,7 @@ new Vue({
 					}else{
 						this.showNotify('error',
 										'错误',
-										'获取推荐视频列表时出现问题（错误代码: ' + res.state + ', 错误信息: ' + res.msg + '）', 0)
+										'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
 					}
 					loading.close()
 				},
@@ -240,17 +239,18 @@ new Vue({
 			})
 			// this.isLoading = true
 			$.ajax({
-				url: baseUrl + '/recommend/index',
+				url: baseUrl + '/getVideoList',
 				timeout: 30000,
 				type: 'GET',
 				data: {
-					sessionID: token,
+					loginToken: token,
 					idx: this.idx
 				},
 				success: (res) => {
+					console.log(res)
 					// this.isLoading = false
 					// loading.close()
-					if(res.state == 200){
+					if(res.code == 200){
 						// 列表
 						const moreVideoList = res.data.data.items
 						// console.log(moreVideoList)
@@ -279,7 +279,7 @@ new Vue({
 						}
 						this.showNotify('success', '好耶', '获得' + moreVideoList.length + '条新内容', 1000)
 						// 登录鉴定
-						if(res.isLogin){
+						if(res.data.isLogin){
 							this.isLogin = true
 						}else{
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
@@ -288,7 +288,7 @@ new Vue({
 					}else{
 						this.showNotify('error',
 										'错误',
-										'获取推荐视频列表时出现问题（错误代码: ' + res.state + ', 错误信息: ' + res.msg + '）')
+										'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）')
 					}
 				},
 				complete: (res, status) => {
@@ -323,10 +323,10 @@ new Vue({
 				timeout: 30000,
 				type: 'GET',
 				data: {
-					sessionID: token
+					loginToken: token
 				},
 				success: (res) => {
-					if(res.state == 200){
+					if(res.code == 200){
 						this.isLogin = false
 						localStorage.removeItem('access_token')
 						this.showNotify('success', '提示','你已退出登录')

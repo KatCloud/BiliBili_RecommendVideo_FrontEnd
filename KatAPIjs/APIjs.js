@@ -2,7 +2,7 @@ new Vue({
 	el: '#videoInfo',
 	data: {
 		// 工具版本号
-		TOOL_VERSION: 2.1, // 2021.12.7 update
+		TOOL_VERSION: 3.0, // 2022.1.4 update
 		// 显示结果框, 0 不显示, 1 正确获取, 2 错误获取, 3 获取中
 		showResult: 0,
 		// 输入的AV或BV号
@@ -49,11 +49,11 @@ new Vue({
 						url: baseUrl + '/getVideoInfo',
 						type: 'GET',
 						data: {
-							id: id
+							videoId: id
 						},
 						success: (res) => {
 							// console.log(res)
-							if(res.state == 200){
+							if(res.code == 200 || res.data.code == 0){
 								// 写入
 								this.reqAid = res.data.data.aid
 								this.reqBvid = res.data.data.bvid
