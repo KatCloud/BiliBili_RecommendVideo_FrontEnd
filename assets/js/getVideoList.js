@@ -1,10 +1,15 @@
 let token = localStorage.getItem('access_token')
 
+let Component = Vue.extend({
+	template: '<p></p>'
+})
+Vue.component('go-top', Component)
 new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: 3.0, // 2022.1.4 update
+		biliToolVersion: '3.1', // 2022.1.16 update
+		toolId: 1,
 		// ---------
 		// 骨架屏
 		isSkeleton: false,
@@ -21,7 +26,10 @@ new Vue({
 		fullScreenLoading: false,
 		loadMoreFlag: false,
 		// 已关注直播列表
-		liveList: []
+		liveList: [],
+		// 检查动态新发视频
+		dynamicCount: '0',
+		isDynamicHide: true
 	},
 	methods: {
 		// 搜索
@@ -180,7 +188,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if(res.code == 200){
@@ -247,7 +255,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if(res.code == 200){
@@ -346,24 +354,89 @@ new Vue({
 			})
 		},
 		
-		// 刷新总是回到顶部
-		// refreshToTop(){
-		// 	document.documentElement.scrollTop = 0;
-		// 	document.body.scrollTop = 0;
-		// }
+		// 计时器
+		timer(){
+			window.setInterval(() => {
+				setTimeout(() => {
+					this.getDynamicCount()
+				}, 0)
+			}, 60000)
+		},
+		
+		// 拿动态角标
+		getDynamicCount(){
+			$.ajax({
+				url: baseUrl + '/getDynamicCount',
+				type: 'GET',
+				data:{
+					loginToken: token
+				},
+				success: (res) => {
+					// console.log(res)
+					if(res.code == 200){
+						let alltype = res.data.data.alltype_num
+						let article = res.data.data.article_num
+						let video = res.data.data.video_num
+						let total = alltype + article + video
+						// console.log(total)
+						if(total == 0){
+							// console.log('re run...')
+						}else{
+							this.dynamicCount = total
+							this.isDynamicHide = false
+						}
+					}	
+				}
+			})
+		},
+		
+		// 点击动态按钮时，计数清零
+		clickDynamicBtn(){
+			this.dynamicCount = '0'
+			this.isDynamicHide = true
+		},
+		
+		// 获取工具最新版本
+		updateNewestVersion(){
+			$.ajax({
+				url: baseUrl + '/vc/getToolVersion',
+				type: 'GET',
+				data:{
+					toolId: this.toolId
+				},
+				success: (res) => {
+					// console.log(res)
+					if(res.code == 200){
+						let newestVersion = res.data.toolVersion
+						if(this.biliToolVersion === newestVersion){
+							// console.log('nothing to update')
+						}else{
+							// console.log('update available')
+							this.showNotify('warning', '更新已准备好!', '网页已有新版本，3秒后更新', 0)
+							setTimeout(function(){
+								// console.log('已更新好')
+								window.location.reload(true)
+							}, 3000)
+						}
+					}else{
+						this.showNotify('error', '获取更新失败！(' + res.code + ')')
+					}
+				}
+			})
+		}
 	},
 	created(){
+		this.updateNewestVersion()
 		this.getVideoList()
 		this.getLiveList()
+		this.getDynamicCount()
+		this.timer()
 		console.log(
 		'\n' + ' %c Bili Recommend Tool ' + ' %c v' + this.biliToolVersion + ' ' 
 		+ '\n', 'color: #fadfa3; background: #030307; padding:5px 0;', 
 		        'color: #242424; background: #fadfa3; padding:5px 0;');
 	},
 	mounted() {
-		// window.addEventListener("beforeunload", this.refreshToTop())
-	},
-	beforeMount() {
-		// this.getVideoList()
+		
 	}
 })

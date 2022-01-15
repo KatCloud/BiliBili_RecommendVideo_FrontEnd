@@ -36,7 +36,7 @@ function getQRCode(){
 		type: 'GET',
 		success: function(res) {
 			token = res.data.token
-			console.log(token)
+			// console.log(token)
 			if(res.code == 200){
 				$('.guoqi').text('')	
 				$("#qrcode").show()
@@ -51,18 +51,17 @@ function getQRCode(){
 
 // 检查扫码情况
 function isScan() {
-	console.log('in isScan')
-	console.log(token)
-	const t = token
+	// console.log('in isScan')
+	// console.log(token)
 	const scan = setTimeout(function(){
 		$.ajax({
 			url: baseUrl + '/login/scanToLogin',
 			type: 'POST',
 			data: {
-				token: t
+				token: token
 			},
 			success: function(res) {
-				console.log(res)
+				// console.log(res)
 				if (res.code == 200) {
 					if (res.data.code == 86039) {
 						// code = 86039，已扫描，未确认
@@ -78,7 +77,7 @@ function isScan() {
 
 // 检查二维码确认情况
 function isComfirm() {
-	console.log('in isComfirm')
+	// console.log('in isComfirm')
 	const comfirm = setTimeout(function(){
 		$.ajax({
 			url: baseUrl + '/login/scanToLogin',
@@ -87,12 +86,12 @@ function isComfirm() {
 				token: token
 			},
 			success: function(res) {
-				console.log(res)
-				if (res.data.code == 0) {
+				// console.log(res)
+				if (res.code == 200 && res.data.code == 0) {
 					// console.log('已经确认')
 					localStorage.setItem('access_token', res.data.loginToken)
 					window.location.href = 'biliVideoList.html'
-				}else if (res.state == 400) {
+				}else if (res.code == 500) {
 					// console.log('二维码已过期')
 					$('#qrcode').attr('style', 'filter: blur(10px)')
 					$('.guoqi').text('二维码已过期，请刷新当前页面')

@@ -2,7 +2,8 @@ new Vue({
 	el: '#videoInfo',
 	data: {
 		// 工具版本号
-		TOOL_VERSION: 3.0, // 2022.1.4 update
+		TOOL_VERSION: '3.1', // 2022.1.16 update
+		toolId: 2,
 		// 显示结果框, 0 不显示, 1 正确获取, 2 错误获取, 3 获取中
 		showResult: 0,
 		// 输入的AV或BV号
@@ -16,7 +17,8 @@ new Vue({
 		// 获得的封面地址
 		reqPicUrl: '',
 		// 获得的错误信息
-		reqErrMsg: ''
+		reqErrMsg: '',
+		notifyPromise: Promise.resolve()
 	},
 	methods: {
 				
@@ -28,16 +30,34 @@ new Vue({
 		        return false;
 		    }
 		},
+
+		// 显示通知
+		showNotify(type, title, msg, duration = 4500){
+			this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
+				this.$notify({
+				    title: title,
+				    message: msg,
+					offset: 100,
+					type: type,
+					duration: duration
+				});
+			})
+		},
+
+		// 信息提示
+		showMessage(type, msg, duration = 4000){
+			this.$message({
+				type: type,
+				message: msg,
+				duration: duration
+			})
+		},
 		
 		// 处理获得的abID
 		// 注意：在url中，av号是小写的，BV号是大写的。并且api参数为 aid=2333(不带av, 纯数字), bvid=BVxxxxxx 
 		abIDCheck(){
 			if(this.isEmpty(this.abId)){
-				vant.Toast({
-					type: 'html',
-					message: '<h2 style="font-weight: normal;">请正确填写！</h2>',
-					duration: 1200
-				})
+				this.showMessage('error', '不能为空！')
 			}else{
 				const id = this.abId
 				const cut = id.slice(0,2)
@@ -67,16 +87,42 @@ new Vue({
 						}
 					})
 				}else{
-					vant.Toast({
-						type: 'html',
-						message: '<h2 style="font-weight: normal;">请正确填写！</h2>',
-						duration: 1200
-					})
+					this.showMessage('error', '请正确填写！')
 				}
 			}
+		},
+
+		// 获取工具最新版本
+		updateNewestVersion(){
+			$.ajax({
+				url: baseUrl + '/vc/getToolVersion',
+				type: 'GET',
+				data:{
+					toolId: this.toolId
+				},
+				success: (res) => {
+					// console.log(res)
+					if(res.code == 200){
+						let newestVersion = res.data.toolVersion
+						if(this.TOOL_VERSION === newestVersion){
+							// console.log('nothing to update')
+						}else{
+							// console.log('update available')
+							this.showMessage('error', '网页已有新版本，3秒后更新', 0)
+							setTimeout(function(){
+								// console.log('已更新好')
+								window.location.reload(true)
+							}, 3000)
+						}
+					}else{
+						this.showMessage('error', '获取更新失败！(' + res.code + ')')
+					}
+				}
+			})
 		}
 	},
 	created() {
+		this.updateNewestVersion()
 		console.log(
 		'\n' + ' %c B站封面获取工具 ' + ' %c v' + this.TOOL_VERSION + ' '
 		+ '\n', 'color: #fadfa3; background: #030307; padding:5px 0;', 

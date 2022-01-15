@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>视频封面获取</title>
+		<title>KVCS 登录</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="referrer" content="no-referrer"/>
@@ -9,6 +9,7 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.12/lib/index.css"/>
 		<link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
 		<link rel="stylesheet" href="assets/css/badge.css"/>
+		<link rel="stylesheet" href="assets/css/btn.css">
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -25,76 +26,36 @@
 								</a>
 
 							<!-- Nav -->
-								<nav>
+								<!-- <nav>
 									<ul>
 										<li><a href="#menu">Menu</a></li>
 									</ul>
-								</nav>
+								</nav> -->
 
 						</div>
 					</header>
 
-				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						<ul>
-							<li><a href="https://katcloud.cn">博客主页</a></li>
-							<li><a href="https://katcloud.cn/biliVideoList.html" target="_blank">B站推荐视频</a></li>
-						</ul>
-					</nav>
-
 				<!-- Main -->
 					<div id="main"> 
-						<div class="inner" id="videoInfo">
+						<div class="inner" id="versionControl">
 							<header>
-								<h2>B站视频封面获取
-									<!-- badge -->
-									<sup class="versionBox" style="top: -0.3125rem;">
-										<p class="version">
-										<!-- 点击badge能去到日志 -->
-										<a href="https://katcloud.cn/archives/89.html" target="_blank">v{{TOOL_VERSION}}</a>
-										</p>
-									</sup>
-								</h2>
+								<h2>KatCloud Version Control System</h2>
 							</header>
 							<section>
 								<div class="row gtr-uniform" style="margin-top: 1px;">
-									<div class="col-6 col-12-xsmall">
+									<!-- <div class="col-6 col-12-xsmall">
 										<input type="text" id="abid" v-model="abId" placeholder="输入AV号或BV号" />
 									</div>
 									<ul class="actions" style="margin-left: 0.9375rem;">
 										<li><a href="#" class="button primary" v-on:click="abIDCheck()">获取封面</a></li>
-										<li>
-											<el-popover
-											    placement="bottom"
-											    title="手机打开捷径页面"
-											    trigger="hover">
-												<img src="assets/shortcut_biliTool.png" width="200" height="200">
-												<a href="https://www.icloud.com/shortcuts/aaa61869cf9e483f8049f425853a28dd"
-												   class="button icon solid fa-download"
-												   slot="reference">获取捷径</a>
-											</el-popover>
-										</li>
-										<li>
-											<a href="https://katcloud.cn/archives/149.html" target="_blank">如何使用?</a>
-										</li>
-									</ul>
-								</div>
-								
-								<!-- videoInfo -->
-								<div class="col-6 col-12-medium" style="margin-top: 50px;">
-									<ul class="alt" v-if="showResult == 1">
-										<li>AV号: av{{reqAid}}</li>
-										<li>BV号: {{reqBvid}}</li>
-										<li>标题: {{reqTitle}}</li>
-										<li>封面地址: <a :href="reqPicUrl" target="_blank">在新页面打开</a></li>
-									</ul>
-									<ul class="alt" v-else-if="showResult == 2">
-										<li>获取错误! <br>错误信息: {{reqErrMsg}}</li>
-									</ul>
-									<ul class="alt" v-else-if="showResult == 3">
-										<li style="font-size: 20px;">正在获取...</li>
-									</ul>
+									</ul> -->
+									<form>
+										<label style="margin-top: 20px;">用户名</label>
+										<input type="text" v-model="username" placeholder="登录用户名"/>
+										<label style="margin-top: 20px;">密码</label>
+										<input type="password" v-model="password" placeholder="登录密码"/>
+										<a style="margin-top: 20px;" class="button primary" v-on:click="submitCheck()">登录</a>
+									</form>
 								</div>
 							</section>
 						</div>
@@ -124,6 +85,6 @@
 			<!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
 			<script src="https://cdn.jsdelivr.net/npm/vant@2.12/lib/vant.min.js"></script>
 			<script src="assets/js/baseUrl.js"></script>
-			<script src="assets/js/APIjs.js"></script>
+			<script src="ToolVCjs/vcLogin.js"></script>
 	</body>
 </html>

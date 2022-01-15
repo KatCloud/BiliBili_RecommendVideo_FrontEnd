@@ -63,9 +63,15 @@
 								<ul class="actions">
 								<li><a href="#" class="button primary" v-on:click="logOutConfirm()" v-if="isLogin">退出登录</a></li>
 								<li><a href="biliLogin.html" class="button primary" v-if="!isLogin">登录</a></li>
-								<li><a href="https://t.bilibili.com/" 
-									   class="button" 
-								       v-if="isLogin" target="_blank">动态</a></li>
+								<li>
+									<el-badge :value="dynamicCount" :max="99" :hidden="isDynamicHide" style="margin-right: 10px;">
+										<a href="https://t.bilibili.com/" 
+									   class="button" v-on:click="clickDynamicBtn()"
+								       v-if="isLogin" target="_blank">
+									   动态
+									   </a>
+									</el-badge>
+								</li>
 								<li><a href="https://www.bilibili.com/watchlater/#/list" 
 									   class="button" 
 								       v-if="isLogin" target="_blank">稍后再看</a></li>
@@ -313,6 +319,8 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="https://unpkg.com/vue/dist/vue.js"></script>
+			<script>Vue.config.productionTip = false</script>
+			<script>Vue.config.devtools = false</script>
 			<!-- <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> -->
 			<script src="https://unpkg.com/element-ui@2.15.7/lib/index.js"></script>
 			<script src="assets/js/baseUrl.js"></script>
