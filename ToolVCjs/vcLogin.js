@@ -1,4 +1,4 @@
-let oldToken = localStorage.getItem('vcsToken')
+let oldToken = localStorage.getItem('vcs_token')
 
 new Vue({
 	el: '#versionControl',
@@ -114,6 +114,7 @@ new Vue({
         }
 	},
 	created() {
+		this.checkLogin()
 		console.log(
 			'\n' + ' %c KatCloud版本控制工具 ' + ' %c v' + '1.0' + ' ' +
 			'\n', 'color: #fadfa3; background: #030307; padding:5px 0;',
