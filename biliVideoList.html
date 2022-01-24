@@ -78,7 +78,7 @@
 								</ul>
 								<!-- 已关注的直播 -->
 								<div v-if="isLogin" style="margin-top: 1.5625rem;">
-									<el-skeleton style="width:400px" :loading="isLoading" animated></el-skeleton>
+									<!-- <el-skeleton style="width:400px" :loading="isLoading" animated></el-skeleton> -->
 									<template v-for="liveInfo in liveList">
 										<a :href="liveInfo.link"
 										   target="_blank"

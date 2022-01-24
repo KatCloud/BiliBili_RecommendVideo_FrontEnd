@@ -8,7 +8,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '3.1', // 2022.1.16 update
+		biliToolVersion: '3.2', // 2022.1.24 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -162,8 +162,7 @@ new Vue({
 					loginToken: token
 				},
 				success: (res) => {
-					// console.log(res)
-					if(res.state == 200){
+					if(res.code == 200){
 						this.liveList = res.data.data.rooms
 					}
 				}
