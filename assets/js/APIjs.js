@@ -72,8 +72,8 @@ new Vue({
 							videoId: id
 						},
 						success: (res) => {
-							// console.log(res)
-							if(res.code == 200 || res.data.code == 0){
+							console.log(res)
+							if(res.code == 200 && res.data.code == 0){
 								// 写入
 								this.reqAid = res.data.data.aid
 								this.reqBvid = res.data.data.bvid
@@ -81,7 +81,7 @@ new Vue({
 								this.reqPicUrl = res.data.data.pic
 								this.showResult = 1
 							}else{
-								this.reqErrMsg = res.data.data.message
+								this.reqErrMsg = res.data.message
 								this.showResult = 2
 							}
 						}
