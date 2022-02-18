@@ -29,12 +29,14 @@ new Vue({
 		liveList: [],
 		// 检查动态新发视频
 		dynamicCount: '0',
-		isDynamicHide: true
+		isDynamicHide: true,
+		// 搜索
+		// keyWord: ''
 	},
 	methods: {
 		// 搜索
-		// search(e){
-		// 	console.log(e)
+		// search(){
+		// 	window.open('https://search.bilibili.com/all?keyword=' + this.keyWord, '_blank')
 		// },
 		
 		// 显示判断

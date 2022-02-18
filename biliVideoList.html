@@ -59,11 +59,13 @@
 										</p>
 									</sup>
 								</h1>
+								<!-- 功能栏 -->
 								<ul class="actions">
 								<li><a href="#" class="button primary" v-on:click="logOutConfirm()" v-if="isLogin">退出登录</a></li>
 								<li><a href="biliLogin.html" class="button primary" v-if="!isLogin">登录</a></li>
 								<li>
-									<el-badge :value="dynamicCount" :max="99" :hidden="isDynamicHide" style="margin-right: 10px;">
+									<el-badge :value="dynamicCount" :max="99" 
+											  :hidden="isDynamicHide" style="margin-right: 10px;" v-if="isLogin">
 										<a href="https://t.bilibili.com/" 
 									   class="button" v-on:click="clickDynamicBtn()"
 								       v-if="isLogin" target="_blank">
@@ -73,7 +75,9 @@
 								</li>
 								<li><a href="https://www.bilibili.com/watchlater/#/list" 
 									   class="button" 
-								       v-if="isLogin" target="_blank">稍后再看</a></li>
+								       v-if="isLogin" target="_blank">稍后再看</a></li>   
+								<!-- <li style="position: absolute; right: 8em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
+								<li style="position: absolute; right: 2.5em;"><a class="button primary" v-on:click="search()">搜索</a></li> -->
 								</ul>
 								<!-- 已关注的直播 -->
 								<div v-if="isLogin" style="margin-top: 1.5625rem;">
@@ -84,7 +88,7 @@
 										   style="border-bottom: #FFFFFF !important; 
 												  margin-right: 0.9375rem; margin-top: 1.25rem;">
 											<el-badge value="直播中">
-												<el-avatar size="500" :src="liveInfo.face"
+												<el-avatar :size="50" :src="liveInfo.face"
 														   style="border: #FB7299 2px solid;"></el-avatar>
 											</el-badge>
 											<span style="font-size: 13px;">{{liveInfo.uname}}</span>
