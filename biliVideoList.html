@@ -1,332 +1,334 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>推荐的视频</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="referrer" content="no-referrer"/>
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="assets/css/badge.css"/>
-		<link rel="stylesheet" href="assets/css/uptop.css"/>
-		<link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
-		<link rel="stylesheet" href="assets/css/btn.css"/>
-		<link rel="stylesheet" href="assets/css/card.css"/>
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
-		
-		<!-- Wrapper -->
-			<div id="wrapper">
 
-				<!-- Header -->
-					<header id="header" style="padding-top: 4rem;">
-						<div class="inner">
+<head>
+	<title>推荐的视频</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="referrer" content="no-referrer" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/badge.css" />
+	<link rel="stylesheet" href="assets/css/uptop.css" />
+	<link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
+	<link rel="stylesheet" href="assets/css/btn.css" />
+	<link rel="stylesheet" href="assets/css/card.css" />
+	<noscript>
+		<link rel="stylesheet" href="assets/css/noscript.css" />
+	</noscript>
+</head>
 
-							<!-- Logo -->
-								<a href="https://katcloud.cn" class="logo">
-									<span class="symbol"><img src="assets/logo.png" alt="" /></span><span class="title">KatCloud</span>
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		<header id="header" style="padding-top: 4rem;">
+			<div class="inner">
+
+				<!-- Logo -->
+				<a href="https://katcloud.cn" class="logo">
+					<span class="symbol"><img src="assets/logo.png" alt="" /></span><span class="title">KatCloud</span>
+				</a>
+
+				<!-- Nav -->
+				<nav>
+					<ul>
+						<li><a href="#menu">Menu</a></li>
+					</ul>
+				</nav>
+
+			</div>
+		</header>
+
+		<!-- Menu -->
+		<nav id="menu">
+			<h2>Menu</h2>
+			<ul>
+				<li><a href="https://katcloud.cn" target="_blank">博客主页</a></li>
+				<li><a href="https://katcloud.cn/biliTool.html" target="_blank">B站视频封面工具</a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+			<div class="inner" id="videoList">
+				<header>
+					<h1 style="margin-bottom: 2rem;">推荐视频
+						<!-- badge -->
+						<sup class="versionBox">
+							<p class="version">
+								<!-- 点击badge能去到日志 -->
+								<a href="https://katcloud.cn/archives/86.html" target="_blank">v{{biliToolVersion}}</a>
+							</p>
+						</sup>
+					</h1>
+					<!-- 功能栏 -->
+					<ul class="actions">
+						<li><a href="#" class="button primary" v-on:click="logOutConfirm()" v-if="isLogin">退出登录</a></li>
+						<li><a href="biliLogin.html" class="button primary" v-if="!isLogin">登录</a></li>
+						<li>
+							<el-badge :value="dynamicCount" :max="99" :hidden="isDynamicHide"
+								style="margin-right: 10px;" v-if="isLogin">
+								<a href="https://t.bilibili.com/" class="button" v-on:click="clickDynamicBtn()"
+									v-if="isLogin" target="_blank">
+									动态
 								</a>
-
-							<!-- Nav -->
-								<nav>
-									<ul>
-										<li><a href="#menu">Menu</a></li>
-									</ul>
-								</nav>
-
-						</div>
-					</header>
-
-				<!-- Menu -->
-					<nav id="menu">
-						<h2>Menu</h2>
-						<ul>
-							<li><a href="https://katcloud.cn" target="_blank">博客主页</a></li>
-							<li><a href="https://katcloud.cn/biliTool.html" target="_blank">B站视频封面工具</a></li>
-						</ul>
-					</nav>
-
-				<!-- Main -->
-					<div id="main"> 
-						<div class="inner" id="videoList">
-							<header>
-								<h1 style="margin-bottom: 2rem;">推荐视频
-									<!-- badge -->
-									<sup class="versionBox">
-										<p class="version">
-										<!-- 点击badge能去到日志 -->	
-						   				<a href="https://katcloud.cn/archives/86.html" target="_blank">v{{biliToolVersion}}</a>
-										</p>
-									</sup>
-								</h1>
-								<!-- 功能栏 -->
-								<ul class="actions">
-								<li><a href="#" class="button primary" v-on:click="logOutConfirm()" v-if="isLogin">退出登录</a></li>
-								<li><a href="biliLogin.html" class="button primary" v-if="!isLogin">登录</a></li>
-								<li>
-									<el-badge :value="dynamicCount" :max="99" 
-											  :hidden="isDynamicHide" style="margin-right: 10px;" v-if="isLogin">
-										<a href="https://t.bilibili.com/" 
-									   class="button" v-on:click="clickDynamicBtn()"
-								       v-if="isLogin" target="_blank">
-									   动态
-									   </a>
-									</el-badge>
-								</li>
-								<li><a href="https://www.bilibili.com/watchlater/#/list" 
-									   class="button" 
-								       v-if="isLogin" target="_blank">稍后再看</a></li>   
-								<!-- <li style="position: absolute; right: 8em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
+							</el-badge>
+						</li>
+						<li><a href="https://www.bilibili.com/watchlater/#/list" class="button" v-if="isLogin"
+								target="_blank">稍后再看</a></li>
+						<!-- <li style="position: absolute; right: 8em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
 								<li style="position: absolute; right: 2.5em;"><a class="button primary" v-on:click="search()">搜索</a></li> -->
-								</ul>
-								<!-- 已关注的直播 -->
-								<div v-if="isLogin" style="margin-top: 1.5625rem;">
-									<!-- <el-skeleton style="width:400px" :loading="isLoading" animated></el-skeleton> -->
-									<template v-for="liveInfo in liveList">
-										<a :href="liveInfo.link"
-										   target="_blank"
-										   style="border-bottom: #FFFFFF !important; 
+					</ul>
+					<!-- 已关注的直播 -->
+					<div v-if="isLogin" style="margin-top: 1.5625rem;">
+						<!-- <el-skeleton style="width:400px" :loading="isLoading" animated></el-skeleton> -->
+						<template v-for="liveInfo in liveList">
+							<a :href="liveInfo.link" target="_blank" style="border-bottom: #FFFFFF !important; 
 												  margin-right: 0.9375rem; margin-top: 1.25rem;">
-											<el-badge value="直播中">
-												<el-avatar :size="50" :src="liveInfo.face"
-														   style="border: #FB7299 2px solid;"></el-avatar>
-											</el-badge>
-											<span style="font-size: 13px;">{{liveInfo.uname}}</span>
-										</a>
-									</template>
-								</div>
-							</header>
-							<div style="margin-top: 2.5rem;">
-							<section class="tiles">
-								<!-- 循环位置 -->
-								<template v-for="info in videolist">
-								<!-- 判断是否获得了undefinedAV的item -->	
-								<article class="style7" v-if="info.param ? true : false">
-									<el-card :body-style="{ padding: '0px' }" style="height: 23.75rem;">
-										<!-- 封面 START -->
-										<!-- 动态专用 -->
-										<el-image v-if="info.goto == 'picture'"
-												  :src="info.left_cover == undefined ? 
+								<el-badge value="直播中">
+									<el-avatar :size="50" :src="liveInfo.face" style="border: #FB7299 2px solid;">
+									</el-avatar>
+								</el-badge>
+								<span style="font-size: 13px;">{{liveInfo.uname}}</span>
+							</a>
+						</template>
+					</div>
+				</header>
+				<div style="margin-top: 2.5rem;">
+					<section class="tiles">
+						<!-- 循环位置 -->
+						<template v-for="(info, index) in videolist">
+							<!-- 判断是否获得了undefinedAV的item -->
+							<article class="style7" v-if="info.param ? true : false">
+								<el-card id="rcmd_card" :body-style="{ padding: '0px' }" 
+								style="height: 23.75rem;" shadow="hover">
+									<!-- 封面 START -->
+									<!-- 动态专用 -->
+									<el-image v-if="info.goto == 'picture'" :src="info.left_cover == undefined ? 
 												           info.cover + '@310w_180h_1c_100q.webp' 
-												           : info.left_cover + '@310w_180h_1c_100q.webp'"
-												  class="card_image">
-												<div slot="placeholder" class="card_placeholder">
-													加载中...
-												</div>
-												<div slot="error" class="card_placeholder">
-													加载失败
-												</div>
-										</el-image>
-										<!-- <img v-if="info.goto == 'picture'"
+												           : info.left_cover + '@310w_180h_1c_100q.webp'" class="card_image">
+										<div slot="placeholder" class="card_placeholder">
+											加载中...
+										</div>
+										<div slot="error" class="card_placeholder">
+											加载失败
+										</div>
+									</el-image>
+									<!-- <img v-if="info.goto == 'picture'"
 											 v-bind:src="
 											 info.left_cover == undefined ? 
 											 info.cover + '@310w_180h_1c_100q.webp' 
 											 : info.left_cover + '@310w_180h_1c_100q.webp'"
 											 class="card_image" /> -->
-									    <!-- 常规通用 -->
-										<el-image v-else-if="info.goto != 'web'"
-												  :src="info.cover + '@310w_180h_1c_100q.webp'"
-												  class="card_image">
-												<div slot="placeholder" class="card_placeholder">
-													加载中...
-												</div>
-												<div slot="error" class="card_placeholder">
-													加载失败
-												</div>
-										</el-image>
-									    <!-- <img v-else-if="info.goto != 'web'" 
+									<!-- 常规通用 -->
+									<el-image v-else-if="info.goto != 'web'"
+										:src="info.cover + '@310w_180h_1c_100q.webp'" class="card_image">
+										<div slot="placeholder" class="card_placeholder">
+											加载中...
+										</div>
+										<div slot="error" class="card_placeholder">
+											加载失败
+										</div>
+									</el-image>
+									<!-- <img v-else-if="info.goto != 'web'" 
 									    	 v-bind:src="info.cover + '@310w_180h_1c_100q.webp'"
 											 class="card_image"/> -->
-										<!-- 其他 -->
-										<el-image v-else-if="info.goto == 'web' || info.card_goto == 'special_s'"
-												  :src="checkSpecialCover(info.cover) ? 
-											            info.cover : info.cover + '@310w_180h_1c_100q.webp'"
-											      class="card_image">
-												<div slot="placeholder" class="card_placeholder">
-													加载中...
-												</div>
-												<div slot="error" class="card_placeholder">
-													加载失败
-												</div>
-										</el-image>	 
-									    <!-- <img v-else-if="info.goto == 'web' || info.card_goto == 'special_s'"
+									<!-- 其他 -->
+									<el-image v-else-if="info.goto == 'web' || info.card_goto == 'special_s'" :src="checkSpecialCover(info.cover) ? 
+											            info.cover : info.cover + '@310w_180h_1c_100q.webp'" class="card_image">
+										<div slot="placeholder" class="card_placeholder">
+											加载中...
+										</div>
+										<div slot="error" class="card_placeholder">
+											加载失败
+										</div>
+									</el-image>
+									<!-- <img v-else-if="info.goto == 'web' || info.card_goto == 'special_s'"
 									    	 v-bind:src="checkSpecialCover(info.cover) ? 
 											 info.cover : info.cover + '@310w_180h_1c_100q.webp'"
 											 class="card_image"/> -->
-										<!-- 封面 END -->
-										<!-- 卡片内容 START -->
-									    <div style="padding: 14px;">
-											<div style="height: 4rem;">
-												<!-- 链接判断 -->
-												<!-- 视频 -->
-												<a v-if="info.goto == 'av' || info.goto == 'vertical_av'"
-												   v-bind:href="'https://www.bilibili.com/video/av' + info.param" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-													{{titleLimited(info.title, 29) ? 
-													info.title.substring(0,30) + '...' : info.title}}
-												</a>
-												<!-- 直播 -->
-												<a v-else-if="info.goto == 'live'"
-												   v-bind:href="'https://live.bilibili.com/' + info.param" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-												   <el-tag type="danger" effect="plain">直播</el-tag>
-												   {{titleLimited(info.title, 29) ? 
-													info.title.substring(0,30) + '...' : info.title}}
-												</a>
-												<!-- 番剧/剧集 分为ss/ep -->
-												<a v-else-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'"
-												   v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-												   <el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
-												   {{titleLimited(info.title, 29) ? 
-													info.title.substring(0,30) + '...' : info.title}}
-												</a>
-												<!-- 文章 -->
-												<a v-else-if="info.goto == 'article'"
-												   v-bind:href="'https://www.bilibili.com/read/cv' + info.param" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-												   <el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
-												   {{titleLimited(info.title, 29) ? 
-												   info.title.substring(0,30) + '...' : info.title}}
-												</a>
-												<!-- 动态 -->
-												<a v-else-if="info.goto == 'picture'"
-												   v-bind:href="'https://t.bilibili.com/' + info.param" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-												   <el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
-												   {{titleLimited(info.title, 29) ? 
-												   info.title.substring(0,30) + '...' : info.title}}
-												</a>
-												<!-- pgc电影 -->
-												<a v-else-if="info.goto == 'pgc'"
-												   v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-												   <el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
-												   {{titleLimited(info.title, 29) ? 
-												   info.title.substring(0,30) + '...' : info.title}}
-												</a>
-												<!-- 其他 -->
-												<a v-else-if="info.goto == 'web' || info.card_goto == 'special_s'"
-												   v-bind:href="info.uri" 
-												   target="_blank"
-												   style="border-bottom: #FFFFFF !important;"
-												   v-bind:title="info.title">
-												   <el-tag type="danger" effect="plain">影视</el-tag>
-												   {{titleLimited(info.title, 29) ? 
-												   info.title.substring(0,30) + '...' : info.title}}	  
-												</a>	  
-											</div>
-									        <div class="card_bottom card_clearfix">
-												<p class="card_content" v-if="checkGoto(info.goto)">
-													<!-- up主名 -->
-													<el-tag type="info" effect="plain" size="mini">UP</el-tag>
-													<!-- up主空间 -->
-													<a v-bind:href="'https://space.bilibili.com/' + info.args.up_id" target="_blank">
+									<!-- 封面 END -->
+									<!-- 卡片内容 START -->
+									<div style="padding: 14px;">
+										<div style="height: 4rem;">
+											<!-- 链接判断 -->
+											<!-- 视频 -->
+											<a v-if="info.goto == 'av' || info.goto == 'vertical_av'"
+												v-bind:href="'https://www.bilibili.com/video/av' + info.param"
+												target="_blank" style="border-bottom: #FFFFFF !important;"
+												v-bind:title="info.title">
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+											<!-- 直播 -->
+											<a v-else-if="info.goto == 'live'"
+												v-bind:href="'https://live.bilibili.com/' + info.param" target="_blank"
+												style="border-bottom: #FFFFFF !important;" v-bind:title="info.title">
+												<el-tag type="danger" effect="plain">直播</el-tag>
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+											<!-- 番剧/剧集 分为ss/ep -->
+											<a v-else-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'"
+												v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param"
+												target="_blank" style="border-bottom: #FFFFFF !important;"
+												v-bind:title="info.title">
+												<el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+											<!-- 文章 -->
+											<a v-else-if="info.goto == 'article'"
+												v-bind:href="'https://www.bilibili.com/read/cv' + info.param"
+												target="_blank" style="border-bottom: #FFFFFF !important;"
+												v-bind:title="info.title">
+												<el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+											<!-- 动态 -->
+											<a v-else-if="info.goto == 'picture'"
+												v-bind:href="'https://t.bilibili.com/' + info.param" target="_blank"
+												style="border-bottom: #FFFFFF !important;" v-bind:title="info.title">
+												<el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+											<!-- pgc电影 -->
+											<a v-else-if="info.goto == 'pgc'"
+												v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param"
+												target="_blank" style="border-bottom: #FFFFFF !important;"
+												v-bind:title="info.title">
+												<el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+											<!-- 其他 -->
+											<a v-else-if="info.goto == 'web' || info.card_goto == 'special_s'"
+												v-bind:href="info.uri" target="_blank"
+												style="border-bottom: #FFFFFF !important;" v-bind:title="info.title">
+												<el-tag type="danger" effect="plain">影视</el-tag>
+												{{titleLimited(info.title, 29) ?
+												info.title.substring(0,30) + '...' : info.title}}
+											</a>
+										</div>
+										<div class="card_bottom card_clearfix">
+											<p class="card_content" v-if="checkGoto(info.goto)">
+												<!-- up主名 -->
+												<el-tag type="info" effect="plain" size="mini">UP</el-tag>
+												<!-- up主空间 -->
+												<a v-bind:href="'https://space.bilibili.com/' + info.args.up_id"
+													target="_blank">
 													{{info.args.up_name}}
-													</a>
-													<!-- 需要判断 -->
-													{{info.rcmd_reason ? '(' + info.rcmd_reason + ')' : ''}}
-												</p>
-												<!-- 视频 -->
-												<p class="card_content" v-if="info.goto == 'av' || info.goto == 'vertical_av'">	
-													播放: {{info.cover_left_text_1}} &nbsp;&nbsp;时长: {{info.cover_right_text}}
-												</p>
-												<!-- 直播 -->
-												<p class="card_content" v-else-if="info.goto == 'live'">
-													人气值: {{info.cover_left_text_1}} &nbsp;&nbsp;类型: {{info.cover_right_text}}
-												</p>
-												<!-- 番剧/剧集 分为ss/ep -->
-												<p class="card_content" v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
-													播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧: {{info.cover_left_text_2}}
-												</p>
-												<!-- 文章 -->
-												<p class="card_content" v-if="info.goto == 'article'">	
-													阅读量: {{info.cover_left_text_1}} &nbsp;&nbsp;评论: {{info.cover_left_text_2}}
-												</p>
-												<!-- 动态 -->
-												<p class="card_content" v-if="info.goto == 'picture'">
-													点赞: {{info.cover_left_text_1}} &nbsp;&nbsp;{{info.rcmd_reason_style.text}}
-												</p>
-												<!-- pgc电影 -->
-												<p class="card_content" v-if="info.goto == 'pgc'">
-													播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧: {{info.cover_left_text_2}}
-												</p>
-												<!-- 其他 -->
-												<p class="card_content" v-if="info.goto == 'web' || info.card_goto == 'special_s'">
-													播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧: {{info.cover_left_text_2}}
-												</p>
-												<el-dropdown v-if="isLogin" @command="handleCommand" class="card_btn">
-													<span style="color: #999; font-size: 18px;">
+												</a>
+												<!-- 需要判断 -->
+												{{info.rcmd_reason ? '(' + info.rcmd_reason + ')' : ''}}
+											</p>
+											<!-- 视频 -->
+											<p class="card_content"
+												v-if="info.goto == 'av' || info.goto == 'vertical_av'">
+												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;时长: {{info.cover_right_text}}
+											</p>
+											<!-- 直播 -->
+											<p class="card_content" v-else-if="info.goto == 'live'">
+												人气值: {{info.cover_left_text_1}} &nbsp;&nbsp;类型:
+												{{info.cover_right_text}}
+											</p>
+											<!-- 番剧/剧集 分为ss/ep -->
+											<p class="card_content"
+												v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
+												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
+												{{info.cover_left_text_2}}
+											</p>
+											<!-- 文章 -->
+											<p class="card_content" v-if="info.goto == 'article'">
+												阅读量: {{info.cover_left_text_1}} &nbsp;&nbsp;评论:
+												{{info.cover_left_text_2}}
+											</p>
+											<!-- 动态 -->
+											<p class="card_content" v-if="info.goto == 'picture'">
+												点赞: {{info.cover_left_text_1}}
+												&nbsp;&nbsp;{{info.rcmd_reason_style.text}}
+											</p>
+											<!-- pgc电影 -->
+											<p class="card_content" v-if="info.goto == 'pgc'">
+												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
+												{{info.cover_left_text_2}}
+											</p>
+											<!-- 其他 -->
+											<p class="card_content"
+												v-if="info.goto == 'web' || info.card_goto == 'special_s'">
+												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
+												{{info.cover_left_text_2}}
+											</p>
+											<!-- 下拉列表 -->
+											<el-dropdown v-if="isLogin" @command="handleCommand" class="card_btn">
+												<span style="color: #999; font-size: 18px;">
 													更多操作
-													</span>
-													<el-dropdown-menu slot="dropdown">
-														<el-dropdown-item :command="beforeHandleCommand('a', info.param)" 
-															v-if="info.goto == 'av' || info.goto == 'vertical_av'">
+												</span>
+												<el-dropdown-menu slot="dropdown">
+													<el-dropdown-item :command="beforeHandleCommand('a', info.param)"
+														v-if="info.goto == 'av' || info.goto == 'vertical_av'">
 														稍后再看
-														</el-dropdown-item>
-														<el-dropdown-item :command="beforeHandleCommand('b', info.cover)">
+													</el-dropdown-item>
+													<el-dropdown-item :command="beforeHandleCommand('b', info.cover)">
 														查看封面
+													</el-dropdown-item>
+													<el-dropdown-item divided disabled 
+														v-if="info.goto == 'av' || info.goto == 'vertical_av'">
+														我不想看：
+													</el-dropdown-item>
+													<template v-for="reasons in info.three_point.dislike_reasons">
+														<el-dropdown-item :command="beforeHandleCommand('c', reasons.id, info, index)"
+															v-if="info.goto == 'av' || info.goto == 'vertical_av'">
+															{{reasons.name}}
 														</el-dropdown-item>
-													</el-dropdown-menu>
-												</el-dropdown>
-									        </div>
-									    </div>
-										<!-- 卡片内容 END -->
-									</el-card>
-								</article>
-								</template>
-							</section>
-							<!-- more Videos -->
-							<a id="toNew" 
-							   style="margin-top: 40px;" 
-							   href="###" 
-							   class="button primary fit" 
-							   @click="moreVideoList()">获取更多</a>
-							</div>
-							<!-- Go Top -->
-							<go-top :size="50"
-									:right="80"
-									:bottom="150"
-									bg-color="#8C8C8C">
-							</go-top>
-						</div>
-					</div>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<ul class="copyright">
-								<li>&copy; KatCloud </li><li><a href="https://beian.miit.gov.cn/">粤 ICP 备 20013864 号</a></li>
-							</ul>
-						</div>
-					</footer>
-
+													</template>
+												</el-dropdown-menu>
+											</el-dropdown>
+										</div>
+									</div>
+									<!-- 卡片内容 END -->
+								</el-card>
+							</article>
+						</template>
+					</section>
+					<!-- more Videos -->
+					<a id="toNew" style="margin-top: 40px;" href="###" class="button primary fit"
+						@click="moreVideoList()">获取更多</a>
+				</div>
+				<!-- Go Top -->
+				<go-top :size="50" :right="80" :bottom="150" bg-color="#8C8C8C">
+				</go-top>
 			</div>
+		</div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-			<script src="https://unpkg.zhimg.com/vue@2.6.14"></script>
-			<script>Vue.config.productionTip = false</script>
-			<script>Vue.config.devtools = false</script>
-			<script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script>
-			<script src="assets/js/baseUrl.js"></script>
-			<script src="assets/js/getVideoList.js"></script>
-			<script src="assets/js/vue-go-top.min.js"></script>
-	</body>
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="inner">
+				<ul class="copyright">
+					<li>&copy; KatCloud </li>
+					<li><a href="https://beian.miit.gov.cn/">粤 ICP 备 20013864 号</a></li>
+				</ul>
+			</div>
+		</footer>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://unpkg.zhimg.com/vue@2.6.14"></script>
+	<script>Vue.config.productionTip = false</script>
+	<script>Vue.config.devtools = false</script>
+	<script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script>
+	<script src="assets/js/baseUrl.js"></script>
+	<script src="assets/js/getVideoList.js"></script>
+	<script src="assets/js/vue-go-top.min.js"></script>
+</body>
 </html>
