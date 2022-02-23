@@ -31,7 +31,9 @@ new Vue({
 		dynamicCount: '0',
 		isDynamicHide: true,
 		// 搜索
-		// keyWord: ''
+		// keyWord: '',
+		// 不喜欢视频的index
+		dislikeIndex: -1
 	},
 	methods: {
 		// 搜索
@@ -113,7 +115,7 @@ new Vue({
 					break;
 				// 不喜欢某视频
 				case 'c':
-					console.log(command.index)
+					// console.log(command.index)
 					const index = command.index
 					const obj = command.obj
 					const reason_id = command.content
@@ -171,6 +173,7 @@ new Vue({
 
 		// 不喜欢某视频
 		dislikeVideo(index, aid, rid, goto, mid, tid, reason_id) {
+			this.dislikeIndex = index
 			$.ajax({
 				url: baseUrl + '/dislikeVideo',
 				type: 'GET',
@@ -187,8 +190,10 @@ new Vue({
 					if (res.code == 200) {
 						this.videolist.splice(index, 1)
 						this.showNotify('success', '已反馈', '将减少此类内容推荐', 2000)
+						this.dislikeIndex = -1
 					} else {
 						this.showNotify('error', '错误', '反馈失败！（错误代码: ' + res.code + '）', 0)
+						this.dislikeIndex = -1
 					}
 				}
 			})
