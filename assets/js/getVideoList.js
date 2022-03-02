@@ -13,6 +13,7 @@ new Vue({
 		// ---------
 		// 骨架屏
 		isSkeleton: false,
+		skelist: [1,2,3,4,5,6],
 		// ---------
 		videolist: [],
 		isLogin: false,
@@ -219,11 +220,12 @@ new Vue({
 		// 拿视频列表（首次）
 		getVideoList() {
 			// 全屏加载
-			const loading = this.$loading({
-				lock: true,
-				text: 'Loading',
-				background: 'rgba(0, 0, 0, 0.7)'
-			})
+			// const loading = this.$loading({
+			// 	lock: true,
+			// 	text: 'Loading',
+			// 	background: 'rgba(0, 0, 0, 0.7)'
+			// })
+			this.isSkeleton = true
 			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
@@ -267,15 +269,18 @@ new Vue({
 							'错误',
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
 					}
-					loading.close()
+					// loading.close()
+					this.isSkeleton = false
 				},
 				complete: (res, status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						loading.close()
+						// loading.close()
+						this.isSkeleton = false
 					} else if (status == 'error') {
 						this.showNotify('error', '错误', '网络连接中断，请检查网络状况', 0)
-						loading.close()
+						// loading.close()
+						this.isSkeleton = false
 					}
 				}
 			})
@@ -477,6 +482,7 @@ new Vue({
 		this.getLiveList()
 		this.getDynamicCount()
 		this.timer()
+		// this.isSkeleton = true
 		console.log(
 			'\n' + ' %c Bili Recommend Tool ' + ' %c v' + this.biliToolVersion + ' '
 			+ '\n', 'color: #fadfa3; background: #030307; padding:5px 0;',
