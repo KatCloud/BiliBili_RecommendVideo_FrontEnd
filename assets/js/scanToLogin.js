@@ -89,6 +89,8 @@ function isComfirm() {
 				// console.log(res)
 				if (res.code == 200 && res.data.code == 0) {
 					// console.log('已经确认')
+					$('#qrcode').attr('style', 'filter: blur(10px)')
+					$('.guoqi').text('已确认登录，正在跳转...')
 					localStorage.setItem('access_token', res.data.loginToken)
 					window.location.href = 'biliVideoList.html'
 				}else if (res.code == 500) {

@@ -83,6 +83,15 @@ new Vue({
 			})
 		},
 
+		// 信息提示
+		showMessage(type, msg, duration = 4000){
+			this.$message({
+				type: type,
+				message: msg,
+				duration: duration
+			})
+		},
+
 		// 判断special_s的封面
 		checkSpecialCover(url) {
 			if (url.includes("@")) {
@@ -225,6 +234,11 @@ new Vue({
 			// 	text: 'Loading',
 			// 	background: 'rgba(0, 0, 0, 0.7)'
 			// })
+			const checkLogin  = this.$message({
+				type: 'info',
+				message: '正在进行登录态检查...',
+				duration: 0
+			})
 			this.isSkeleton = true
 			// this.isLoading = true
 			$.ajax({
@@ -270,6 +284,7 @@ new Vue({
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
 					}
 					// loading.close()
+					checkLogin.close()
 					this.isSkeleton = false
 				},
 				complete: (res, status) => {
