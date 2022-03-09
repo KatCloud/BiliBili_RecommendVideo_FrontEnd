@@ -478,11 +478,7 @@ new Vue({
 							// console.log('nothing to update')
 						} else {
 							// console.log('update available')
-							this.showNotify('warning', '更新已准备好!', '网页已有新版本，3秒后更新', 0)
-							setTimeout(function () {
-								// console.log('已更新好')
-								window.location.reload(true)
-							}, 3000)
+							this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0)
 						}
 					} else {
 						this.showNotify('error', '获取更新失败！(' + res.code + ')')
