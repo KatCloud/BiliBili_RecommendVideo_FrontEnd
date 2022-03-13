@@ -28,6 +28,7 @@ new Vue({
 		loadMoreFlag: false,
 		// 已关注直播列表
 		liveList: [],
+		isLoadLive: false,
 		// 检查动态新发视频
 		dynamicCount: '0',
 		isDynamicHide: true,
@@ -220,6 +221,7 @@ new Vue({
 				},
 				success: (res) => {
 					if (res.code == 200) {
+						this.isLoadLive = false
 						this.liveList = res.data.data.rooms
 					}
 				}
@@ -274,6 +276,7 @@ new Vue({
 						// 登录鉴定
 						if (res.data.isLogin) {
 							this.isLogin = true
+							this.isLoadLive = true
 							this.showNotify('info', '提示', '已登录', 1500)
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
@@ -291,10 +294,12 @@ new Vue({
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						// loading.close()
+						checkLogin.close()
 						this.isSkeleton = false
 					} else if (status == 'error') {
 						this.showNotify('error', '错误', '网络连接中断，请检查网络状况', 0)
 						// loading.close()
+						checkLogin.close()
 						this.isSkeleton = false
 					}
 				}
