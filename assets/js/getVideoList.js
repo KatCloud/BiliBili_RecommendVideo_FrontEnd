@@ -13,7 +13,7 @@ new Vue({
 		// ---------
 		// 骨架屏
 		isSkeleton: false,
-		skelist: [1,2,3,4,5,6],
+		skelist: [1, 2, 3, 4, 5, 6],
 		// ---------
 		videolist: [],
 		isLogin: false,
@@ -85,7 +85,7 @@ new Vue({
 		},
 
 		// 信息提示
-		showMessage(type, msg, duration = 4000){
+		showMessage(type, msg, duration = 4000) {
 			this.$message({
 				type: type,
 				message: msg,
@@ -236,7 +236,7 @@ new Vue({
 			// 	text: 'Loading',
 			// 	background: 'rgba(0, 0, 0, 0.7)'
 			// })
-			const checkLogin  = this.$message({
+			const checkLogin = this.$message({
 				type: 'info',
 				message: '正在进行登录态检查...',
 				duration: 0
@@ -278,6 +278,7 @@ new Vue({
 							this.isLogin = true
 							this.isLoadLive = true
 							this.showNotify('info', '提示', '已登录', 1500)
+							this.getLiveList()
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
@@ -495,7 +496,7 @@ new Vue({
 	created() {
 		this.updateNewestVersion()
 		this.getVideoList()
-		this.getLiveList()
+		// this.getLiveList()
 		this.getDynamicCount()
 		this.timer()
 		// this.isSkeleton = true
