@@ -327,7 +327,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {

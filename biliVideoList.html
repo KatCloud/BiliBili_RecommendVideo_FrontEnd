@@ -180,7 +180,7 @@
 										<div style="height: 4rem;">
 											<!-- 链接判断 -->
 											<!-- 视频 -->
-											<a v-if="info.goto == 'av' || info.goto == 'vertical_av'"
+											<a v-if="info.goto == 'av' || info.goto == 'vertical_av' && info.three_point.dislike_reasons.length > 1"
 												v-bind:href="'https://www.bilibili.com/video/av' + info.param"
 												target="_blank" style="border-bottom: #FFFFFF !important;"
 												v-bind:title="info.title">
