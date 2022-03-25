@@ -126,7 +126,7 @@
 						<!-- 循环位置 -->
 						<template v-for="(info, index) in videolist">
 							<!-- 判断是否获得了undefinedAV的item -->
-							<article class="style7" v-if="info.param ? true : false">
+							<article class="style7" v-if="(info.param ? true : false) && (info.three_point.dislike_reasons.length > 1)">
 								<el-card id="rcmd_card" :body-style="{ padding: '0px' }" style="height: 23.75rem;"
 									shadow="hover" v-bind:style="dislikeIndex == index ? 'filter: blur(5px)' : ''">
 									<!-- 封面 START -->
@@ -180,7 +180,7 @@
 										<div style="height: 4rem;">
 											<!-- 链接判断 -->
 											<!-- 视频 -->
-											<a v-if="(info.goto == 'av' || info.goto == 'vertical_av') && info.three_point.dislike_reasons.length > 1"
+											<a v-if="info.goto == 'av' || info.goto == 'vertical_av'"
 												v-bind:href="'https://www.bilibili.com/video/av' + info.param"
 												target="_blank" style="border-bottom: #FFFFFF !important;"
 												v-bind:title="info.title">
