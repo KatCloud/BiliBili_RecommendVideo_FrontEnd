@@ -145,7 +145,7 @@ new Vue({
 			// 全屏加载
 			const loading = this.$loading({
 				lock: true,
-				text: 'Loading',
+				text: '正在添加到稍后再看...',
 				background: 'rgba(0, 0, 0, 0.7)'
 			})
 			$.ajax({
@@ -314,7 +314,7 @@ new Vue({
 			// 全屏加载
 			const loading = this.$loading({
 				lock: true,
-				text: 'Loading',
+				text: '正在获取更多推荐...',
 				background: 'rgba(0, 0, 0, 0.7)'
 			})
 			// this.isLoading = true

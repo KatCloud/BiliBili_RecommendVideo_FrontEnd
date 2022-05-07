@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>飞镖计分版</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/badge.css" />
+    <link rel="stylesheet" href="assets/css/uptop.css" />
+    <link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="assets/css/btn.css" />
+    <link rel="stylesheet" href="assets/css/card.css" />
+    <link rel="stylesheet" href="assets/css/input.css">
+    <noscript>
+        <link rel="stylesheet" href="assets/css/noscript.css" />
+    </noscript>
+</head>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header" style="padding-top: 4rem;">
+            <div class="inner">
+
+                <!-- Logo -->
+                <a href="https://katcloud.cn" class="logo">
+                    <span class="symbol"><img src="assets/logo.png" alt="" /></span><span class="title">KatCloud</span>
+                </a>
+
+                <!-- Nav -->
+                <nav>
+                    <ul>
+                        <li><a href="#menu">Menu</a></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </header>
+
+        <!-- Menu -->
+        <nav id="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="https://katcloud.cn" target="_blank">博客主页</a></li>
+                <li><a href="https://katcloud.cn/biliTool.html" target="_blank">B站视频封面工具</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <div class="inner" id="darts">
+                <header>
+                    <h2 style="margin-bottom: 2rem;">飞镖计分板</h2>
+                    <!-- main control -->
+                    <div v-if="!gameEnd">
+                        <!-- 设置赛制与规则 -->
+                        <div v-if="!isGameStart">
+                            <div>
+                                赛制<br />
+                                <el-select v-model="selectRule" placeholder="请选择赛制">
+                                    <el-option v-for="item in rules" :key="item.id" :label="item.value"
+                                        :value="item.id">
+                                    </el-option>
+                                </el-select>
+                            </div>
+                            <div style="width: 15%;">
+                                设定分数
+                                <el-input placeholder="请输入想打的分数" v-model="score" 
+                                clearable @keyup.enter.native="getScoreAndRule()"></el-input>
+                            </div>
+                            <br>
+                            <button type="primary" v-on:click="getScoreAndRule()">确认分数与规则 (ENTER)</button>
+                        </div>
+
+                        <!-- 游戏进行时 -->
+                        <div v-if="isGameStart">
+                            <span style="font-size: 80px;">玩家A</span>
+                            <span style="color: grey; font-size: 60px;">&nbsp;&nbsp; VS &nbsp;&nbsp;</span>
+                            <span style="font-size: 80px;">玩家B</span>
+                            <p style="margin-left: 130px;">
+                                <span style="font-size: 70px;">{{win_A}}</span>
+                                <span
+                                    style="color: grey; font-size: 60px; margin-left: 100px; margin-right: 100px;">:</span>
+                                <span style="font-size: 70px;">{{win_B}}</span>
+                            </p>
+                            <p v-if="selectRule == '1'">当前为三局两胜制</p>
+                            <p v-if="selectRule == '2'">当前为五局三胜制</p>
+                            <p style="margin-left: 110px;">
+                                <span style="font-size: 70px;">{{remaining_A}}</span>
+                                <span
+                                    style="color: grey; font-size: 60px; margin-left: 100px; margin-right: 100px;">:</span>
+                                <span style="font-size: 70px;">{{remaining_B}}</span>
+                            </p>
+                            <div id='PlayerA' style="width: 30%;" v-if="playerInGameNow == '1'">
+                                <div>
+                                    玩家A本次打出的分数
+                                    <el-input placeholder="请输入打出的分数" v-model="singleScore_A" clearable 
+                                    @keyup.enter.native="submitSingleA()" focus="true"></el-input>
+                                </div>
+                                <br>
+                                <button type="primary" v-on:click="submitSingleA()">提交本投分数 (ENTER)</button>
+                            </div>
+                            <div id='PlayerB' style="width: 30%;" v-if="playerInGameNow == '2'">
+                                <div>
+                                    玩家B本次打出的分数
+                                    <el-input placeholder="请输入打出的分数" v-model="singleScore_B" clearable 
+                                    @keyup.enter.native="submitSingleB()" focus="true"></el-input>
+                                </div>
+                                <br>
+                                <button type="primary" v-on:click="submitSingleB()">提交本投分数 (ENTER)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 游戏结束 -->
+                    <div v-if="gameEnd" style="margin-top: 50px;">
+                        <p style="font-size: 80px;">最终分数</p>
+                        <span style="font-size: 80px;">玩家A</span>
+                        <span style="color: grey; font-size: 60px;">&nbsp;&nbsp; VS &nbsp;&nbsp;</span>
+                        <span style="font-size: 80px;">玩家B</span>
+                        <p style="margin-left: 130px;">
+                            <span style="font-size: 70px;">{{win_A}}</span>
+                            <span
+                                style="color: grey; font-size: 60px; margin-left: 100px; margin-right: 100px;">:</span>
+                            <span style="font-size: 70px;">{{win_B}}</span>
+                        </p>
+                        <br>
+                        <button type="primary" v-on:click="replay()">再来一把！</button>
+                    </div>
+                </header>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <ul class="copyright">
+                    <li>&copy; KatCloud </li>
+                    <li><a href="https://beian.miit.gov.cn/">粤 ICP 备 20013864 号</a></li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="https://unpkg.zhimg.com/vue@2.6.14"></script>
+    <script>Vue.config.productionTip = false</script>
+    <script>Vue.config.devtools = false</script>
+    <script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script>
+    <script src="assets/js/baseUrl.js"></script>
+    <script src="assets/js/darts.js"></script>
+    <!-- <script src="assets/js/vue-go-top.min.js"></script> -->
+</body>
+
+</html>
