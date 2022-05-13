@@ -72,14 +72,15 @@ new Vue({
 		},
 
 		// 显示通知
-		showNotify(type, title, msg, duration = 4500) {
+		showNotify(type, title, msg, duration = 4500, showClose = true) {
 			this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
 				this.$notify({
 					title: title,
 					message: msg,
 					offset: 100,
 					type: type,
-					duration: duration
+					duration: duration,
+					showClose: showClose
 				});
 			})
 		},
@@ -484,7 +485,7 @@ new Vue({
 							// console.log('nothing to update')
 						} else {
 							// console.log('update available')
-							this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0)
+							this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0, false)
 						}
 					} else {
 						this.showNotify('error', '获取更新失败！(' + res.code + ')')
