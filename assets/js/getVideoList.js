@@ -127,7 +127,7 @@ new Vue({
 					break;
 				// 分享视频链接
 				case 'c':
-					console.log(command)
+					// console.log(command)
 					const title = command.content
 					const upname = command.obj
 					const avid = command.index
