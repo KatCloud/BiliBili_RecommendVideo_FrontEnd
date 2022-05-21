@@ -171,7 +171,7 @@ new Vue({
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						loading.close()
 					} else if (status == 'error') {
-						this.showNotify('error', '错误', '网络连接中断，请检查网络状况', 0)
+						this.showNotify('error', '错误', '（错误代码: ' + res.code + '）', 0)
 						loading.close()
 					}
 				}
@@ -377,7 +377,7 @@ new Vue({
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						loading.close()
 					} else if (status == 'error') {
-						this.showNotify('error', '错误', '网络连接中断，请检查网络状况', 0)
+						this.showNotify('error', '错误', '获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
 						loading.close()
 					}
 				}
