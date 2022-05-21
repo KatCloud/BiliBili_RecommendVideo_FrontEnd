@@ -45,7 +45,7 @@ function getQRCode(){
 				$("#qrcode").attr('src', res.data.qrCodeUrl)
 			isScan()
 			}else{
-				$('.guoqi').text('二维码获取失败(' + res.data.code + ')')
+				$('.guoqi').text('二维码获取失败(' + res.code + ')')
 			}
 		}
 	})
