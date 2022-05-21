@@ -125,8 +125,16 @@ new Vue({
 				case 'b':
 					this.navToCoverTool(command.content)
 					break;
-				// 不喜欢某视频
+				// 分享视频链接
 				case 'c':
+					console.log(command)
+					const title = command.content
+					const upname = command.obj
+					const avid = command.index
+					this.shareVideo(title, upname, avid)
+					break;
+				// 不喜欢某视频
+				case 'd':
 					// console.log(command.index)
 					const index = command.index
 					const obj = command.obj
@@ -137,6 +145,7 @@ new Vue({
 					const mid = obj.args.up_id
 					const tid = obj.args.tid
 					this.dislikeVideo(index, aid, rid, goto, mid, tid, reason_id)
+					break;
 			}
 
 		},
@@ -181,6 +190,21 @@ new Vue({
 		// 获取封面
 		navToCoverTool(cover) {
 			window.open(cover, '_blank')
+		},
+
+		// 分享视频链接
+		shareVideo(title, upname, avid) {
+			const link = title + '--up：'
+				+ upname + '--link：'
+				+ 'https://www.bilibili.com/video/av' + avid
+			
+			navigator.clipboard.writeText(link).then(() => {
+				/* clipboard successfully set */
+				this.showMessage('success', '分享链接已复制到剪贴板！')
+			}, () => {
+				/* clipboard write failed */
+				this.showMessage('error', '复制分享链接时出现问题，可能是浏览器不支持')
+			});
 		},
 
 		// 不喜欢某视频
