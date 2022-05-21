@@ -24,6 +24,8 @@ window.onload = function isLogin(){
 					$('.guoqi').text('二维码加载中...')
 					getQRCode()
 				}
+			}else{
+				$('.guoqi').text('服务器错误，请刷新页面再试。错误代码：' + res.code)
 			}
 		}
 	})
