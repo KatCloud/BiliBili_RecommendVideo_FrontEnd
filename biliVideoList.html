@@ -296,9 +296,8 @@
 													更多操作
 												</span>
 												<el-dropdown-menu slot="dropdown">
-													<el-dropdown-item v-if="isLogin"
-														:command="beforeHandleCommand('a', info.param)"
-														v-if="info.goto == 'av' || info.goto == 'vertical_av'">
+													<el-dropdown-item v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')"
+														:command="beforeHandleCommand('a', info.param)">
 														稍后再看
 													</el-dropdown-item>
 													<el-dropdown-item v-if="isLogin"

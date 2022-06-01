@@ -160,7 +160,7 @@ new Vue({
 			})
 			$.ajax({
 				url: baseUrl + '/addWatchLater',
-				timeout: 30000,
+				timeout: 15000,
 				type: 'POST',
 				data: {
 					loginToken: token,
@@ -175,12 +175,9 @@ new Vue({
 						this.showNotify('error', '出现问题', '（错误代码: ' + res.code + '）')
 					}
 				},
-				complete: (res, status) => {
+				complete: (status) => {
 					if (status == 'timeout') {
-						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						loading.close()
-					} else if (status == 'error') {
-						this.showNotify('error', '错误', '（错误代码: ' + res.code + '）', 0)
+						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况', 0)
 						loading.close()
 					}
 				}
@@ -248,6 +245,8 @@ new Vue({
 					if (res.code == 200) {
 						this.isLoadLive = false
 						this.liveList = res.data.data.rooms
+					}else{
+						this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code)
 					}
 				}
 			})
@@ -270,7 +269,7 @@ new Vue({
 			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
-				timeout: 30000,
+				timeout: 15000,
 				type: 'GET',
 				data: {
 					loginToken: token,
@@ -316,14 +315,9 @@ new Vue({
 					checkLogin.close()
 					this.isSkeleton = false
 				},
-				complete: (res, status) => {
+				complete: (status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						// loading.close()
-						checkLogin.close()
-						this.isSkeleton = false
-					} else if (status == 'error') {
-						this.showNotify('error', '错误', '网络连接中断，请检查网络状况', 0)
 						// loading.close()
 						checkLogin.close()
 						this.isSkeleton = false
@@ -345,7 +339,7 @@ new Vue({
 			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
-				timeout: 30000,
+				timeout: 15000,
 				type: 'GET',
 				data: {
 					loginToken: token,
@@ -396,12 +390,9 @@ new Vue({
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）')
 					}
 				},
-				complete: (res, status) => {
+				complete: (status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						loading.close()
-					} else if (status == 'error') {
-						this.showNotify('error', '错误', '获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
 						loading.close()
 					}
 				}
@@ -425,7 +416,7 @@ new Vue({
 		logOut() {
 			$.ajax({
 				url: baseUrl + '/logout',
-				timeout: 30000,
+				timeout: 15000,
 				type: 'GET',
 				data: {
 					loginToken: token
@@ -439,12 +430,9 @@ new Vue({
 						this.showNotify('error', '错误', '退出登录时出现问题, 请稍后再试')
 					}
 				},
-				complete: (res, status) => {
+				complete: (status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						loading.close()
-					} else if (status == 'error') {
-						this.showNotify('error', '错误', '网络连接中断，请检查网络状况', 0)
 						loading.close()
 					}
 				}
