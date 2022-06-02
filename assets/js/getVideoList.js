@@ -175,9 +175,12 @@ new Vue({
 						this.showNotify('error', '出现问题', '（错误代码: ' + res.code + '）')
 					}
 				},
-				complete: (status) => {
+				complete: (res, status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况', 0)
+						loading.close()
+					}else if(res.status == 0 && status == 'error'){
+						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
 				}
@@ -315,10 +318,16 @@ new Vue({
 					checkLogin.close()
 					this.isSkeleton = false
 				},
-				complete: (status) => {
+				complete: (res, status) => {
+					console.log(res)
+					console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						// loading.close()
+						checkLogin.close()
+						this.isSkeleton = false
+					}else if(res.status == 0 && status == 'error'){
+						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						checkLogin.close()
 						this.isSkeleton = false
 					}
@@ -390,9 +399,14 @@ new Vue({
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）')
 					}
 				},
-				complete: (status) => {
+				complete: (res, status) => {
+					console.log(res)
+					console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+						loading.close()
+					}else if(res.status == 0 && status == 'error'){
+						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
 				}
@@ -433,6 +447,9 @@ new Vue({
 				complete: (status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+						loading.close()
+					}else if(res.status == 0 && status == 'error'){
+						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
 				}
