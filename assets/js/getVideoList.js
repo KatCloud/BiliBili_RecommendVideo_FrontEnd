@@ -8,7 +8,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '3.4', // 2022.5.13 update
+		biliToolVersion: '3.5', // 2022.9.26 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -71,7 +71,7 @@ new Vue({
 			}
 		},
 
-		// 显示通知
+		// 显示通知（自定义）
 		showNotify(type, title, msg, duration = 4500, showClose = true) {
 			this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
 				this.$notify({
@@ -85,7 +85,21 @@ new Vue({
 			})
 		},
 
-		// 信息提示
+		// 显示被风控通知
+		show412Note() {
+			this.notifyPromise = this.notifyPromise.then(this.$nextTick).then(() => {
+				this.$notify({
+					title: '风控警告',
+					message: '当前请求过多，暂被风控，请稍后再试！',
+					offset: 100,
+					type: 'error',
+					duration: 0,
+					showClose: true
+				});
+			})
+		},
+
+		// 信息提示（自定义）
 		showMessage(type, msg, duration = 4000) {
 			this.$message({
 				type: type,
@@ -171,7 +185,9 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						this.showNotify('success', '搞定啦', '已添加到稍后再看', 2000)
-					} else {
+					} else if (res.code == 412){
+						this.show412Note()
+				 	} else {
 						this.showNotify('error', '出现问题', '（错误代码: ' + res.code + '）')
 					}
 				},
@@ -223,11 +239,14 @@ new Vue({
 					reasonId: reason_id
 				},
 				success: (res) => {
+					console.log(res)
 					if (res.code == 200) {
 						this.videolist.splice(index, 1)
 						this.showNotify('success', '已反馈', '将减少此类内容推荐', 2000)
 						this.dislikeIndex = -1
-					} else {
+					}else if (res.code == 412){
+						this.show412Note()
+				 	} else {
 						this.showNotify('error', '错误', '反馈失败！（错误代码: ' + res.code + '）', 0)
 						this.dislikeIndex = -1
 					}
@@ -245,10 +264,13 @@ new Vue({
 					loginToken: token
 				},
 				success: (res) => {
+					// console.log(res)
 					if (res.code == 200) {
 						this.isLoadLive = false
 						this.liveList = res.data.data.rooms
-					}else{
+					}else if (res.code == 412){
+						this.show412Note()
+				 	} else {
 						this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code)
 					}
 				}
@@ -279,7 +301,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					// console.log(res)
+					console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {
@@ -309,7 +331,9 @@ new Vue({
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
-					} else {
+					}else if (res.code == 412){
+						this.show412Note()
+				 	} else {
 						this.showNotify('error',
 							'错误',
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
@@ -319,8 +343,8 @@ new Vue({
 					this.isSkeleton = false
 				},
 				complete: (res, status) => {
-					console.log(res)
-					console.log(status)
+					// console.log(res)
+					// console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						// loading.close()
@@ -355,7 +379,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					// console.log(res)
+					console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {
@@ -393,15 +417,17 @@ new Vue({
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
 						loading.close()
-					} else {
+					}else if (res.code == 412){
+						this.show412Note()
+				 	} else {
 						this.showNotify('error',
 							'错误',
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）')
 					}
 				},
 				complete: (res, status) => {
-					console.log(res)
-					console.log(status)
+					// console.log(res)
+					// console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						loading.close()
@@ -440,7 +466,9 @@ new Vue({
 						this.isLogin = false
 						localStorage.removeItem('access_token')
 						this.showNotify('success', '提示', '你已退出登录')
-					} else {
+					}else if (res.code == 412){
+						this.show412Note()
+				 	} else {
 						this.showNotify('error', '错误', '退出登录时出现问题, 请稍后再试')
 					}
 				},
