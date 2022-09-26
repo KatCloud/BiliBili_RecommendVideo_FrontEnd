@@ -239,7 +239,7 @@ new Vue({
 					reasonId: reason_id
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					if (res.code == 200) {
 						this.videolist.splice(index, 1)
 						this.showNotify('success', '已反馈', '将减少此类内容推荐', 2000)
@@ -301,7 +301,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {
@@ -379,7 +379,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {
