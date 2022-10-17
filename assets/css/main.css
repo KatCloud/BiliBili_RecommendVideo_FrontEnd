@@ -3331,3 +3331,13 @@ input, select, textarea {
 			}
 
 		}
+
+/* 垂直分割线 */
+.vertical_divider {
+	display: inline-block;
+	width: 1px;
+	height: 10em;
+	margin: 0 8px;
+	vertical-align: middle;
+	position: relative;
+}

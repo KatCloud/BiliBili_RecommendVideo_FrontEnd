@@ -17,7 +17,17 @@
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 	</noscript>
 </head>
-
+<style>
+	.el-divider--vertical {
+	display: inline-block;
+	width: 2px;
+	height: 2.7em;
+	margin: 0 8px;
+	vertical-align: middle;
+	position: relative;
+	margin-left: 5em;
+	}
+</style>
 <body class="is-preload">
 
 	<!-- Wrapper -->
@@ -79,8 +89,10 @@
 						</li>
 						<li><a href="https://www.bilibili.com/watchlater/#/list" class="button" v-if="isLogin"
 								target="_blank">稍后再看</a></li>
-						<!-- <li style="position: absolute; right: 8em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
-								<li style="position: absolute; right: 2.5em;"><a class="button primary" v-on:click="search()">搜索</a></li> -->
+						<!-- 搜索模块 -->
+						<el-divider direction="vertical"></el-divider>		
+						<li style="margin-left: 3em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
+						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
 					<!-- 已关注的直播 -->
 					<div v-if="isLogin" style="margin-top: 1.5625rem;">
@@ -357,13 +369,15 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
-	<script src="https://unpkg.zhimg.com/vue@2.6.14"></script>
-	<script>Vue.config.productionTip = false</script>
-	<script>Vue.config.devtools = false</script>
+	<script src="https://unpkg.zhimg.com/vue@2.6.14">
+		Vue.config.productionTip = false;
+	</script>
+	<script></script>
 	<script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script>
 	<script src="assets/js/baseUrl.js"></script>
 	<script src="assets/js/getVideoList.js"></script>
 	<script src="assets/js/vue-go-top.min.js"></script>
+	<!-- <script>Vue.config.devtools = false</script> -->
 </body>
 
 </html>

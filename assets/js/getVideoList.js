@@ -4,6 +4,7 @@ let Component = Vue.extend({
 	template: '<p></p>'
 })
 Vue.component('go-top', Component)
+Vue.config.productionTip = false
 new Vue({
 	el: '#videoList',
 	data: {
@@ -33,15 +34,15 @@ new Vue({
 		dynamicCount: '0',
 		isDynamicHide: true,
 		// 搜索
-		// keyWord: '',
+		keyWord: '',
 		// 不喜欢视频的index
 		dislikeIndex: -1
 	},
 	methods: {
 		// 搜索
-		// search(){
-		// 	window.open('https://search.bilibili.com/all?keyword=' + this.keyWord, '_blank')
-		// },
+		search(){
+			window.open('https://search.bilibili.com/all?keyword=' + this.keyWord, '_blank')
+		},
 
 		// 显示判断
 		checkGoto(str) {
