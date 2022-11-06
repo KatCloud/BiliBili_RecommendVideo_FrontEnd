@@ -186,7 +186,7 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						this.showNotify('success', '搞定啦', '已添加到稍后再看', 2000)
-					} else if (res.code == 412){
+					} else if (res.code == 200 && res.data.code == 412){
 						this.show412Note()
 				 	} else {
 						this.showNotify('error', '出现问题', '（错误代码: ' + res.code + '）')
@@ -245,7 +245,7 @@ new Vue({
 						this.videolist.splice(index, 1)
 						this.showNotify('success', '已反馈', '将减少此类内容推荐', 2000)
 						this.dislikeIndex = -1
-					}else if (res.code == 412){
+					}else if (res.code == 200 && res.data.code == 412){
 						this.show412Note()
 				 	} else {
 						this.showNotify('error', '错误', '反馈失败！（错误代码: ' + res.code + '）', 0)
@@ -269,7 +269,7 @@ new Vue({
 					if (res.code == 200) {
 						this.isLoadLive = false
 						this.liveList = res.data.data.rooms
-					}else if (res.code == 412){
+					}else if (res.code == 200 && res.data.code == 412){
 						this.show412Note()
 				 	} else {
 						this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code)
@@ -332,7 +332,7 @@ new Vue({
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
-					}else if (res.code == 412){
+					}else if (res.code == 200 && res.data.code == 412){
 						this.show412Note()
 				 	} else {
 						this.showNotify('error',
@@ -418,7 +418,7 @@ new Vue({
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
 						loading.close()
-					}else if (res.code == 412){
+					}else if (res.code == 200 && res.data.code == 412){
 						this.show412Note()
 				 	} else {
 						this.showNotify('error',
@@ -467,7 +467,7 @@ new Vue({
 						this.isLogin = false
 						localStorage.removeItem('access_token')
 						this.showNotify('success', '提示', '你已退出登录')
-					}else if (res.code == 412){
+					}else if (res.code == 200 && res.data.code == 412){
 						this.show412Note()
 				 	} else {
 						this.showNotify('error', '错误', '退出登录时出现问题, 请稍后再试')
