@@ -419,8 +419,10 @@ new Vue({
 						}
 						loading.close()
 					}else if (res.code == 200 && res.data.code == 412){
+						loading.close()
 						this.show412Note()
 				 	} else {
+						loading.close()
 						this.showNotify('error',
 							'错误',
 							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）')
@@ -463,6 +465,7 @@ new Vue({
 					loginToken: token
 				},
 				success: (res) => {
+					loading.close()
 					if (res.code == 200) {
 						this.isLogin = false
 						localStorage.removeItem('access_token')
