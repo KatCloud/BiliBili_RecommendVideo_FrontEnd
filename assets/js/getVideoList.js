@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '3.5', // 2022.9.26 update
+		biliToolVersion: '3.6', // 2022.11.21 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -40,7 +40,7 @@ new Vue({
 	},
 	methods: {
 		// 搜索
-		search(){
+		search() {
 			window.open('https://search.bilibili.com/all?keyword=' + this.keyWord, '_blank')
 		},
 
@@ -186,17 +186,17 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						this.showNotify('success', '搞定啦', '已添加到稍后再看', 2000)
-					} else if (res.code == 200 && res.data.code == 412){
+					} else if (res.code == 200 && res.data.code == 412) {
 						this.show412Note()
-				 	} else {
-						this.showNotify('error', '出现问题', '（错误代码: ' + res.code + '）')
+					} else {
+						this.showNotify('error', '添加稍后再看出现问题', '错误代码: ' + res.code + ',错误信息：' + res.msg)
 					}
 				},
 				complete: (res, status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况', 0)
 						loading.close()
-					}else if(res.status == 0 && status == 'error'){
+					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
@@ -214,7 +214,7 @@ new Vue({
 			const link = title + '--up：'
 				+ upname + '--link：'
 				+ 'https://www.bilibili.com/video/av' + avid
-			
+
 			navigator.clipboard.writeText(link).then(() => {
 				/* clipboard successfully set */
 				this.showMessage('success', '分享链接已复制到剪贴板！')
@@ -245,10 +245,10 @@ new Vue({
 						this.videolist.splice(index, 1)
 						this.showNotify('success', '已反馈', '将减少此类内容推荐', 2000)
 						this.dislikeIndex = -1
-					}else if (res.code == 200 && res.data.code == 412){
+					} else if (res.code == 200 && res.data.code == 412) {
 						this.show412Note()
-				 	} else {
-						this.showNotify('error', '错误', '反馈失败！（错误代码: ' + res.code + '）', 0)
+					} else {
+						this.showNotify('error', '反馈失败！', '错误代码: ' + res.code + ',错误信息：' + res.msg, 0)
 						this.dislikeIndex = -1
 					}
 				}
@@ -269,10 +269,10 @@ new Vue({
 					if (res.code == 200) {
 						this.isLoadLive = false
 						this.liveList = res.data.data.rooms
-					}else if (res.code == 200 && res.data.code == 412){
+					} else if (res.code == 200 && res.data.code == 412) {
 						this.show412Note()
-				 	} else {
-						this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code)
+					} else {
+						this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code + ',错误信息：' + res.msg)
 					}
 				}
 			})
@@ -332,12 +332,12 @@ new Vue({
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
-					}else if (res.code == 200 && res.data.code == 412){
+					} else if (res.code == 200 && res.data.code == 412) {
 						this.show412Note()
-				 	} else {
+					} else {
 						this.showNotify('error',
-							'错误',
-							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）', 0)
+							'获取推荐视频列表时出现问题',
+							'错误代码: ' + res.code + ',错误信息：' + res.msg, 0)
 					}
 					// loading.close()
 					checkLogin.close()
@@ -351,7 +351,7 @@ new Vue({
 						// loading.close()
 						checkLogin.close()
 						this.isSkeleton = false
-					}else if(res.status == 0 && status == 'error'){
+					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						checkLogin.close()
 						this.isSkeleton = false
@@ -380,7 +380,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {
@@ -418,14 +418,14 @@ new Vue({
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
 						loading.close()
-					}else if (res.code == 200 && res.data.code == 412){
+					} else if (res.code == 200 && res.data.code == 412) {
 						loading.close()
 						this.show412Note()
-				 	} else {
+					} else {
 						loading.close()
 						this.showNotify('error',
-							'错误',
-							'获取推荐视频列表时出现问题（错误代码: ' + res.code + '）')
+							'获取推荐视频列表时出现问题',
+							'错误代码: ' + res.code + ',错误信息：' + res.msg, 0)
 					}
 				},
 				complete: (res, status) => {
@@ -434,7 +434,7 @@ new Vue({
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						loading.close()
-					}else if(res.status == 0 && status == 'error'){
+					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
@@ -470,17 +470,18 @@ new Vue({
 						this.isLogin = false
 						localStorage.removeItem('access_token')
 						this.showNotify('success', '提示', '你已退出登录')
-					}else if (res.code == 200 && res.data.code == 412){
+					} else if (res.code == 200 && res.data.code == 412) {
 						this.show412Note()
-				 	} else {
-						this.showNotify('error', '错误', '退出登录时出现问题, 请稍后再试')
+					} else {
+						this.showNotify('error', '退出登录时出现问题',
+							'错误代码: ' + res.code + ',错误信息：' + res.msg)
 					}
 				},
 				complete: (status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
 						loading.close()
-					}else if(res.status == 0 && status == 'error'){
+					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
@@ -546,6 +547,12 @@ new Vue({
 							// console.log('nothing to update')
 						} else {
 							// console.log('update available')
+							// 全屏加载
+							const loading = this.$loading({
+								lock: true,
+								text: '请先更新再使用！',
+								background: 'rgba(0, 0, 0, 0.7)'
+							})
 							this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0, false)
 						}
 					} else {
