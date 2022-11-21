@@ -545,6 +545,7 @@ new Vue({
 						let newestVersion = res.data.toolVersion
 						if (this.biliToolVersion === newestVersion) {
 							// console.log('nothing to update')
+							this.getVideoList()
 						} else {
 							// console.log('update available')
 							// 全屏加载
@@ -564,7 +565,7 @@ new Vue({
 	},
 	created() {
 		this.updateNewestVersion()
-		this.getVideoList()
+		// this.getVideoList()
 		// this.getLiveList()
 		this.getDynamicCount()
 		this.timer()
