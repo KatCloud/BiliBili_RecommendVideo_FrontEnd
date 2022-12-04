@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '3.6', // 2022.11.21 update
+		biliToolVersion: '3.7', // 2022.12.4 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -30,6 +30,7 @@ new Vue({
 		// 已关注直播列表
 		liveList: [],
 		isLoadLive: false,
+		retryLive: 0,
 		// 检查动态新发视频
 		dynamicCount: '0',
 		isDynamicHide: true,
@@ -267,12 +268,19 @@ new Vue({
 				success: (res) => {
 					// console.log(res)
 					if (res.code == 200) {
+						this.retryLive = 0
 						this.isLoadLive = false
 						this.liveList = res.data.data.rooms
-					} else if (res.code == 200 && res.data.code == 412) {
-						this.show412Note()
 					} else {
-						this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code + ',错误信息：' + res.msg)
+						if (this.retryLive < 6) {
+							const retry = this.retryLive
+							this.retryLive = retry + 1
+							this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code + ',错误信息：' + res.msg)
+							$('#liveNotification').text('出现错误，正在再次获取关注的直播...(' + this.retryLive + '/5' + ')')
+							this.getLiveList()
+						}else{
+							this.showNotify('error', '获取直播列表错误', '获取直播列表多次失败，请刷新页面。')
+						}
 					}
 				}
 			})
@@ -302,7 +310,7 @@ new Vue({
 					idx: this.idx
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
 					if (res.code == 200) {
