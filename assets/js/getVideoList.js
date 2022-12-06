@@ -275,11 +275,11 @@ new Vue({
 						if (this.retryLive < 6) {
 							const retry = this.retryLive
 							this.retryLive = retry + 1
-							this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code + ',错误信息：' + res.msg)
-							$('#liveNotification').text('出现错误，正在再次获取关注的直播...(' + this.retryLive + '/5' + ')')
+							// this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code + ',错误信息：' + res.msg)
+							$('#liveNotification').text('出现错误，正在再次获取关注的直播...(' + this.retryLive + '/6' + ')')
 							this.getLiveList()
 						}else{
-							this.showNotify('error', '获取直播列表错误', '获取直播列表多次失败，请刷新页面。')
+							this.showNotify('error', '获取直播列表错误', '获取直播列表多次失败，请刷新页面重试。')
 						}
 					}
 				}
