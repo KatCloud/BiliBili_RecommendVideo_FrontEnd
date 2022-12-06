@@ -279,6 +279,7 @@ new Vue({
 							$('#liveNotification').text('出现错误，正在再次获取关注的直播...(' + this.retryLive + '/6' + ')')
 							this.getLiveList()
 						}else{
+							$('#liveNotification').text('获取关注的直播失败，请重试。')
 							this.showNotify('error', '获取直播列表错误', '获取直播列表多次失败，请刷新页面重试。')
 						}
 					}
