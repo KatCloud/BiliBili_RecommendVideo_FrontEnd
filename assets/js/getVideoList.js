@@ -266,19 +266,19 @@ new Vue({
 					loginToken: token
 				},
 				success: (res) => {
-					// console.log(res)
+					console.log(res)
 					if (res.code == 200) {
 						this.retryLive = 0
 						this.isLoadLive = false
-						this.liveList = res.data.data.rooms
+						this.liveList = res.data.data.items
 					} else {
-						if (this.retryLive < 6) {
+						if (this.retryLive < 5) {
 							const retry = this.retryLive
 							this.retryLive = retry + 1
 							// this.showNotify('error', '获取直播列表错误', '错误代码: ' + res.code + ',错误信息：' + res.msg)
-							$('#liveNotification').text('出现错误，正在再次获取关注的直播...(' + this.retryLive + '/6' + ')')
+							$('#liveNotification').text('出现错误，正在再次获取关注的直播...(' + this.retryLive + '/5' + ')')
 							this.getLiveList()
-						}else{
+						} else {
 							$('#liveNotification').text('获取关注的直播失败，请重试。')
 							this.showNotify('error', '获取直播列表错误', '获取直播列表多次失败，请刷新页面重试。')
 						}
@@ -474,13 +474,13 @@ new Vue({
 					loginToken: token
 				},
 				success: (res) => {
-					loading.close()
+					// loading.close()
 					if (res.code == 200) {
 						this.isLogin = false
 						localStorage.removeItem('access_token')
 						this.showNotify('success', '提示', '你已退出登录')
-					} else if (res.code == 200 && res.data.code == 412) {
-						this.show412Note()
+						this.videoList = []
+						this.getVideoList()
 					} else {
 						this.showNotify('error', '退出登录时出现问题',
 							'错误代码: ' + res.code + ',错误信息：' + res.msg)
@@ -509,29 +509,31 @@ new Vue({
 
 		// 拿动态角标
 		getDynamicCount() {
-			$.ajax({
-				url: baseUrl + '/getDynamicCount',
-				type: 'GET',
-				data: {
-					loginToken: token
-				},
-				success: (res) => {
-					// console.log(res)
-					if (res.code == 200) {
-						let alltype = res.data.data.alltype_num
-						let article = res.data.data.article_num
-						let video = res.data.data.video_num
-						let total = alltype + article + video
-						// console.log(total)
-						if (total == 0) {
-							// console.log('re run...')
-						} else {
-							this.dynamicCount = total
-							this.isDynamicHide = false
+			if (this.isLogin) {
+				$.ajax({
+					url: baseUrl + '/getDynamicCount',
+					type: 'GET',
+					data: {
+						loginToken: token
+					},
+					success: (res) => {
+						// console.log(res)
+						if (res.code == 200) {
+							let alltype = res.data.data.alltype_num
+							let article = res.data.data.article_num
+							let video = res.data.data.video_num
+							let total = alltype + article + video
+							// console.log(total)
+							if (total == 0) {
+								// console.log('re run...')
+							} else {
+								this.dynamicCount = total
+								this.isDynamicHide = false
+							}
 						}
 					}
-				}
-			})
+				})
+			}
 		},
 
 		// 点击动态按钮时，计数清零

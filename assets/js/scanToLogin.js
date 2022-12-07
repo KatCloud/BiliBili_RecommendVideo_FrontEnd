@@ -38,7 +38,7 @@ function getQRCode(){
 		type: 'GET',
 		success: function(res) {
 			token = res.data.token
-			// console.log(token)
+			console.log(res)
 			if(res.code == 200){
 				$('.guoqi').text('')	
 				$("#qrcode").show()
@@ -55,7 +55,7 @@ function getQRCode(){
 function isScan() {
 	// console.log('in isScan')
 	// console.log(token)
-	const scan = setTimeout(function(){
+	setTimeout(function(){
 		$.ajax({
 			url: baseUrl + '/login/scanToLogin',
 			type: 'POST',
@@ -63,7 +63,7 @@ function isScan() {
 				token: token
 			},
 			success: function(res) {
-				// console.log(res)
+				console.log(res)
 				if (res.code == 200) {
 					if (res.data.code == 86039) {
 						// code = 86039，已扫描，未确认
@@ -80,7 +80,7 @@ function isScan() {
 // 检查二维码确认情况
 function isComfirm() {
 	// console.log('in isComfirm')
-	const comfirm = setTimeout(function(){
+	setTimeout(function(){
 		$.ajax({
 			url: baseUrl + '/login/scanToLogin',
 			type: 'POST',
