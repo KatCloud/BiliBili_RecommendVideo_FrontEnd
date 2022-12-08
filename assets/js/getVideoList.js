@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '3.9', // 2022.12.7 update
+		biliToolVersion: '4.0', // 2022.12.8 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -17,6 +17,7 @@ new Vue({
 		skelist: [1, 2, 3, 4, 5, 6],
 		// ---------
 		videolist: [],
+		retryRecommend: 0,
 		isLogin: false,
 		isLoading: false,
 		// 推荐列表索引
@@ -341,12 +342,14 @@ new Vue({
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
-					} else if (res.code == 200 && res.data.code == 412) {
-						this.show412Note()
 					} else {
-						this.showNotify('error',
-							'获取推荐视频列表时出现问题',
-							'错误代码: ' + res.code + ',错误信息：' + res.msg, 0)
+						if(this.retryRecommend < 5){
+							const retry = this.retryRecommend
+							this.retryRecommend = retry + 1
+							this.getVideoList
+						} else {
+							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
+						}
 					}
 					// loading.close()
 					checkLogin.close()
@@ -427,14 +430,11 @@ new Vue({
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
 						loading.close()
-					} else if (res.code == 200 && res.data.code == 412) {
-						loading.close()
-						this.show412Note()
 					} else {
 						loading.close()
 						this.showNotify('error',
 							'获取推荐视频列表时出现问题',
-							'错误代码: ' + res.code + ',错误信息：' + res.msg, 0)
+							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')', 0)
 					}
 				},
 				complete: (res, status) => {
@@ -588,5 +588,8 @@ new Vue({
 	},
 	mounted() {
 
+	},
+	destroyed() {
+		clearTimeout(this.timer)
 	}
 })
