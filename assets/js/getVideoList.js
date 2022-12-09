@@ -343,13 +343,9 @@ new Vue({
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
 					} else {
-						if(this.retryRecommend < 5){
-							const retry = this.retryRecommend
-							this.retryRecommend = retry + 1
-							this.getVideoList
-						} else {
-							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
-						}
+						this.showNotify('error',
+							'获取推荐视频列表时出现问题',
+							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')', 0)
 					}
 					// loading.close()
 					checkLogin.close()
