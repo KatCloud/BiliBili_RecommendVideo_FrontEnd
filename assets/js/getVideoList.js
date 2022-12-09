@@ -345,7 +345,7 @@ new Vue({
 					} else {
 						this.showNotify('error',
 							'获取推荐视频列表时出现问题',
-							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')', 0)
+							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')')
 					}
 					// loading.close()
 					checkLogin.close()
@@ -430,7 +430,7 @@ new Vue({
 						loading.close()
 						this.showNotify('error',
 							'获取推荐视频列表时出现问题',
-							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')', 0)
+							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')')
 					}
 				},
 				complete: (res, status) => {
