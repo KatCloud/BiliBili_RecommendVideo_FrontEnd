@@ -267,7 +267,7 @@ new Vue({
 					loginToken: token
 				},
 				success: (res) => {
-					console.log(res)
+					// console.log(res)
 					if (res.code == 200) {
 						this.retryLive = 0
 						this.isLoadLive = false
