@@ -18,6 +18,7 @@ new Vue({
 		// ---------
 		videolist: [],
 		retryRecommend: 0,
+		retryMore: 0,
 		isLogin: false,
 		isLoading: false,
 		// 推荐列表索引
@@ -346,7 +347,7 @@ new Vue({
 						if(this.retryRecommend < 5){
 							const retry = this.retryRecommend
 							this.retryRecommend = retry + 1
-							this.getVideoList
+							this.getVideoList()
 						} else {
 							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
 						}
@@ -431,10 +432,14 @@ new Vue({
 						}
 						loading.close()
 					} else {
+						if(this.retryMore < 5){
+							const retry = this.retryMore
+							this.retryMore = retry + 1
+							this.moreVideoList()
+						} else {
+							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
+						}
 						loading.close()
-						this.showNotify('error',
-							'获取推荐视频列表时出现问题',
-							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')', 0)
 					}
 				},
 				complete: (res, status) => {
