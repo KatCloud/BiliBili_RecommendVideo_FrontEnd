@@ -334,6 +334,7 @@ new Vue({
 							this.idx = headIdx
 							this.videolist = videoList
 						}
+						checkLogin.close()
 						// 登录鉴定
 						if (res.data.isLogin) {
 							this.isLogin = true
@@ -349,11 +350,10 @@ new Vue({
 							this.retryRecommend = retry + 1
 							this.getVideoList()
 						} else {
+							checkLogin.close()
 							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
 						}
 					}
-					// loading.close()
-					checkLogin.close()
 					this.isSkeleton = false
 				},
 				complete: (res, status) => {
@@ -361,7 +361,6 @@ new Vue({
 					// console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						// loading.close()
 						checkLogin.close()
 						this.isSkeleton = false
 					} else if (res.status == 0 && status == 'error') {
@@ -383,7 +382,6 @@ new Vue({
 				text: '正在获取更多推荐...',
 				background: 'rgba(0, 0, 0, 0.7)'
 			})
-			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
 				timeout: 15000,
@@ -394,8 +392,6 @@ new Vue({
 				},
 				success: (res) => {
 					// console.log(res)
-					// this.isLoading = false
-					// loading.close()
 					if (res.code == 200) {
 						// 列表
 						const moreVideoList = res.data.data.items
@@ -430,18 +426,17 @@ new Vue({
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
-						// loading.close()
+						loading.close()
 					} else {
 						if(this.retryMore < 5){
 							const retry = this.retryMore
 							this.retryMore = retry + 1
 							this.moreVideoList()
 						} else {
+							loading.close()
 							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
 						}
-						// loading.close()
 					}
-					loading.close()
 				},
 				complete: (res, status) => {
 					// console.log(res)
