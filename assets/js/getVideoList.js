@@ -18,7 +18,6 @@ new Vue({
 		// ---------
 		videolist: [],
 		retryRecommend: 0,
-		retryMore: 0,
 		isLogin: false,
 		isLoading: false,
 		// 推荐列表索引
@@ -334,7 +333,6 @@ new Vue({
 							this.idx = headIdx
 							this.videolist = videoList
 						}
-						checkLogin.close()
 						// 登录鉴定
 						if (res.data.isLogin) {
 							this.isLogin = true
@@ -348,12 +346,13 @@ new Vue({
 						if(this.retryRecommend < 5){
 							const retry = this.retryRecommend
 							this.retryRecommend = retry + 1
-							this.getVideoList()
+							this.getVideoList
 						} else {
-							checkLogin.close()
 							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
 						}
 					}
+					// loading.close()
+					checkLogin.close()
 					this.isSkeleton = false
 				},
 				complete: (res, status) => {
@@ -361,6 +360,7 @@ new Vue({
 					// console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+						// loading.close()
 						checkLogin.close()
 						this.isSkeleton = false
 					} else if (res.status == 0 && status == 'error') {
@@ -382,6 +382,7 @@ new Vue({
 				text: '正在获取更多推荐...',
 				background: 'rgba(0, 0, 0, 0.7)'
 			})
+			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
 				timeout: 15000,
@@ -392,6 +393,8 @@ new Vue({
 				},
 				success: (res) => {
 					// console.log(res)
+					// this.isLoading = false
+					// loading.close()
 					if (res.code == 200) {
 						// 列表
 						const moreVideoList = res.data.data.items
@@ -428,14 +431,10 @@ new Vue({
 						}
 						loading.close()
 					} else {
-						if(this.retryMore < 5){
-							const retry = this.retryMore
-							this.retryMore = retry + 1
-							this.moreVideoList()
-						} else {
-							loading.close()
-							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
-						}
+						loading.close()
+						this.showNotify('error',
+							'获取推荐视频列表时出现问题',
+							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')', 0)
 					}
 				},
 				complete: (res, status) => {
