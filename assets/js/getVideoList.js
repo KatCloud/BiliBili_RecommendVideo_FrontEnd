@@ -430,7 +430,7 @@ new Vue({
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
-						loading.close()
+						// loading.close()
 					} else {
 						if(this.retryMore < 5){
 							const retry = this.retryMore
@@ -439,8 +439,9 @@ new Vue({
 						} else {
 							this.showNotify('error', '获取推荐视频错误', '获取推荐视频列表多次失败，请刷新页面重试。')
 						}
-						loading.close()
+						// loading.close()
 					}
+					loading.close()
 				},
 				complete: (res, status) => {
 					// console.log(res)
