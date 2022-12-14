@@ -268,7 +268,9 @@
 											<!-- 视频 -->
 											<p class="card_content"
 												v-if="info.goto == 'av' || info.goto == 'vertical_av'">
-												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;时长: {{info.cover_right_text}}
+												<i class="el-icon-video-play">&nbsp;{{repalceVideoInfo(info.cover_left_text_2)}}</i>&nbsp;&nbsp;
+												<i class="el-icon-postcard">&nbsp;{{repalceVideoInfo(info.cover_left_text_3)}}&nbsp;&nbsp;</i>
+												<i class="el-icon-time">&nbsp;{{info.cover_left_text_1}}</i>
 											</p>
 											<!-- 直播 -->
 											<p class="card_content" v-else-if="info.goto == 'live'">
