@@ -12,3 +12,4 @@
 |  :---  | :---  |  :---  |
 | B站推荐视频 | 4.2 | 网页也能刷B站首页推荐了 |
 | B站封面获取 | 3.1 | 懂得都懂，获取视频封面 |
+<p id="hitokoto"><a href="#" id="hitokoto_text">...</a></p> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
