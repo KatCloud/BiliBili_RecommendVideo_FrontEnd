@@ -38,7 +38,7 @@ function getQRCode(){
 		type: 'GET',
 		success: function(res) {
 			token = res.data.token
-			console.log(res)
+			// console.log(res)
 			if(res.code == 200){
 				$('.guoqi').text('')	
 				$("#qrcode").show()
@@ -63,7 +63,7 @@ function isScan() {
 				token: token
 			},
 			success: function(res) {
-				console.log(res)
+				// console.log(res)
 				if (res.code == 200) {
 					if (res.data.code == 86039) {
 						// code = 86039，已扫描，未确认
@@ -95,7 +95,7 @@ function isComfirm() {
 					$('.guoqi').text('已确认登录，正在跳转...')
 					localStorage.setItem('access_token', res.data.loginToken)
 					window.location.href = 'biliVideoList.html'
-				}else if (res.code == 500) {
+				}else if (res.code == 500 || res.data.code == 86038) {
 					// console.log('二维码已过期')
 					$('#qrcode').attr('style', 'filter: blur(10px)')
 					$('.guoqi').text('二维码已过期，请刷新当前页面')

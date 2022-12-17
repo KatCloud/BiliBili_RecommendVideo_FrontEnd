@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '4.1', // 2022.12.14 update
+		biliToolVersion: '4.2', // 2022.12.17 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -121,15 +121,15 @@ new Vue({
 		},
 
 		// 处理视频信息，以免过长
-		repalceVideoInfo(val){
-			if(val.indexOf('观看') != -1){
-				const result = val.replace('观看', '')
-				return result
-			}else{
-				const result = val.replace('弹幕', '')
-				return result
-			}
-		},
+		// repalceVideoInfo(val){
+		// 	if(val.indexOf('观看') != -1){
+		// 		const result = val.replace('观看', '')
+		// 		return result
+		// 	}else{
+		// 		const result = val.replace('弹幕', '')
+		// 		return result
+		// 	}
+		// },
 
 		// 下拉列表	START -----------------------------------------------------------------------------------------------------------		
 		// 下拉列表前处理（视频卡片独有）
@@ -210,7 +210,7 @@ new Vue({
 						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况', 0)
 						loading.close()
 					} else if (res.status == 0 && status == 'error') {
-						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
+						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况')
 						loading.close()
 					}
 				}
@@ -271,6 +271,7 @@ new Vue({
 		// 下拉列表	END -----------------------------------------------------------------------------------------------------------		
 		// 获取用户关注的直播列表
 		getLiveList() {
+			this.isLoadLive = true
 			$.ajax({
 				url: baseUrl + '/getLiveList',
 				type: 'GET',
@@ -347,9 +348,7 @@ new Vue({
 						// 登录鉴定
 						if (res.data.isLogin) {
 							this.isLogin = true
-							this.isLoadLive = true
 							this.showNotify('info', '提示', '已登录', 1500)
-							this.getLiveList()
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
@@ -358,7 +357,6 @@ new Vue({
 							'获取推荐视频列表时出现问题',
 							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')')
 					}
-					// loading.close()
 					checkLogin.close()
 					this.isSkeleton = false
 				},
@@ -367,7 +365,6 @@ new Vue({
 					// console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-						// loading.close()
 						checkLogin.close()
 						this.isSkeleton = false
 					} else if (res.status == 0 && status == 'error') {
@@ -564,6 +561,7 @@ new Vue({
 						if (this.biliToolVersion === newestVersion) {
 							// console.log('nothing to update')
 							this.getVideoList()
+							this.getLiveList()
 						} else {
 							// console.log('update available')
 							// 全屏加载
@@ -576,6 +574,13 @@ new Vue({
 						}
 					} else {
 						this.showNotify('error', '获取更新失败！(' + res.code + ')')
+					}
+				},
+				complete: (status) => {
+					if (status.statusText == 'timeout') {
+						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+					} else if (status.statusText == 'error') {
+						this.showNotify('warning', '维护提示', '工具当前维护中，请稍后再试！', 0)
 					}
 				}
 			})
