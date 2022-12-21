@@ -120,16 +120,82 @@ new Vue({
 			}
 		},
 
-		// 处理视频信息，以免过长
-		// repalceVideoInfo(val){
-		// 	if(val.indexOf('观看') != -1){
-		// 		const result = val.replace('观看', '')
-		// 		return result
-		// 	}else{
-		// 		const result = val.replace('弹幕', '')
-		// 		return result
-		// 	}
-		// },
+		//  秒数转化为时分秒
+		formatSeconds(value) {
+			//  秒
+			let second = parseInt(value)
+			//  分
+			let minute = 0
+			//  小时
+			let hour = 0
+			//  天
+			//  如果秒数大于60，将秒数转换成整数
+			if (second > 60) {
+				//  获取分钟，除以60取整数，得到整数分钟
+				minute = parseInt(second / 60)
+				//  获取秒数，秒数取佘，得到整数秒数
+				second = parseInt(second % 60)
+				//  如果分钟大于60，将分钟转换成小时
+				if (minute > 60) {
+					//  获取小时，获取分钟除以60，得到整数小时
+					hour = parseInt(minute / 60)
+					//  获取小时后取佘的分，获取分钟除以60取佘的分
+					minute = parseInt(minute % 60)
+				}
+			}
+			let result = '' + parseInt(second)
+			if (parseInt(second) < 10){
+				if (second > 0 && minute <= 0) {
+					result = '0:' + '0' + parseInt(second)
+				}
+				if (minute > 0) {
+					result = '' + parseInt(minute) + ':' + '0' + result
+				}
+				if (hour > 0) {
+					result = '' + parseInt(hour) + ':' + '0' + result
+				}
+			} else {
+				if (second > 0 && minute <= 0) {
+					result = '0:' + parseInt(second)
+				}
+				if (minute > 0) {
+					result = '' + parseInt(minute) + ':' + result
+				}
+				if (hour > 0) {
+					result = '' + parseInt(hour) + ':' + result
+				}
+			}
+			// if (second > 0 && minute <= 0) {
+			// 	result = '0:' + parseInt(second)
+			// }
+			// if (minute > 0) {
+			// 	result = '' + parseInt(minute) + ':' + result
+			// }
+			// if (hour > 0) {
+			// 	result = '' + parseInt(hour) + ':' + result
+			// }
+			return result
+		},
+
+		// 播放量简写
+		shortPlayCount(value) {
+			let result = ''
+			if (value < 10000) {
+				result = value
+			}
+			if (value >= 10000) {
+				let num = value / 10000
+				result = num.toFixed(1) + '万'
+			}
+			if (value >= 100000) {
+				let num = value / 10000
+				result = num.toFixed(1) + '万'
+			} else {
+				let num = value / 10000
+				result = num.toFixed(0) + '万'
+			}
+			return result;
+		},
 
 		// 下拉列表	START -----------------------------------------------------------------------------------------------------------		
 		// 下拉列表前处理（视频卡片独有）
@@ -162,18 +228,18 @@ new Vue({
 					this.shareVideo(title, upname, avid)
 					break;
 				// 不喜欢某视频
-				case 'd':
-					// console.log(command.index)
-					const index = command.index
-					const obj = command.obj
-					const reason_id = command.content
-					const aid = obj.args.aid
-					const rid = obj.args.rid
-					const goto = obj.goto
-					const mid = obj.args.up_id
-					const tid = obj.args.tid
-					this.dislikeVideo(index, aid, rid, goto, mid, tid, reason_id)
-					break;
+				// case 'd':
+				// 	console.log(command.index)
+				// 	const index = command.index
+				// 	const obj = command.obj
+				// 	const reason_id = command.content
+				// 	const aid = obj.args.aid
+				// 	const rid = obj.args.rid
+				// 	const goto = obj.goto
+				// 	const mid = obj.args.up_id
+				// 	const tid = obj.args.tid
+				// 	this.dislikeVideo(index, aid, rid, goto, mid, tid, reason_id)
+				// 	break;
 			}
 
 		},
@@ -271,7 +337,6 @@ new Vue({
 		// 下拉列表	END -----------------------------------------------------------------------------------------------------------		
 		// 获取用户关注的直播列表
 		getLiveList() {
-			this.isLoadLive = true
 			$.ajax({
 				url: baseUrl + '/getLiveList',
 				type: 'GET',
@@ -329,25 +394,27 @@ new Vue({
 					// loading.close()
 					if (res.code == 200) {
 						// 列表
-						const videoList = res.data.data.items
+						const videoList = res.data.data
 						// console.log(videoList)
 						// 获取头尾idx
-						const headIdx = res.data.data.items.slice(0, 1)[0].idx
-						const footIdx = res.data.data.items.slice(-1)[0].idx
+						const headIdx = res.data.data.slice(0, 1)[0].idx
+						const footIdx = res.data.data.slice(-1)[0].idx
 						// 判断获取的数组是正序还是倒序
 						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
-							// 倒序
-							this.idx = footIdx
-							// 转成正序
+							// headIdx is max
+							this.idx = headIdx
+							// idx大的放最后
 							this.videolist = videoList.reverse()
 						} else {
-							// 正序
-							this.idx = headIdx
+							// footIdx is max
+							this.idx = footIdx
 							this.videolist = videoList
 						}
 						// 登录鉴定
 						if (res.data.isLogin) {
 							this.isLogin = true
+							this.isLoadLive = true
+							this.getLiveList()
 							this.showNotify('info', '提示', '已登录', 1500)
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
@@ -401,15 +468,15 @@ new Vue({
 					// loading.close()
 					if (res.code == 200) {
 						// 列表
-						const moreVideoList = res.data.data.items
+						const moreVideoList = res.data.data
 						// console.log(moreVideoList)
 						// 获取头尾idx
-						const headIdx = res.data.data.items.slice(0, 1)[0].idx
-						const footIdx = res.data.data.items.slice(-1)[0].idx
+						const headIdx = res.data.data.slice(0, 1)[0].idx
+						const footIdx = res.data.data.slice(-1)[0].idx
 						// 判断获取的数组是正序还是倒序
 						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
-							// 倒序
-							this.idx = footIdx
+							// 
+							this.idx = headIdx
 							// 原列表正序
 							const videoList = this.videolist
 							// 将获得的列表正序并接在原列表后
@@ -418,7 +485,7 @@ new Vue({
 							this.videolist = newList
 						} else {
 							// 正序
-							this.idx = headIdx
+							this.idx = footIdx
 							// 将原列表正序
 							const videoList = this.videolist
 							// 将获得的列表接在原列表后
@@ -561,7 +628,6 @@ new Vue({
 						if (this.biliToolVersion === newestVersion) {
 							// console.log('nothing to update')
 							this.getVideoList()
-							this.getLiveList()
 						} else {
 							// console.log('update available')
 							// 全屏加载
