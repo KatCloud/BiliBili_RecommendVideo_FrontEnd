@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '4.2', // 2022.12.17 update
+		biliToolVersion: '4.3', // 2022.12.21 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
