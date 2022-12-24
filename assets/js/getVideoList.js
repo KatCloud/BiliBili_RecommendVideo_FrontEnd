@@ -182,12 +182,10 @@ new Vue({
 			let result = ''
 			if (value < 10000) {
 				result = value
-			}
-			if (value >= 10000) {
+			}else if (value >= 10000) {
 				let num = value / 10000
 				result = num.toFixed(1) + '万'
-			}
-			if (value >= 100000) {
+			}else if (value >= 100000) {
 				let num = value / 10000
 				result = num.toFixed(1) + '万'
 			} else {
