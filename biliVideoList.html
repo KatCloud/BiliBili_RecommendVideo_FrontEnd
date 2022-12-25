@@ -279,7 +279,10 @@
 											</p>
 											<!-- 番剧/剧集 分为ss/ep -->
 											<p class="card_content" v-if="info.goto == 'bangumi'">
-												更新进度：{{info.desc}}
+												<!-- 当前进度/介绍 -->
+												<el-tag type="info" effect="plain" size="mini">{{info.desc}}</el-tag>
+												<!-- 需要判断 -->
+												{{info.rcmd_reason ? '(' + info.rcmd_reason.content + ')' : ''}}
 											</p>
 											<p class="card_content" v-if="info.goto == 'bangumi'">
 												播放: {{shortPlayCount(info.play)}} &nbsp;&nbsp;追剧:
