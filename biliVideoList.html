@@ -97,6 +97,9 @@
 					<!-- 已关注的直播 -->
 					<div v-if="isLogin" style="margin-top: 1.5625rem;">
 						<span id="liveNotification" v-if="isLoadLive">正在加载已关注的直播...</span>
+						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;" v-if="isLoadLive" >
+							<i class="el-icon-refresh"></i>
+						</a>
 						<template v-for="liveInfo in liveList">
 							<a :href="liveInfo.link" target="_blank" style="border-bottom: #FFFFFF !important; 
 												  margin-right: 0.9375rem; margin-top: 1.25rem;">
@@ -107,6 +110,9 @@
 								<span style="font-size: 13px;">{{liveInfo.uname}}</span>
 							</a>
 						</template>
+						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;" v-if="!isLoadLive" >
+							<i class="el-icon-refresh"></i>
+						</a>
 					</div>
 				</header>
 				<div style="margin-top: 2.5rem;">

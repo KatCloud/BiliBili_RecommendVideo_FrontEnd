@@ -336,6 +336,8 @@ new Vue({
 		// 下拉列表	END -----------------------------------------------------------------------------------------------------------		
 		// 获取用户关注的直播列表
 		getLiveList() {
+			this.liveList = []
+			this.isLoadLive = true
 			$.ajax({
 				url: baseUrl + '/getLiveList',
 				type: 'GET',
@@ -350,6 +352,9 @@ new Vue({
 						this.retryLive = 0
 						this.isLoadLive = false
 						this.liveList = res.data.data.items
+						if (this.liveList.length < 1){
+							$('#liveNotification').text('还没有人开播哦~')
+						}
 					} else {
 						if (this.retryLive < 5) {
 							const retry = this.retryLive
@@ -365,7 +370,8 @@ new Vue({
 				},
 				complete: (res, status) => {
 					if (status == 'timeout') {
-						this.showNotify('error', '错误', '获取直播列表超时，请重试。', 0)
+						$('#liveNotification').text('获取关注的直播超时，请重试。')
+						this.showNotify('error', '错误', '获取直播列表超时，请重试。')
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取直播列表错误，请稍后再试吧！')
 					}
