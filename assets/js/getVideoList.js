@@ -253,6 +253,7 @@ new Vue({
 			$.ajax({
 				url: baseUrl + '/addWatchLater',
 				timeout: 15000,
+				async: true,
 				type: 'POST',
 				data: {
 					loginToken: token,
@@ -338,6 +339,8 @@ new Vue({
 			$.ajax({
 				url: baseUrl + '/getLiveList',
 				type: 'GET',
+				async: true,
+				timeout: 15000,
 				data: {
 					loginToken: token
 				},
@@ -358,6 +361,13 @@ new Vue({
 							$('#liveNotification').text('获取关注的直播失败，请重试。')
 							this.showNotify('error', '获取直播列表错误', '获取直播列表多次失败，请刷新页面重试。')
 						}
+					}
+				},
+				complete: (res, status) => {
+					if (status == 'timeout') {
+						this.showNotify('error', '错误', '获取直播列表超时，请重试。', 0)
+					} else if (res.status == 0 && status == 'error') {
+						this.showNotify('error', '获取错误', '获取直播列表错误，请稍后再试吧！')
 					}
 				}
 			})
@@ -381,6 +391,7 @@ new Vue({
 			$.ajax({
 				url: baseUrl + '/getVideoList',
 				timeout: 15000,
+				async: true,
 				type: 'GET',
 				data: {
 					loginToken: token,
@@ -454,6 +465,7 @@ new Vue({
 			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
+				async: true,
 				timeout: 15000,
 				type: 'GET',
 				data: {
@@ -581,6 +593,8 @@ new Vue({
 			if (this.isLogin) {
 				$.ajax({
 					url: baseUrl + '/getDynamicCount',
+					timeout: 10000,
+					async: true,
 					type: 'GET',
 					data: {
 						loginToken: token
@@ -615,6 +629,7 @@ new Vue({
 		updateNewestVersion() {
 			$.ajax({
 				url: baseUrl + '/vc/getToolVersion',
+				timeout: 20000,
 				type: 'GET',
 				data: {
 					toolId: this.toolId
