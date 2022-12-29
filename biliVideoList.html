@@ -7,6 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="referrer" content="no-referrer" />
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+	<meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="stylesheet" href="assets/css/badge.css" />
 	<link rel="stylesheet" href="assets/css/uptop.css" />
@@ -92,7 +96,8 @@
 								target="_blank">稍后再看</a></li>
 						<!-- 搜索模块 -->
 						<el-divider direction="vertical"></el-divider>
-						<li style="margin-left: 3em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
+						<li style="margin-left: 3em;"><input type="text" placeholder="使用哔哩哔哩搜索" 
+							v-model="keyWord" v-on:keyup.enter.native="search()"></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
 					<!-- 已关注的直播 -->
