@@ -350,10 +350,10 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						this.retryLive = 0
-						this.isLoadLive = false
 						if (res.data.data.count == 0){
 							$('#liveNotification').text('还没有人开播哦~')
 						}else{
+							this.isLoadLive = false
 							this.liveList = res.data.data.items
 						}
 					} else {
