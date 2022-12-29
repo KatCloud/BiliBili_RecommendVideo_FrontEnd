@@ -19,15 +19,16 @@
 </head>
 <style>
 	.el-divider--vertical {
-	display: inline-block;
-	width: 2px;
-	height: 2.7em;
-	margin: 0 8px;
-	vertical-align: middle;
-	position: relative;
-	margin-left: 5em;
+		display: inline-block;
+		width: 2px;
+		height: 2.7em;
+		margin: 0 8px;
+		vertical-align: middle;
+		position: relative;
+		margin-left: 5em;
 	}
 </style>
+
 <body class="is-preload">
 
 	<!-- Wrapper -->
@@ -90,14 +91,15 @@
 						<li><a href="https://www.bilibili.com/watchlater/#/list" class="button" v-if="isLogin"
 								target="_blank">稍后再看</a></li>
 						<!-- 搜索模块 -->
-						<el-divider direction="vertical"></el-divider>		
+						<el-divider direction="vertical"></el-divider>
 						<li style="margin-left: 3em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
 					<!-- 已关注的直播 -->
 					<div v-if="isLogin" style="margin-top: 1.5625rem;">
 						<span id="liveNotification" v-if="isLoadLive">正在加载已关注的直播...</span>
-						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;" v-if="isLoadLive" >
+						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;"
+							v-if="isLoadLive">
 							<i class="el-icon-refresh"></i>
 						</a>
 						<template v-for="liveInfo in liveList">
@@ -110,7 +112,8 @@
 								<span style="font-size: 13px;">{{liveInfo.uname}}</span>
 							</a>
 						</template>
-						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;" v-if="!isLoadLive" >
+						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;"
+							v-if="!isLoadLive">
 							<i class="el-icon-refresh"></i>
 						</a>
 					</div>
@@ -145,8 +148,7 @@
 						<!-- 循环位置 -->
 						<template v-for="(info, index) in videolist">
 							<!-- 判断是否获得了undefinedAV的item -->
-							<article class="style7"
-								v-if="info.param ? true : false">
+							<article class="style7" v-if="info.param ? true : false">
 								<el-card id="rcmd_card" :body-style="{ padding: '0px' }" style="height: 23.75rem;"
 									shadow="hover" v-bind:style="dislikeIndex == index ? 'filter: blur(5px)' : ''">
 									<!-- 封面 START -->
@@ -274,8 +276,10 @@
 											<!-- 视频 -->
 											<p class="card_content"
 												v-if="info.goto == 'av' || info.goto == 'vertical_av'">
-												<i class="el-icon-video-play">&nbsp;{{shortPlayCount(info.play)}}</i>&nbsp;&nbsp;
-												<i class="el-icon-postcard">&nbsp;{{info.danmaku ? info.danmaku : '0'}}&nbsp;&nbsp;</i>
+												<i
+													class="el-icon-video-play">&nbsp;{{shortPlayCount(info.play)}}</i>&nbsp;&nbsp;
+												<i class="el-icon-postcard">&nbsp;{{info.danmaku ? info.danmaku :
+													'0'}}&nbsp;&nbsp;</i>
 												<i class="el-icon-time">&nbsp;{{formatSeconds(info.duration)}}</i>
 											</p>
 											<!-- 直播 -->
@@ -321,7 +325,8 @@
 													更多操作
 												</span>
 												<el-dropdown-menu slot="dropdown">
-													<el-dropdown-item v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')"
+													<el-dropdown-item
+														v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')"
 														:command="beforeHandleCommand('a', info.param)">
 														稍后再看
 													</el-dropdown-item>
@@ -359,8 +364,7 @@
 						@click="moreVideoList()">获取更多</a>
 				</div>
 				<!-- Go Top -->
-				<go-top :size="50" :right="80" :bottom="150" bg-color="#8C8C8C">
-				</go-top>
+				<go-top :size="50" :right="80" :bottom="150" bg-color="#8C8C8C" slot="reference"></go-top>
 			</div>
 		</div>
 
