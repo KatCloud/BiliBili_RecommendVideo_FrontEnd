@@ -44,6 +44,7 @@ new Vue({
 		// 搜索
 		search() {
 			window.open('https://search.bilibili.com/all?keyword=' + this.keyWord, '_blank')
+			this.keyWord = ''
 		},
 
 		// 显示判断
