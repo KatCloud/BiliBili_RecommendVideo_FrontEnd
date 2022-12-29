@@ -96,7 +96,7 @@
 								target="_blank">稍后再看</a></li>
 						<!-- 搜索模块 -->
 						<el-divider direction="vertical"></el-divider>
-						<li style="margin-left: 3em;"><input type="text" placeholder="使用哔哩哔哩搜索" 
+						<li style="margin-left: 3em;"><el-input type="text" placeholder="使用哔哩哔哩搜索" 
 							v-model="keyWord" v-on:keyup.enter.native="search()"></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
