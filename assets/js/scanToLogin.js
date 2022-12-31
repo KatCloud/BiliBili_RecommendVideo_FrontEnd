@@ -37,13 +37,13 @@ function getQRCode(){
 		url: baseUrl + '/login/getQRcode',
 		type: 'GET',
 		success: function(res) {
-			token = res.data.token
 			// console.log(res)
 			if(res.code == 200){
+				token = res.data.token
 				$('.guoqi').text('')	
 				$("#qrcode").show()
 				$("#qrcode").attr('src', res.data.qrCodeUrl)
-			isScan()
+				isScan()
 			}else{
 				$('.guoqi').text('二维码获取失败(' + res.code + ')')
 			}

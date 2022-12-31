@@ -33,7 +33,7 @@ new Vue({
 		isLoadLive: false,
 		retryLive: 0,
 		// 检查动态新发视频
-		dynamicCount: '0',
+		dynamicCount: 0,
 		isDynamicHide: true,
 		// 搜索
 		keyWord: '',
@@ -259,7 +259,6 @@ new Vue({
 			$.ajax({
 				url: baseUrl + '/addWatchLater',
 				timeout: 15000,
-				async: true,
 				type: 'POST',
 				data: {
 					loginToken: token,
@@ -347,7 +346,6 @@ new Vue({
 			$.ajax({
 				url: baseUrl + '/getLiveList',
 				type: 'GET',
-				async: true,
 				timeout: 15000,
 				data: {
 					loginToken: token
@@ -404,7 +402,6 @@ new Vue({
 			$.ajax({
 				url: baseUrl + '/getVideoList',
 				timeout: 15000,
-				async: true,
 				type: 'GET',
 				data: {
 					loginToken: token,
@@ -417,7 +414,6 @@ new Vue({
 					if (res.code == 200) {
 						// 列表
 						const videoList = res.data.data.items
-						// console.log(videoList)
 						// 获取头尾idx
 						const headIdx = res.data.data.items.slice(0, 1)[0].idx
 						const footIdx = res.data.data.items.slice(-1)[0].idx
@@ -479,7 +475,6 @@ new Vue({
 			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
-				async: true,
 				timeout: 15000,
 				type: 'GET',
 				data: {
@@ -605,10 +600,10 @@ new Vue({
 		// 拿动态角标
 		getDynamicCount() {
 			if (this.isLogin) {
+				let count = this.dynamicCount
 				$.ajax({
 					url: baseUrl + '/getDynamicCount',
-					timeout: 10000,
-					async: true,
+					timeout: 20000,
 					type: 'GET',
 					data: {
 						loginToken: token
@@ -620,13 +615,14 @@ new Vue({
 							let article = res.data.data.article_num
 							let video = res.data.data.video_num
 							let total = alltype + article + video
-							// console.log(total)
-							if (total == 0) {
-								// console.log('re run...')
-							} else {
-								this.dynamicCount = total
+							if (total != 0) {
+								this.dynamicCount = Number(count) + Number(total)
 								this.isDynamicHide = false
+							}else{
+								this.dynamicCount = Number(count)
 							}
+						}else{
+							this.dynamicCount = Number(count)
 						}
 					}
 				})
@@ -635,7 +631,7 @@ new Vue({
 
 		// 点击动态按钮时，计数清零
 		clickDynamicBtn() {
-			this.dynamicCount = '0'
+			this.dynamicCount = 0
 			this.isDynamicHide = true
 		},
 
