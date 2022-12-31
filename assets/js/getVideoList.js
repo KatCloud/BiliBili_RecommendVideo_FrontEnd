@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '4.3', // 2022.12.21 update
+		biliToolVersion: '5.0', // 2022.12.31 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -48,10 +48,15 @@ new Vue({
 		},
 
 		// 显示判断
-		checkGoto(str) {
+		checkGoto(goto, card_goto) {
 			let isHaveUp = ['av', 'vertical_av', 'live', 'article', 'picture']
-			if (isHaveUp.includes(str)) {
-				return true
+			let isHaveAd = ['ad', 'banner']
+			if (isHaveUp.includes(goto)) {
+				if (isHaveAd.includes(card_goto)){
+					return false
+				}else{
+					return true
+				}
 			} else {
 				return false
 			}
@@ -227,18 +232,18 @@ new Vue({
 					this.shareVideo(title, upname, avid)
 					break;
 				// 不喜欢某视频
-				// case 'd':
-				// 	console.log(command.index)
-				// 	const index = command.index
-				// 	const obj = command.obj
-				// 	const reason_id = command.content
-				// 	const aid = obj.args.aid
-				// 	const rid = obj.args.rid
-				// 	const goto = obj.goto
-				// 	const mid = obj.args.up_id
-				// 	const tid = obj.args.tid
-				// 	this.dislikeVideo(index, aid, rid, goto, mid, tid, reason_id)
-				// 	break;
+				case 'd':
+					// console.log(command.index)
+					const index = command.index
+					const obj = command.obj
+					const reason_id = command.content
+					const aid = obj.args.aid
+					const rid = obj.args.rid
+					const goto = obj.goto
+					const mid = obj.args.up_id
+					const tid = obj.args.tid
+					this.dislikeVideo(index, aid, rid, goto, mid, tid, reason_id)
+					break;
 			}
 
 		},
@@ -411,11 +416,11 @@ new Vue({
 					// loading.close()
 					if (res.code == 200) {
 						// 列表
-						const videoList = res.data.data
+						const videoList = res.data.data.items
 						// console.log(videoList)
 						// 获取头尾idx
-						const headIdx = res.data.data.slice(0, 1)[0].idx
-						const footIdx = res.data.data.slice(-1)[0].idx
+						const headIdx = res.data.data.items.slice(0, 1)[0].idx
+						const footIdx = res.data.data.items.slice(-1)[0].idx
 						// 判断获取的数组是正序还是倒序
 						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
 							// headIdx is max
@@ -432,6 +437,7 @@ new Vue({
 							this.isLogin = true
 							this.isLoadLive = true
 							this.getLiveList()
+							this.getDynamicCount()
 							this.showNotify('info', '提示', '已登录', 1500)
 						} else {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
@@ -486,11 +492,11 @@ new Vue({
 					// loading.close()
 					if (res.code == 200) {
 						// 列表
-						const moreVideoList = res.data.data
+						const moreVideoList = res.data.data.items
 						// console.log(moreVideoList)
 						// 获取头尾idx
-						const headIdx = res.data.data.slice(0, 1)[0].idx
-						const footIdx = res.data.data.slice(-1)[0].idx
+						const headIdx = res.data.data.items.slice(0, 1)[0].idx
+						const footIdx = res.data.data.items.slice(-1)[0].idx
 						// 判断获取的数组是正序还是倒序
 						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
 							// 
@@ -677,7 +683,7 @@ new Vue({
 		this.updateNewestVersion()
 		// this.getVideoList()
 		// this.getLiveList()
-		this.getDynamicCount()
+		// this.getDynamicCount()
 		this.timer()
 		// this.isSkeleton = true
 		console.log(

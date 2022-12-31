@@ -7,6 +7,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<meta name="referrer" content="no-referrer" />
 	<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+	<meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="stylesheet" href="assets/css/badge.css" />
 	<link rel="stylesheet" href="assets/css/uptop.css" />
@@ -19,15 +23,16 @@
 </head>
 <style>
 	.el-divider--vertical {
-	display: inline-block;
-	width: 2px;
-	height: 2.7em;
-	margin: 0 8px;
-	vertical-align: middle;
-	position: relative;
-	margin-left: 5em;
+		display: inline-block;
+		width: 2px;
+		height: 2.7em;
+		margin: 0 8px;
+		vertical-align: middle;
+		position: relative;
+		margin-left: 5em;
 	}
 </style>
+
 <body class="is-preload">
 
 	<!-- Wrapper -->
@@ -90,13 +95,18 @@
 						<li><a href="https://www.bilibili.com/watchlater/#/list" class="button" v-if="isLogin"
 								target="_blank">稍后再看</a></li>
 						<!-- 搜索模块 -->
-						<el-divider direction="vertical"></el-divider>		
-						<li style="margin-left: 3em;"><input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"></li>
+						<el-divider direction="vertical"></el-divider>
+						<li style="margin-left: 3em;"><el-input type="text" placeholder="使用哔哩哔哩搜索" 
+							v-model="keyWord" v-on:keyup.enter.native="search()"></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
 					<!-- 已关注的直播 -->
 					<div v-if="isLogin" style="margin-top: 1.5625rem;">
 						<span id="liveNotification" v-if="isLoadLive">正在加载已关注的直播...</span>
+						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;"
+							v-if="isLoadLive">
+							<i class="el-icon-refresh"></i>
+						</a>
 						<template v-for="liveInfo in liveList">
 							<a :href="liveInfo.link" target="_blank" style="border-bottom: #FFFFFF !important; 
 												  margin-right: 0.9375rem; margin-top: 1.25rem;">
@@ -107,6 +117,10 @@
 								<span style="font-size: 13px;">{{liveInfo.uname}}</span>
 							</a>
 						</template>
+						<a v-on:click="getLiveList()" style="border-bottom: #FFFFFF !important; margin-left: 1rem;"
+							v-if="!isLoadLive">
+							<i class="el-icon-refresh"></i>
+						</a>
 					</div>
 				</header>
 				<div style="margin-top: 2.5rem;">
@@ -139,8 +153,7 @@
 						<!-- 循环位置 -->
 						<template v-for="(info, index) in videolist">
 							<!-- 判断是否获得了undefinedAV的item -->
-							<article class="style7"
-								v-if="(info.param ? true : false) && (info.three_point.dislike_reasons.length > 1)">
+							<article class="style7" v-if="info.param ? true : false">
 								<el-card id="rcmd_card" :body-style="{ padding: '0px' }" style="height: 23.75rem;"
 									shadow="hover" v-bind:style="dislikeIndex == index ? 'filter: blur(5px)' : ''">
 									<!-- 封面 START -->
@@ -210,7 +223,7 @@
 												info.title.substring(0,30) + '...' : info.title}}
 											</a>
 											<!-- 番剧/剧集 分为ss/ep -->
-											<a v-else-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'"
+											<a v-else-if="info.goto == 'bangumi'"
 												v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param"
 												target="_blank" style="border-bottom: #FFFFFF !important;"
 												v-bind:title="info.title">
@@ -258,19 +271,21 @@
 												<!-- up主名 -->
 												<el-tag type="info" effect="plain" size="mini">UP</el-tag>
 												<!-- up主空间 -->
-												<a v-bind:href="'https://space.bilibili.com/' + info.args.up_id"
+												<a v-bind:href="'https://space.bilibili.com/' + info.mid"
 													target="_blank">
-													{{info.args.up_name}}
+													{{info.name}}
 												</a>
 												<!-- 需要判断 -->
-												{{info.rcmd_reason ? '(' + info.rcmd_reason + ')' : ''}}
+												{{info.rcmd_reason ? '(' + info.rcmd_reason.content + ')' : ''}}
 											</p>
 											<!-- 视频 -->
 											<p class="card_content"
 												v-if="info.goto == 'av' || info.goto == 'vertical_av'">
-												<i class="el-icon-video-play">&nbsp;{{info.cover_left_text_1}}</i>&nbsp;&nbsp;
-												<i class="el-icon-postcard">&nbsp;{{info.cover_left_text_2}}&nbsp;&nbsp;</i>
-												<i class="el-icon-time">&nbsp;{{info.cover_right_text}}</i>
+												<i
+													class="el-icon-video-play">&nbsp;{{shortPlayCount(info.play)}}</i>&nbsp;&nbsp;
+												<i class="el-icon-postcard">&nbsp;{{info.danmaku ? info.danmaku :
+													'0'}}&nbsp;&nbsp;</i>
+												<i class="el-icon-time">&nbsp;{{formatSeconds(info.duration)}}</i>
 											</p>
 											<!-- 直播 -->
 											<p class="card_content" v-else-if="info.goto == 'live'">
@@ -278,10 +293,15 @@
 												{{info.cover_right_text}}
 											</p>
 											<!-- 番剧/剧集 分为ss/ep -->
-											<p class="card_content"
-												v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
-												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
-												{{info.cover_left_text_2}}
+											<p class="card_content" v-if="info.goto == 'bangumi'">
+												<!-- 当前进度/介绍 -->
+												<el-tag type="info" effect="plain" size="mini">{{info.desc}}</el-tag>
+												<!-- 需要判断 -->
+												{{info.rcmd_reason ? '(' + info.rcmd_reason.content + ')' : ''}}
+											</p>
+											<p class="card_content" v-if="info.goto == 'bangumi'">
+												播放: {{shortPlayCount(info.play)}} &nbsp;&nbsp;追剧:
+												{{shortPlayCount(info.favorite)}}
 											</p>
 											<!-- 文章 -->
 											<p class="card_content" v-if="info.goto == 'article'">
@@ -310,7 +330,8 @@
 													更多操作
 												</span>
 												<el-dropdown-menu slot="dropdown">
-													<el-dropdown-item v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')"
+													<el-dropdown-item
+														v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')"
 														:command="beforeHandleCommand('a', info.param)">
 														稍后再看
 													</el-dropdown-item>
@@ -320,20 +341,20 @@
 													</el-dropdown-item>
 													<el-dropdown-item
 														v-if="info.goto == 'av' || info.goto == 'vertical_av'"
-														:command="beforeHandleCommand('c', info.title, info.args.up_name, info.param)">
+														:command="beforeHandleCommand('c', info.title, info.name, info.param)">
 														分享
 													</el-dropdown-item>
-													<el-dropdown-item divided disabled
+													<!-- <el-dropdown-item divided disabled
 														v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')">
 														我不想看：
-													</el-dropdown-item>
-													<template v-for="reasons in info.three_point.dislike_reasons">
+													</el-dropdown-item> -->
+													<!-- <template v-for="reasons in info.dislike_reasons">
 														<el-dropdown-item
-															:command="beforeHandleCommand('d', reasons.id, info, index)"
+															:command="beforeHandleCommand('d', reasons.reason_id, info, index)"
 															v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')">
-															{{reasons.name}}
+															{{reasons.reason_name}}
 														</el-dropdown-item>
-													</template>
+													</template> -->
 												</el-dropdown-menu>
 											</el-dropdown>
 										</div>
@@ -348,8 +369,7 @@
 						@click="moreVideoList()">获取更多</a>
 				</div>
 				<!-- Go Top -->
-				<go-top :size="50" :right="80" :bottom="150" bg-color="#8C8C8C">
-				</go-top>
+				<go-top :size="50" :right="80" :bottom="150" bg-color="#8C8C8C" slot="reference"></go-top>
 			</div>
 		</div>
 
