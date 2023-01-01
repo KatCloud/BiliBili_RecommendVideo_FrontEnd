@@ -594,7 +594,7 @@ new Vue({
 				setTimeout(() => {
 					this.getDynamicCount()
 				}, 0)
-			}, 60000)
+			}, 120000)
 		},
 
 		// 拿动态角标
@@ -611,17 +611,14 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						let alltype = res.data.data.alltype_num
-						let article = res.data.data.article_num
-						let video = res.data.data.video_num
-						let total = alltype + article + video
-						if (total != 0) {
-							this.dynamicCount = Number(count) + Number(total)
+						if (parseInt(alltype) != 0) {
+							this.dynamicCount = parseInt(alltype) + parseInt(count)
 							this.isDynamicHide = false
 						} else {
-							this.dynamicCount = Number(count)
+							this.dynamicCount = parseInt(count)
 						}
 					} else {
-						this.dynamicCount = Number(count)
+						this.dynamicCount = parseInt(count)
 					}
 				}
 			})
