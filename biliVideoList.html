@@ -153,7 +153,7 @@
 						<template v-for="(info, index) in videolist">
 							<!-- 判断是否获得了undefinedAV的item -->
 							<article class="style7"
-								v-if="(info.param ? true : false) && isLike(info.card_goto, false) ? false : true">
+								v-if="checkRcmdCard(info.param, info.card_goto)">
 								<el-card id="rcmd_card" :body-style="{ padding: '0px' }" style="height: 23.75rem;"
 									shadow="hover" v-bind:style="dislikeIndex == index ? 'filter: blur(5px)' : ''">
 									<!-- 封面 START -->
