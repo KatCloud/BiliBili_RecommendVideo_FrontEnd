@@ -52,9 +52,9 @@ new Vue({
 			let isHaveUp = ['av', 'vertical_av', 'live', 'article', 'picture']
 			let isHaveAd = ['ad', 'banner']
 			if (isHaveUp.includes(goto)) {
-				if (isHaveAd.includes(card_goto)){
+				if (isHaveAd.includes(card_goto)) {
 					return false
-				}else{
+				} else {
 					return true
 				}
 			} else {
@@ -150,7 +150,7 @@ new Vue({
 				}
 			}
 			let result = '' + parseInt(second)
-			if (parseInt(second) < 10){
+			if (parseInt(second) < 10) {
 				if (second > 0 && minute <= 0) {
 					result = '0:' + '0' + parseInt(second)
 				}
@@ -188,10 +188,10 @@ new Vue({
 			let result = ''
 			if (value < 10000) {
 				result = value
-			}else if (value >= 10000) {
+			} else if (value >= 10000) {
 				let num = value / 10000
 				result = num.toFixed(1) + '万'
-			}else if (value >= 100000) {
+			} else if (value >= 100000) {
 				let num = value / 10000
 				result = num.toFixed(1) + '万'
 			} else {
@@ -354,9 +354,9 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						this.retryLive = 0
-						if (res.data.data.count == 0){
+						if (res.data.data.count == 0) {
 							$('#liveNotification').text('还没有人开播哦~')
-						}else{
+						} else {
 							this.isLoadLive = false
 							this.liveList = res.data.data.items
 						}
@@ -599,34 +599,32 @@ new Vue({
 
 		// 拿动态角标
 		getDynamicCount() {
-			if (this.isLogin) {
-				let count = this.dynamicCount
-				$.ajax({
-					url: baseUrl + '/getDynamicCount',
-					timeout: 20000,
-					type: 'GET',
-					data: {
-						loginToken: token
-					},
-					success: (res) => {
-						// console.log(res)
-						if (res.code == 200) {
-							let alltype = res.data.data.alltype_num
-							let article = res.data.data.article_num
-							let video = res.data.data.video_num
-							let total = alltype + article + video
-							if (total != 0) {
-								this.dynamicCount = Number(count) + Number(total)
-								this.isDynamicHide = false
-							}else{
-								this.dynamicCount = Number(count)
-							}
-						}else{
+			let count = this.dynamicCount
+			$.ajax({
+				url: baseUrl + '/getDynamicCount',
+				timeout: 20000,
+				type: 'GET',
+				data: {
+					loginToken: token
+				},
+				success: (res) => {
+					// console.log(res)
+					if (res.code == 200) {
+						let alltype = res.data.data.alltype_num
+						let article = res.data.data.article_num
+						let video = res.data.data.video_num
+						let total = alltype + article + video
+						if (total != 0) {
+							this.dynamicCount = Number(count) + Number(total)
+							this.isDynamicHide = false
+						} else {
 							this.dynamicCount = Number(count)
 						}
+					} else {
+						this.dynamicCount = Number(count)
 					}
-				})
-			}
+				}
+			})
 		},
 
 		// 点击动态按钮时，计数清零
