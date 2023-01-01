@@ -3349,3 +3349,8 @@ input, select, textarea {
 	display: flex;
 	flex-wrap: wrap;
 }
+
+/* 处理加载抖动 */
+body{
+	overflow-y: scroll;
+}
