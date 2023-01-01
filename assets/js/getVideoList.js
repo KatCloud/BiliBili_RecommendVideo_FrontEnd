@@ -493,8 +493,7 @@ new Vue({
 			const loading = this.$loading({
 				lock: true,
 				text: '正在获取更多推荐...',
-				background: 'rgba(0, 0, 0, 0.7)',
-				fullscreen: false
+				background: 'rgba(0, 0, 0, 0.7)'
 			})
 			// this.isLoading = true
 			$.ajax({
