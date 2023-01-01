@@ -3341,3 +3341,11 @@ input, select, textarea {
 	vertical-align: middle;
 	position: relative;
 }
+
+/* 直播块 */
+.liveBlock{
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-wrap: wrap;
+}
