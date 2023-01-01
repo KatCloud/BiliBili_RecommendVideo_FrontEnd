@@ -153,7 +153,7 @@
 						<template v-for="(info, index) in videolist">
 							<!-- 判断是否获得了undefinedAV的item -->
 							<article class="style7"
-								v-if="info.param ? true : false && checkGoto(info.goto, info.card_goto)">
+								v-if="(info.param ? true : false) && isLike(info.card_goto, false) ? false : true">
 								<el-card id="rcmd_card" :body-style="{ padding: '0px' }" style="height: 23.75rem;"
 									shadow="hover" v-bind:style="dislikeIndex == index ? 'filter: blur(5px)' : ''">
 									<!-- 封面 START -->
@@ -292,10 +292,12 @@
 											</p>
 											<!-- 番剧/剧集 分为ss/ep -->
 											<p class="card_content" v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
-												<!--  影视名 -->
-												{{info.desc ? '(' + info.desc + ')' : ''}}
+												<!-- tag -->
+												<el-tag type="info" effect="plain" size="mini">剧名</el-tag>
+												<!-- 影视名 -->
+												{{info.desc}}
 												<!-- 评分 -->
-												{{info.cover_right_text}}
+												（{{info.cover_right_text}}）
 											</p>
 											<p class="card_content"
 												v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
@@ -313,10 +315,12 @@
 											</p>
 											<!-- pgc电影 -->
 											<p class="card_content" v-if="info.goto == 'pgc'">
-												<!--  影视名 -->
-												{{info.desc ? '(' + info.desc + ')' : ''}}
+												<!-- tag -->
+												<el-tag type="info" effect="plain" size="mini">剧名</el-tag>
+												<!-- 影视名 -->
+												{{info.desc}}
 												<!-- 评分 -->
-												{{info.cover_right_text}}
+												（{{info.cover_right_text}}）
 											</p>
 											<p class="card_content" v-if="info.goto == 'pgc'">
 												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
@@ -324,10 +328,12 @@
 											</p>
 											<!-- 其他 -->
 											<p class="card_content" v-if="info.goto == 'web' || info.card_goto == 'special_s'">
-												<!--  影视名 -->
-												{{info.desc ? '(' + info.desc + ')' : ''}}
+												<!-- tag -->
+												<el-tag type="info" effect="plain" size="mini">剧名</el-tag>
+												<!-- 影视名 -->
+												{{info.desc}}
 												<!-- 评分 -->
-												{{info.cover_right_text}}
+												（{{info.cover_right_text}}）
 											</p>
 											<p class="card_content"
 												v-if="info.goto == 'web' || info.card_goto == 'special_s'">
@@ -360,7 +366,9 @@
 													<template v-for="reasons in info.three_point.dislike_reasons">
 														<el-dropdown-item
 															:command="beforeHandleCommand('d', reasons.id, info, index)"
-															v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')">
+															v-if="isLogin 
+															&& (info.goto == 'av' || info.goto == 'vertical_av') 
+															&& (info.card_goto == 'av' || info.card_goto == 'vertical_av')">
 															{{reasons.name}}
 														</el-dropdown-item>
 													</template>
