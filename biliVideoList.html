@@ -328,7 +328,7 @@
 												<!-- 影视名 -->
 												{{info.desc}}
 												<!-- 评分 -->
-												（{{info.cover_right_text ? '(' + info.cover_right_text + ')' : ''}}）
+												{{info.cover_right_text ? '(' + info.cover_right_text + ')' : ''}}
 											</p>
 											<p class="card_content" v-if="info.goto == 'pgc'">
 												播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
@@ -342,7 +342,7 @@
 												<!-- 影视名 -->
 												{{info.desc}}
 												<!-- 评分 -->
-												（{{info.cover_right_text ? '(' + info.cover_right_text + ')' : ''}}）
+												{{info.cover_right_text ? '(' + info.cover_right_text + ')' : ''}}
 											</p>
 											<p class="card_content"
 												v-if="info.goto == 'web' || info.card_goto == 'special_s'">
