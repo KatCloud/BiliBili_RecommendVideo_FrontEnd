@@ -690,8 +690,8 @@ new Vue({
 		}
 	},
 	created() {
-		this.updateNewestVersion()
-		// this.getVideoList()
+		// this.updateNewestVersion()
+		this.getVideoList()
 		// this.getLiveList()
 		// this.getDynamicCount()
 		this.timer()
