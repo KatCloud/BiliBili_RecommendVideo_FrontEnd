@@ -522,18 +522,18 @@ new Vue({
 							// 原列表正序
 							const videoList = this.videolist
 							// 将获得的列表正序并接在原列表后
-							const newList = videoList.concat(moreVideoList.reverse())
+							this.videolist = videoList.concat(moreVideoList.reverse())
 							// 赋值
-							this.videolist = newList
+							// this.videolist = newList
 						} else {
 							// 正序
 							this.idx = footIdx
 							// 将原列表正序
 							const videoList = this.videolist
 							// 将获得的列表接在原列表后
-							const newList = videoList.concat(moreVideoList)
+							this.videolist = videoList.concat(moreVideoList)
 							// 赋值
-							this.videolist = newList
+							// this.videolist = newList
 						}
 						this.showNotify('success', '好耶', '获得' + moreVideoList.length + '条新内容', 1000)
 						// 登录鉴定
