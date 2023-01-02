@@ -300,7 +300,7 @@ new Vue({
 				},
 				complete: (res, status) => {
 					if (status == 'timeout') {
-						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况', 0)
+						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						loading.close()
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '错误', '加载超时，请刷新页面或检查网络状况')
@@ -351,10 +351,8 @@ new Vue({
 						this.videolist.splice(index, 1)
 						this.showNotify('success', '已反馈', '将减少此类内容推荐', 2000)
 						this.dislikeIndex = -1
-					} else if (res.code == 200 && res.data.code == 412) {
-						this.show412Note()
 					} else {
-						this.showNotify('error', '反馈失败！', '错误代码: ' + res.code + ',错误信息：' + res.msg, 0)
+						this.showNotify('error', '反馈失败！', '错误代码: ' + res.code + ',错误信息：' + res.msg)
 						this.dislikeIndex = -1
 					}
 				}
@@ -473,7 +471,7 @@ new Vue({
 					// console.log(res)
 					// console.log(status)
 					if (status == 'timeout') {
-						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						checkLogin.close()
 						this.isSkeleton = false
 					} else if (res.status == 0 && status == 'error') {
@@ -554,7 +552,7 @@ new Vue({
 					// console.log(res)
 					// console.log(status)
 					if (status == 'timeout') {
-						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						loading.close()
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
@@ -601,7 +599,7 @@ new Vue({
 				},
 				complete: (status) => {
 					if (status == 'timeout') {
-						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						loading.close()
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
@@ -665,6 +663,7 @@ new Vue({
 						let newestVersion = res.data.toolVersion
 						if (this.biliToolVersion === newestVersion) {
 							// console.log('nothing to update')
+							this.videolist = []
 							this.getVideoList()
 						} else {
 							// console.log('update available')
