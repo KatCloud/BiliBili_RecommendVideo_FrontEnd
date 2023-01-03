@@ -468,13 +468,11 @@ new Vue({
 
 		// 拿视频列表（首次）
 		getVideoList() {
-			// 全屏加载
-			// const loading = this.$loading({
-			// 	lock: true,
-			// 	text: 'Loading',
-			// 	background: 'rgba(0, 0, 0, 0.7)'
-			// })
-			// this.isLoading = true
+			const rcmd_load = this.$message({
+				type: 'info',
+				message: '正在获取推荐视频...',
+				duration: 0
+			})
 			$.ajax({
 				url: baseUrl + '/getVideoList',
 				timeout: 15000,
@@ -519,6 +517,7 @@ new Vue({
 							'获取推荐视频列表时出现问题',
 							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')')
 					}
+					rcmd_load.close()
 					this.isSkeleton = false
 				},
 				complete: (res, status) => {
@@ -527,9 +526,11 @@ new Vue({
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						this.isSkeleton = false
+						rcmd_load.close()
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						this.isSkeleton = false
+						rcmd_load.close()
 					}
 				}
 			})
