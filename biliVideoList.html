@@ -78,8 +78,14 @@
 								<a href="https://katcloud.cn/archives/86.html" target="_blank">v{{biliToolVersion}}</a>
 							</p>
 						</sup>
+						<div class="userBox" v-if="isLogin">
+							<el-badge :value="userBadge(level, vip)"
+									  style="letter-spacing: 0.125rem; top: -0.5rem;">
+									<el-avatar :size="50" :src="face" shape="circle"></el-avatar>
+							</el-badge>
+							<span>{{nickName}}</span>
+						</div>
 					</h1>
-					<!-- 功能栏 -->
 					<ul class="actions">
 						<li><a href="#" class="button primary" v-on:click="logOutConfirm()" v-if="isLogin">退出登录</a></li>
 						<li><a href="biliLogin.html" class="button primary" v-if="!isLogin">登录</a></li>
@@ -94,8 +100,8 @@
 						</li>
 						<li><a href="https://www.bilibili.com/watchlater/#/list" class="button" v-if="isLogin"
 								target="_blank">稍后再看</a></li>
-						<!-- 搜索模块 -->
 						<el-divider direction="vertical"></el-divider>
+						<!-- 搜索模块 -->
 						<li style="margin-left: 3em;"><el-input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"
 								v-on:keyup.enter.native="search()"></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
@@ -378,7 +384,7 @@
 															v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')">
 															我不想看：
 														</el-dropdown-item>
-														<template v-if="info.three_point.dislike_reasons">
+														<template v-if="info.three_point.dislike_reasons.length > 0 ? true : false">
 															<template
 																v-for="reasons in info.three_point.dislike_reasons">
 																<el-dropdown-item

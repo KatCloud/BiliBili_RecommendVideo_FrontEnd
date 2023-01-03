@@ -38,7 +38,12 @@ new Vue({
 		// 搜索
 		keyWord: '',
 		// 不喜欢视频的index
-		dislikeIndex: -1
+		dislikeIndex: -1,
+		// 用户信息
+		face: '',
+		level: '',
+		vip: '',
+		nickName: ''
 	},
 	methods: {
 		// 处理空字符串
@@ -47,6 +52,15 @@ new Vue({
 				return true;
 			} else {
 				return false;
+			}
+		},
+
+		// 处理用户等级
+		userBadge(level, vip){
+			if (!this.isEmpty(vip)){
+				return 'lv.' + level + '  ' + vip
+			} else {
+				return 'lv.' + level
 			}
 		},
 
@@ -358,8 +372,46 @@ new Vue({
 				}
 			})
 		},
-
 		// 下拉列表	END -----------------------------------------------------------------------------------------------------------		
+
+		// 检查用户登录态
+		checkBiliLoginStatus() {
+			$.ajax({
+				url: baseUrl + '/loginCheck',
+				type: 'GET',
+				timeout: 15000,
+				data: {
+					loginToken: token
+				},
+				success: (res) => {
+					if (res.code == 200) {
+						if (res.data.isLogin) {
+							this.isLogin = true
+							this.face = res.data.data.face
+							this.level = res.data.data.level
+							this.nickName = res.data.data.name
+							let vip = res.data.data.vip.label.text
+							if (!this.isEmpty(vip)) {
+								this.vip = res.data.data.vip.label.text
+							}
+							this.getVideoList()
+						}else{
+							this.getVideoList()
+						}
+					} else {
+						this.showNotify('error', '检查登录态错误', '遇到未知问题，请稍后再试！')
+					}
+				},
+				complete: (res, status) => {
+					if (status == 'timeout') {
+						this.showNotify('error', '错误', '登录态检查超时，请重试。')
+					} else if (res.status == 0 && status == 'error') {
+						this.showNotify('error', '获取错误', '遇到未知问题，请稍后再试！')
+					}
+				}
+			})
+		},
+
 		// 获取用户关注的直播列表
 		getLiveList() {
 			this.liveList = []
@@ -426,7 +478,8 @@ new Vue({
 				type: 'GET',
 				data: {
 					loginToken: token,
-					idx: this.idx
+					idx: this.idx,
+					isLogin: this.isLogin
 				},
 				success: (res) => {
 					// console.log(res)
@@ -450,8 +503,7 @@ new Vue({
 							this.videolist = videoList
 						}
 						// 登录鉴定
-						if (res.data.isLogin) {
-							this.isLogin = true
+						if (this.isLogin) {
 							this.isLoadLive = true
 							this.getLiveList()
 							this.getDynamicCount()
@@ -500,7 +552,8 @@ new Vue({
 				type: 'GET',
 				data: {
 					loginToken: token,
-					idx: this.idx
+					idx: this.idx,
+					isLogin: this.isLogin
 				},
 				success: (res) => {
 					// console.log(res)
@@ -535,9 +588,7 @@ new Vue({
 						}
 						this.showNotify('success', '好耶', '获得' + moreVideoList.length + '条新内容', 1000)
 						// 登录鉴定
-						if (res.data.isLogin) {
-							this.isLogin = true
-						} else {
+						if (!this.isLogin) {
 							this.showNotify('warning', '提示', '由于你尚未登录，为你获取全站推荐视频，或点击登录按钮登录')
 						}
 						loading.close()
@@ -649,60 +700,55 @@ new Vue({
 		},
 
 		// 获取工具最新版本
-		updateNewestVersion() {
-			$.ajax({
-				url: baseUrl + '/vc/getToolVersion',
-				timeout: 20000,
-				type: 'GET',
-				data: {
-					toolId: this.toolId
-				},
-				success: (res) => {
-					// console.log(res)
-					if (res.code == 200) {
-						let newestVersion = res.data.toolVersion
-						if (this.biliToolVersion === newestVersion) {
-							// console.log('nothing to update')
-							this.videolist = []
-							this.getVideoList()
-						} else {
-							// console.log('update available')
-							// 全屏加载
-							const loading = this.$loading({
-								lock: true,
-								text: '请先更新再使用！',
-								background: 'rgba(0, 0, 0, 0.7)'
-							})
-							this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0, false)
-						}
-					} else {
-						this.showNotify('error', '获取更新失败！(' + res.code + ')')
-					}
-				},
-				complete: (status) => {
-					if (status.statusText == 'timeout') {
-						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-					} else if (status.statusText == 'error') {
-						this.showNotify('warning', '维护提示', '工具当前维护中，请稍后再试！', 0)
-					}
-				}
-			})
-		}
+		// updateNewestVersion() {
+		// 	$.ajax({
+		// 		url: baseUrl + '/vc/getToolVersion',
+		// 		timeout: 20000,
+		// 		type: 'GET',
+		// 		data: {
+		// 			toolId: this.toolId
+		// 		},
+		// 		success: (res) => {
+		// 			// console.log(res)
+		// 			if (res.code == 200) {
+		// 				let newestVersion = res.data.toolVersion
+		// 				if (this.biliToolVersion === newestVersion) {
+		// 					// console.log('nothing to update')
+		// 					this.videolist = []
+		// 					this.getVideoList()
+		// 				} else {
+		// 					// console.log('update available')
+		// 					// 全屏加载
+		// 					const loading = this.$loading({
+		// 						lock: true,
+		// 						text: '请先更新再使用！',
+		// 						background: 'rgba(0, 0, 0, 0.7)'
+		// 					})
+		// 					this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0, false)
+		// 				}
+		// 			} else {
+		// 				this.showNotify('error', '获取更新失败！(' + res.code + ')')
+		// 			}
+		// 		},
+		// 		complete: (status) => {
+		// 			if (status.statusText == 'timeout') {
+		// 				this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+		// 			} else if (status.statusText == 'error') {
+		// 				this.showNotify('warning', '维护提示', '工具当前维护中，请稍后再试！', 0)
+		// 			}
+		// 		}
+		// 	})
+		// }
 	},
 	created() {
-		// this.updateNewestVersion()
-		this.getVideoList()
-		// this.getLiveList()
-		// this.getDynamicCount()
-		this.timer()
-		// this.isSkeleton = true
 		console.log(
 			'\n' + ' %c Bili Recommend Tool ' + ' %c v' + this.biliToolVersion + ' '
 			+ '\n', 'color: #fadfa3; background: #030307; padding:5px 0;',
 			'color: #242424; background: #fadfa3; padding:5px 0;');
 	},
 	mounted() {
-
+		this.checkBiliLoginStatus()
+		this.timer()
 	},
 	destroyed() {
 		clearTimeout(this.timer)

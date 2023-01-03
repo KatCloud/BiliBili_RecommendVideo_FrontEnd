@@ -7,11 +7,10 @@ window.onload = function isLogin(){
 	$('.guoqi').text('登录态检查...')
 	$("#qrcode").hide()
 	$.ajax({
-		url: baseUrl + '/getVideoList',
+		url: baseUrl + '/loginCheck',
 		type: 'GET',
 		data: {
-			loginToken: haveOldToken,
-			idx: idx
+			loginToken: haveOldToken
 		},
 		success: (res) => {
 			if(res.code == 200){
