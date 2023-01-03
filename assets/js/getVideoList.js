@@ -376,6 +376,12 @@ new Vue({
 
 		// 检查用户登录态
 		checkBiliLoginStatus() {
+			const checkLogin = this.$message({
+				type: 'info',
+				message: '正在进行登录态检查...',
+				duration: 0
+			})
+			this.isSkeleton = true
 			$.ajax({
 				url: baseUrl + '/loginCheck',
 				type: 'GET',
@@ -401,12 +407,15 @@ new Vue({
 					} else {
 						this.showNotify('error', '检查登录态错误', '遇到未知问题，请稍后再试！')
 					}
+					checkLogin.close()
 				},
 				complete: (res, status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '登录态检查超时，请重试。')
+						checkLogin.close()
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '遇到未知问题，请稍后再试！')
+						checkLogin.close()
 					}
 				}
 			})
@@ -465,12 +474,6 @@ new Vue({
 			// 	text: 'Loading',
 			// 	background: 'rgba(0, 0, 0, 0.7)'
 			// })
-			const checkLogin = this.$message({
-				type: 'info',
-				message: '正在进行登录态检查...',
-				duration: 0
-			})
-			this.isSkeleton = true
 			// this.isLoading = true
 			$.ajax({
 				url: baseUrl + '/getVideoList',
@@ -516,7 +519,6 @@ new Vue({
 							'获取推荐视频列表时出现问题',
 							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')')
 					}
-					checkLogin.close()
 					this.isSkeleton = false
 				},
 				complete: (res, status) => {
@@ -524,11 +526,9 @@ new Vue({
 					// console.log(status)
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请重试', 0)
-						checkLogin.close()
 						this.isSkeleton = false
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
-						checkLogin.close()
 						this.isSkeleton = false
 					}
 				}
