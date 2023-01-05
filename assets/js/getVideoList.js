@@ -686,7 +686,6 @@ new Vue({
 						let alltype = res.data.data.alltype_num
 						if (parseInt(alltype) != 0) {
 							this.dynamicCount = parseInt(alltype) + parseInt(count)
-							this.isDot = true
 							this.isDynamicHide = false
 						}
 					}
