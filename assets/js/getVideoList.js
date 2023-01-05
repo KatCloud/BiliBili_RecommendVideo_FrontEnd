@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '5.0', // 2022.12.31 update
+		biliToolVersion: '5.1', // 2023.1.5 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -700,45 +700,44 @@ new Vue({
 		},
 
 		// 获取工具最新版本
-		// updateNewestVersion() {
-		// 	$.ajax({
-		// 		url: baseUrl + '/vc/getToolVersion',
-		// 		timeout: 20000,
-		// 		type: 'GET',
-		// 		data: {
-		// 			toolId: this.toolId
-		// 		},
-		// 		success: (res) => {
-		// 			// console.log(res)
-		// 			if (res.code == 200) {
-		// 				let newestVersion = res.data.toolVersion
-		// 				if (this.biliToolVersion === newestVersion) {
-		// 					// console.log('nothing to update')
-		// 					this.videolist = []
-		// 					this.getVideoList()
-		// 				} else {
-		// 					// console.log('update available')
-		// 					// 全屏加载
-		// 					const loading = this.$loading({
-		// 						lock: true,
-		// 						text: '请先更新再使用！',
-		// 						background: 'rgba(0, 0, 0, 0.7)'
-		// 					})
-		// 					this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0, false)
-		// 				}
-		// 			} else {
-		// 				this.showNotify('error', '获取更新失败！(' + res.code + ')')
-		// 			}
-		// 		},
-		// 		complete: (status) => {
-		// 			if (status.statusText == 'timeout') {
-		// 				this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
-		// 			} else if (status.statusText == 'error') {
-		// 				this.showNotify('warning', '维护提示', '工具当前维护中，请稍后再试！', 0)
-		// 			}
-		// 		}
-		// 	})
-		// }
+		updateNewestVersion() {
+			$.ajax({
+				url: baseUrl + '/vc/getToolVersion',
+				timeout: 20000,
+				type: 'GET',
+				data: {
+					toolId: this.toolId
+				},
+				success: (res) => {
+					// console.log(res)
+					if (res.code == 200) {
+						let newestVersion = res.data.toolVersion
+						if (this.biliToolVersion === newestVersion) {
+							// console.log('nothing to update')
+							this.checkBiliLoginStatus()
+						} else {
+							// console.log('update available')
+							// 全屏加载
+							const loading = this.$loading({
+								lock: true,
+								text: '请先更新再使用！',
+								background: 'rgba(0, 0, 0, 0.7)'
+							})
+							this.showNotify('warning', '工具已有更新!', '按下Ctrl + F5即可更新！', 0, false)
+						}
+					} else {
+						this.showNotify('error', '获取更新失败！(' + res.code + ')')
+					}
+				},
+				complete: (status) => {
+					if (status.statusText == 'timeout') {
+						this.showNotify('error', '错误', '加载超时，请刷新页面', 0)
+					} else if (status.statusText == 'error') {
+						this.showNotify('warning', '维护提示', '工具当前维护中，请稍后再试！', 0)
+					}
+				}
+			})
+		}
 	},
 	created() {
 		console.log(
@@ -747,7 +746,7 @@ new Vue({
 			'color: #242424; background: #fadfa3; padding:5px 0;');
 	},
 	mounted() {
-		this.checkBiliLoginStatus()
+		this.updateNewestVersion()
 		this.timer()
 	},
 	destroyed() {
