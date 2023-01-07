@@ -389,9 +389,7 @@
 																v-for="reasons in info.three_point.dislike_reasons">
 																<el-dropdown-item
 																	:command="beforeHandleCommand('d', reasons.id, info, index)"
-																	v-if="isLogin 
-															&& (info.goto == 'av' || info.goto == 'vertical_av') 
-															&& (info.card_goto == 'av' || info.card_goto == 'vertical_av')">
+																	v-if="isLogin">
 																	{{reasons.name}}
 																</el-dropdown-item>
 															</template>

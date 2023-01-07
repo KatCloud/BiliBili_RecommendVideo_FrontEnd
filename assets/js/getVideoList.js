@@ -72,7 +72,6 @@ new Vue({
 
 		// 判断是否为广告，活动等，是就返回false
 		checkRcmdCard(param, card_goto) {
-			let check = ['ad', 'banner']
 			if (!this.isEmpty(param)) {
 				if (card_goto.indexOf('ad') == -1 && card_goto.indexOf('banner') == -1) {
 					return true
