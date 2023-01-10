@@ -78,9 +78,11 @@
 								<a href="https://katcloud.cn/archives/86.html" target="_blank">v{{biliToolVersion}}</a>
 							</p>
 						</sup>
+						<!-- user info -->
 						<div class="userBox" v-if="isLogin">
-							<el-badge :value="userBadge(level, vip)"
-									  style="letter-spacing: 0.125rem; top: -0.5rem;">
+							<el-badge 
+									:value="userBadge(level, vip)"
+									style="letter-spacing: 0.125rem; top: -0.5rem;">
 									<el-avatar :size="50" :src="face" shape="circle"></el-avatar>
 							</el-badge>
 							<span>{{nickName}}</span>
@@ -384,8 +386,7 @@
 															v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')">
 															我不想看：
 														</el-dropdown-item>
-														<template v-if="(info.three_point.dislike_reasons.length > 0 ? true : false)
-																		&& (info.goto == 'av' || info.goto == 'vertical_av')">
+														<template v-if="info.goto == 'av' || info.goto == 'vertical_av'">
 															<template
 																v-for="reasons in info.three_point.dislike_reasons">
 																<el-dropdown-item
@@ -406,7 +407,7 @@
 						</template>
 					</section>
 					<!-- more Videos -->
-					<a id="toNew" style="margin-top: 40px;" href="###" class="button primary fit"
+					<a id="toNew" style="margin-top: 40px;" class="button primary fit"
 						@click="moreVideoList()">获取更多</a>
 				</div>
 				<!-- Go Top -->
@@ -433,9 +434,7 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
-	<!-- <script src="https://unpkg.zhimg.com/vue@2.6.14"></script>
-	<script>Vue.config.productionTip = false</script> -->
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+	<script src="assets/js/vue.min.js"></script>
 	<script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script>
 	<script src="assets/js/baseUrl.js"></script>
 	<script src="assets/js/getVideoList.js"></script>

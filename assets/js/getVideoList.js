@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '5.1', // 2023.1.5 update
+		biliToolVersion: '5.2', // 2023.1.10 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -21,7 +21,7 @@ new Vue({
 		isLogin: false,
 		isLoading: false,
 		// 推荐列表索引
-		idx: '',
+		idx: 0,
 		// 临时list
 		item: [],
 		loading: false,
@@ -56,8 +56,8 @@ new Vue({
 		},
 
 		// 处理用户等级
-		userBadge(level, vip){
-			if (!this.isEmpty(vip)){
+		userBadge(level, vip) {
+			if (!this.isEmpty(vip)) {
 				return 'lv.' + level + '  ' + vip
 			} else {
 				return 'lv.' + level
@@ -395,18 +395,19 @@ new Vue({
 							this.face = res.data.data.face
 							this.level = res.data.data.level
 							this.nickName = res.data.data.name
-							let vip = res.data.data.vip.label.text
-							if (!this.isEmpty(vip)) {
+							if (res.data.data.vip) {
 								this.vip = res.data.data.vip.label.text
 							}
+							checkLogin.close()
 							this.getVideoList()
-						}else{
+						} else {
+							checkLogin.close()
 							this.getVideoList()
 						}
 					} else {
+						checkLogin.close()
 						this.showNotify('error', '检查登录态错误', '遇到未知问题，请稍后再试！')
 					}
-					checkLogin.close()
 				},
 				complete: (res, status) => {
 					if (status == 'timeout') {
@@ -489,19 +490,21 @@ new Vue({
 						// 列表
 						const videoList = res.data.data.items
 						// 获取头尾idx
-						const headIdx = res.data.data.items.slice(0, 1)[0].idx
-						const footIdx = res.data.data.items.slice(-1)[0].idx
-						// 判断获取的数组是正序还是倒序
-						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
-							// headIdx is max
-							this.idx = headIdx
-							// idx大的放最后
-							this.videolist = videoList.reverse()
-						} else {
-							// footIdx is max
-							this.idx = footIdx
-							this.videolist = videoList
-						}
+						// const headIdx = res.data.data.items.slice(0, 1)[0].idx
+						// const footIdx = res.data.data.items.slice(-1)[0].idx
+						// // 判断获取的数组是正序还是倒序
+						// if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
+						// 	// headIdx is max
+						// 	this.idx = headIdx
+						// 	// idx大的放最后
+						// 	this.videolist = videoList.reverse()
+						// } else {
+						// 	// footIdx is max
+						// 	this.idx = footIdx
+						// 	this.videolist = videoList
+						// }
+						this.videolist = videoList
+						this.isSkeleton = false
 						// 登录鉴定
 						if (this.isLogin) {
 							this.isLoadLive = true
@@ -515,9 +518,9 @@ new Vue({
 						this.showNotify('error',
 							'获取推荐视频列表时出现问题',
 							'请重试！（错误代码: ' + res.code + '，错误信息：' + res.msg + ')')
+						this.isSkeleton = false
 					}
 					rcmd_load.close()
-					this.isSkeleton = false
 				},
 				complete: (res, status) => {
 					// console.log(res)
@@ -556,36 +559,37 @@ new Vue({
 					isLogin: this.isLogin
 				},
 				success: (res) => {
-					// console.log(res)
-					// this.isLoading = false
-					// loading.close()
 					if (res.code == 200) {
 						// 列表
 						const moreVideoList = res.data.data.items
 						// console.log(moreVideoList)
 						// 获取头尾idx
 						const headIdx = res.data.data.items.slice(0, 1)[0].idx
-						const footIdx = res.data.data.items.slice(-1)[0].idx
-						// 判断获取的数组是正序还是倒序
-						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
-							// 
-							this.idx = headIdx
-							// 原列表正序
-							const videoList = this.videolist
-							// 将获得的列表正序并接在原列表后
-							this.videolist = videoList.concat(moreVideoList.reverse())
-							// 赋值
-							// this.videolist = newList
-						} else {
-							// 正序
-							this.idx = footIdx
-							// 将原列表正序
-							const videoList = this.videolist
-							// 将获得的列表接在原列表后
-							this.videolist = videoList.concat(moreVideoList)
-							// 赋值
-							// this.videolist = newList
-						}
+						this.idx = headIdx
+						// const footIdx = res.data.data.items.slice(-1)[0].idx
+						// // 判断获取的数组是正序还是倒序
+						// if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
+						// 	// 
+						// 	this.idx = headIdx
+						// 	// 原列表正序
+						// 	const videoList = this.videolist
+						// 	// 将获得的列表正序并接在原列表后
+						// 	this.videolist = videoList.concat(moreVideoList.reverse())
+						// 	// 赋值
+						// 	// this.videolist = newList
+						// } else {
+						// 	// 正序
+						// 	this.idx = footIdx
+						// 	// 将原列表正序
+						// 	const videoList = this.videolist
+						// 	// 将获得的列表接在原列表后
+						// 	this.videolist = videoList.concat(moreVideoList)
+						// 	// 赋值
+						// 	// this.videolist = newList
+						// }
+						let oldVideoList = this.videolist
+						oldVideoList.push.apply(oldVideoList, moreVideoList)
+						console.log(this.videolist)
 						this.showNotify('success', '好耶', '获得' + moreVideoList.length + '条新内容', 1000)
 						// 登录鉴定
 						if (!this.isLogin) {
