@@ -642,6 +642,7 @@ new Vue({
 						localStorage.removeItem('access_token')
 						this.showNotify('success', '提示', '你已退出登录')
 						this.videoList = []
+						this.isSkeleton = true
 						this.getVideoList()
 					} else {
 						this.showNotify('error', '退出登录时出现问题',
@@ -651,10 +652,8 @@ new Vue({
 				complete: (status) => {
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请重试', 0)
-						loading.close()
 					} else if (res.status == 0 && status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
-						loading.close()
 					}
 				}
 			})

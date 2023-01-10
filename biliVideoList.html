@@ -102,7 +102,7 @@
 								target="_blank">稍后再看</a></li>
 						<el-divider direction="vertical"></el-divider>
 						<!-- 搜索模块 -->
-						<li style="margin-left: 3em;"><el-input type="text" placeholder="使用哔哩哔哩搜索" v-model="keyWord"
+						<li style="margin-left: 3em;"><el-input placeholder="使用哔哩哔哩搜索" v-model="keyWord"
 								v-on:keyup.enter.native="search()"></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
@@ -384,7 +384,8 @@
 															v-if="isLogin && (info.goto == 'av' || info.goto == 'vertical_av')">
 															我不想看：
 														</el-dropdown-item>
-														<template v-if="info.three_point.dislike_reasons.length > 0 ? true : false">
+														<template v-if="(info.three_point.dislike_reasons.length > 0 ? true : false)
+																		&& (info.goto == 'av' || info.goto == 'vertical_av')">
 															<template
 																v-for="reasons in info.three_point.dislike_reasons">
 																<el-dropdown-item
