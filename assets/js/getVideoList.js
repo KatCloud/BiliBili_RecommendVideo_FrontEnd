@@ -85,7 +85,7 @@ new Vue({
 
 		// 显示判断
 		checkGoto(goto, card_goto) {
-			let isHaveUp = ['av', 'vertical_av', 'live', 'article', 'picture']
+			let isHaveUp = ['av', 'vertical_av', 'live', 'article']
 			let isHaveAd = ['ad', 'banner']
 			if (isHaveUp.includes(goto)) {
 				if (isHaveAd.includes(card_goto)) {
@@ -589,7 +589,7 @@ new Vue({
 						// }
 						let oldVideoList = this.videolist
 						oldVideoList.push.apply(oldVideoList, moreVideoList)
-						console.log(this.videolist)
+						// console.log(this.videolist)
 						this.showNotify('success', '好耶', '获得' + moreVideoList.length + '条新内容', 1000)
 						// 登录鉴定
 						if (!this.isLogin) {
