@@ -98,6 +98,16 @@ new Vue({
 			}
 		},
 
+		// 不喜欢判断
+		checkDislikeGoto(goto){
+			let isHaveUp = ['av', 'vertical_av', 'live', 'article', 'article_s', 'picture']
+			if (isHaveUp.includes(goto)){
+				return true
+			} else {
+				return false
+			}
+		},
+
 		// 限制标题的长度，以免溢出卡片
 		titleLimited(title, maxLength) {
 			if (title.length > maxLength) {
@@ -248,6 +258,27 @@ new Vue({
 			}
 		},
 
+		// 判断dislike的goto
+		handleDislikeGoto(goto, obj) {
+			const id = ''
+			switch (goto) {
+				case 'av':
+				case 'vertical_av':
+					id = obj.param
+					return id
+				case 'live':
+					id = obj.param
+					return id
+				case 'article':
+				case 'article_s':
+					id = obj.param
+					return id
+				case 'picture':
+					id = obj.param
+					return id
+			}
+		},
+
 		// 下拉列表操作（视频卡片独有）
 		handleCommand(command) {
 			switch (command.command) {
@@ -273,12 +304,13 @@ new Vue({
 					const index = command.index
 					const obj = command.obj
 					const reason_id = command.content
-					const aid = obj.args.aid
-					const rid = obj.args.rid
 					const goto = obj.goto
+					// 判断类型
+					const id = this.handleDislikeGoto(goto, obj)
+					const rid = obj.args.rid
 					const mid = obj.args.up_id
 					const tid = obj.args.tid
-					this.dislikeVideo(index, aid, rid, goto, mid, tid, reason_id)
+					this.dislikeVideo(index, id, rid, goto, mid, tid, reason_id)
 					break;
 			}
 
@@ -344,19 +376,21 @@ new Vue({
 		},
 
 		// 不喜欢某视频
-		dislikeVideo(index, aid, rid, goto, mid, tid, reason_id) {
+		dislikeVideo(index, id, rid, goto, mid, tid, reason_id) {
 			this.dislikeIndex = index
 			$.ajax({
 				url: baseUrl + '/dislikeVideo',
 				type: 'GET',
 				data: {
 					loginToken: token,
-					aid: aid,
-					rid: rid,
-					_goto: goto,
-					mid: mid,
-					tag_id: tid,
-					reasonId: reason_id
+					dislikeParam: {
+						id: id,
+						rid: rid,
+						type: goto,
+						mid: mid,
+						tid: tid,
+						reasonId: reason_id
+					}
 				},
 				success: (res) => {
 					// console.log(res)
@@ -742,6 +776,8 @@ new Vue({
 		}
 	},
 	created() {
+		document.body.scrollTop = document.documentElement.scrollTop = 0
+
 		console.log(
 			'\n' + ' %c Bili Recommend Tool ' + ' %c v' + this.biliToolVersion + ' '
 			+ '\n', 'color: #fadfa3; background: #030307; padding:5px 0;',
