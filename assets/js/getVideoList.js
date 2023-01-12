@@ -260,7 +260,7 @@ new Vue({
 
 		// 判断dislike的goto
 		handleDislikeGoto(goto, obj) {
-			const id = ''
+			let id = ''
 			switch (goto) {
 				case 'av':
 				case 'vertical_av':
@@ -776,7 +776,7 @@ new Vue({
 		}
 	},
 	created() {
-		document.body.scrollTop = document.documentElement.scrollTop = 0
+		// document.body.scrollTop = document.documentElement.scrollTop = 0
 
 		console.log(
 			'\n' + ' %c Bili Recommend Tool ' + ' %c v' + this.biliToolVersion + ' '
