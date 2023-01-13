@@ -776,7 +776,6 @@ new Vue({
 		}
 	},
 	created() {
-		// document.body.scrollTop = document.documentElement.scrollTop = 0
 
 		console.log(
 			'\n' + ' %c Bili Recommend Tool ' + ' %c v' + this.biliToolVersion + ' '

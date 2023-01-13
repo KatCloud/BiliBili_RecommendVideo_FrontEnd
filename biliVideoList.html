@@ -389,10 +389,10 @@
 															分享
 														</el-dropdown-item>
 														<el-dropdown-item divided disabled
-															v-if="isLogin">
+															v-if="isLogin && checkDislikeGoto(info.goto)">
 															我不想看：
 														</el-dropdown-item>
-														<template v-if="checkDislikeGoto(info.goto)">
+														<template v-if="checkDislikeGoto(info.goto) && info.three_point">
 															<template
 																v-for="reasons in info.three_point.dislike_reasons">
 																<el-dropdown-item
