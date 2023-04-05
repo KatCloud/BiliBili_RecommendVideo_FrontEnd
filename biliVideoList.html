@@ -270,7 +270,7 @@
 													v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param"
 													target="_blank" style="border-bottom: #FFFFFF !important;"
 													v-bind:title="info.title">
-													<el-tag type="danger" effect="plain">{{info.badge}}</el-tag>
+													<el-tag type="danger" effect="plain">{{info.badge ? info.badge : '影视'}}</el-tag>
 													{{titleLimited(info.title, 29) ?
 													info.title.substring(0,30) + '...' : info.title}}
 												</a>
@@ -345,7 +345,7 @@
 													<!-- tag -->
 													<el-tag type="info" effect="plain" size="mini">剧名</el-tag>
 													<!-- 影视名 -->
-													{{info.desc}}
+													{{info.desc ? info.desc : info.desc_button.text}}
 													<!-- 评分 -->
 													{{info.cover_right_text ? '(' + info.cover_right_text + ')' : ''}}
 												</p>
