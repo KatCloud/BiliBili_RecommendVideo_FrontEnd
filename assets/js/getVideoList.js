@@ -357,6 +357,17 @@ new Vue({
 
 		// 获取封面
 		navToCoverTool(cover) {
+			// 直接点击获取的封面也加入计数中
+			$.ajax({
+				url: baseUrl + '/getVideoInfo',
+				type: 'GET',
+				data: {
+					videoId: 'count'
+				},
+				success: (res) => {
+					// nothing to do...
+				}
+			})
 			window.open(cover, '_blank')
 		},
 
