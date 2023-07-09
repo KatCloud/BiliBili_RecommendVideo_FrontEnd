@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '5.5', // 2023.6.6 update
+		biliToolVersion: '5.6', // 2023.7.9 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -731,8 +731,15 @@ new Vue({
 					// console.log(res)
 					if (res.code == 200) {
 						let alltype = res.data.data.alltype_num
-						if (parseInt(alltype) != 0) {
-							this.dynamicCount = parseInt(alltype) + parseInt(count)
+						let article = res.data.data.article_num
+						let video = res.data.data.video_num
+						// if (parseInt(alltype) != 0) {
+						// 	this.dynamicCount = parseInt(alltype) + parseInt(count)
+						// 	this.isDynamicHide = false
+						// }
+						let count = parseInt(alltype) + parseInt(article) + parseInt(video)
+						if(this.dynamicCount < count){
+							this.dynamicCount = count
 							this.isDynamicHide = false
 						}
 					}

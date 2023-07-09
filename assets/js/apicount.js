@@ -3,6 +3,12 @@ var list_time = []
 var list_rcmd = []
 var list_pic = []
 var list_watchlater = []
+// 处理后的数据（因为数据太多导致图标变形，故只保留9个）
+var cut_list_time = []
+var cut_list_rcmd = []
+var cut_list_pic = []
+var cut_list_watchlater = []
+//
 var list = []
 let rcmd = '/bili/getVideoList'
 let pic = '/bili/getVideoInfo'
@@ -32,7 +38,11 @@ window.onload = function getData(){
                     list_watchlater.push(e.count)
                     // list_time.push(e.time)
                 });
-
+                // 开始截取数组后9个元素
+                cut_list_rcmd = list_rcmd.slice(-9)
+                cut_list_pic = list_pic.slice(-9)
+                cut_list_watchlater = list_watchlater.slice(-9)
+                cut_list_time = list_time.slice(-9)
                 // console.log(list_rcmd)
                 // console.log(list_pic)
                 // console.log(list_watchlater)
@@ -41,20 +51,20 @@ window.onload = function getData(){
                 myChart.setOption({
                     xAxis: {
                         // 时间
-                        data: list_time
+                        data: cut_list_time
                     },
                     series: [
                     {
                         name: '推荐视频',
-                        data: list_rcmd,
+                        data: cut_list_rcmd,
                       },
                       {
                           name: '获取封面',
-                          data: list_pic,
+                          data: cut_list_pic,
                       },
                       {
                           name: '稍后再看',
-                          data: list_watchlater,
+                          data: cut_list_watchlater,
                       }
                     ]
                 })
