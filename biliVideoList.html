@@ -320,12 +320,14 @@
 													v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
 													<!-- tag -->
 													<el-tag type="info" effect="plain" size="mini">推荐标签</el-tag>
-													<!-- 理由 -->
+													<!-- 理由（会出现undefined报错，暂时不用） -->
 													<!-- {{info.rcmd_reason_style.text ? info.rcmd_reason_style.text : ''}} -->
 													<!-- 上映日期 -->
-													{{info.desc ? ' | ' + info.desc : ''}}
+													{{info.desc ? info.desc + '上映' : ''}}
+													<!-- 分隔符 -->
+													{{info.cover_right_text ? ' | ' : ''}}
 													<!-- 评分 -->
-													{{info.cover_right_text ? ' | ' + info.cover_right_text : ''}}
+													{{info.cover_right_text ? info.cover_right_text : ''}}
 												</p>
 												<p class="card_content"
 													v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
