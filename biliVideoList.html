@@ -275,7 +275,8 @@
 													v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param"
 													target="_blank" style="border-bottom: #FFFFFF !important;"
 													v-bind:title="info.title">
-													<el-tag type="danger" effect="plain">{{info.badge ? info.badge : '影视'}}</el-tag>
+													<el-tag type="danger" effect="plain">{{info.cover_right_text
+														? info.cover_right_text : '影视'}}</el-tag>
 													{{titleLimited(info.title, 29) ?
 													info.title.substring(0,30) + '...' : info.title}}
 												</a>
@@ -357,7 +358,7 @@
 													{{info.desc_button.text ? info.desc_button.text : ( info.desc ? info.desc : '哔哩哔哩影视' )}}
 													<!-- {{info.desc ? info.desc : info.desc_button.text}} -->
 													<!-- 评分 -->
-													{{info.cover_right_text ? ' | 时长：' + info.cover_right_text : ''}}
+													<!-- {{info.cover_right_text ? ' | 时长：' + info.cover_right_text : ''}} -->
 												</p>
 												<p class="card_content" v-if="info.goto == 'pgc'">
 													播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
