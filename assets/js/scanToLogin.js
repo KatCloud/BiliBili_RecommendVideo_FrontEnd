@@ -30,13 +30,13 @@ window.onload = function isLogin(){
 	})
 }
 	
-// 拿二维码url(web)
+// 拿二维码url
 function getQRCode(){
 	$.ajax({
-		url: baseUrl + '/login/getQRcode_Web',
-		type: 'GET',
+		url: baseUrl + '/login/getQRcode',
+		type: 'POST',
 		success: function(res) {
-			// console.log(res)
+			console.log(res)
 			if(res.code == 200){
 				token = res.data.token
 				console.log(token)
@@ -51,19 +51,18 @@ function getQRCode(){
 	})
 }
 
-// 检查扫码情况(web)
+// 检查扫码情况
 function isScan() {
-	// console.log('in isScan')
-	// console.log(token)
+	console.log('in isScan')
 	setTimeout(function(){
 		$.ajax({
-			url: baseUrl + '/login/scanToLogin_Web',
-			type: 'GET',
+			url: baseUrl + '/login/scanToLogin',
+			type: 'POST',
 			data: {
 				token: token
 			},
 			success: function(res) {
-				// console.log(res)
+				console.log(res)
 				if (res.code == 200) {
 					if (res.data.code == 86090) {
 						// code = 86039 已扫描，未确认(app)
@@ -86,20 +85,25 @@ function isScan() {
 	}, 1500)
 }
 
-// 检查二维码确认情况(web)
+// 检查二维码确认情况
 function isComfirm() {
-	// console.log('in isComfirm')
+	console.log('in isComfirm')
 	setTimeout(function(){
 		$.ajax({
-			url: baseUrl + '/login/scanToLogin_Web',
-			type: 'GET',
+			url: baseUrl + '/login/scanToLogin',
+			type: 'POST',
 			data: {
 				token: token
 			},
 			success: function(res) {
+				console.log(res)
 				if (res.code == 200 && res.data.code == 0) {
 					localStorage.setItem('access_token', res.data.loginToken)
-					getThirdPartKeyAndGo()
+					$('#qrcode').attr('style', 'filter: blur(10px)')
+					$('.guoqi').text('已确认登录，正在跳转...')
+					setTimeout(function(){
+						window.location.href = 'biliVideoList.html'
+					}, 3000)
 				}else if (res.code == 500 || res.data.code == 86038) {
 					// console.log('二维码已过期')
 					$('#qrcode').attr('style', 'filter: blur(10px)')
@@ -113,25 +117,25 @@ function isComfirm() {
 }
 
 // 通过cookie获取access_key
-function getThirdPartKeyAndGo(){
-	let loginToken = localStorage.getItem('access_token')
-	$.ajax({
-		url: baseUrl + '/login/getQRcode',
-		type: 'POST',
-		data: {
-			token:  loginToken
-		},
-		success: function(res){
-			if (res.code == 200){
-				$('#qrcode').attr('style', 'filter: blur(10px)')
-				$('.guoqi').text('已确认登录，正在跳转...')
-				setTimeout(function(){
-						window.location.href = 'biliVideoList.html'
-				}, 3000)
-				window.location.href = 'biliVideoList.html'
-			}else {
-				$('.guoqi').text('登录失败！（' + res.code + '）')
-			}
-		}
-	})
-}
+// function getThirdPartKeyAndGo(){
+// 	let loginToken = localStorage.getItem('access_token')
+// 	$.ajax({
+// 		url: baseUrl + '/login/getQRcode',
+// 		type: 'POST',
+// 		data: {
+// 			token:  loginToken
+// 		},
+// 		success: function(res){
+// 			if (res.code == 200){
+// 				$('#qrcode').attr('style', 'filter: blur(10px)')
+// 				$('.guoqi').text('已确认登录，正在跳转...')
+// 				setTimeout(function(){
+// 						window.location.href = 'biliVideoList.html'
+// 				}, 3000)
+// 				window.location.href = 'biliVideoList.html'
+// 			}else {
+// 				$('.guoqi').text('登录失败！（' + res.code + '）')
+// 			}
+// 		}
+// 	})
+// }
