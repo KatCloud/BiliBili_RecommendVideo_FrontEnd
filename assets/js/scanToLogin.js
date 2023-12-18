@@ -68,7 +68,8 @@ function isScan() {
 						// code = 86039 已扫描，未确认(app)
 						// code = 86090 已扫描，未确认(web)
 						$('#qrcode').attr('style', 'filter: blur(10px)')
-						$('.guoqi').text('请在设备上确认登录')
+						var confirm = '请在设备上确认登录 <br> 因请求由服务器发出，B站会提示由上海登录（服务器地址）'
+						$('.guoqi').html(confirm)
 						isComfirm()
 					} else if (res.data.code == 86038) {
 						$('#qrcode').attr('style', 'filter: blur(10px)')
