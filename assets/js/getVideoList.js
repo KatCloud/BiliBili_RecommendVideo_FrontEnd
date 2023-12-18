@@ -373,7 +373,7 @@ new Vue({
 
 		// 分享视频链接
 		shareVideo(title, upname, avid) {
-			const link = title + '--up：'
+			const link = '【'　+ title + '】' + '--UP：'
 				+ upname + '--link：'
 				+ 'https://www.bilibili.com/video/av' + avid
 
