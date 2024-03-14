@@ -172,7 +172,9 @@
 						<template v-if="videolist">
 							<template v-for="(info, index) in videolist">
 								<!-- 判断是否获得了undefinedAV的item -->
-								<article class="style7" v-if="checkRcmdCard(info.param, info.card_goto)">
+								<!-- 用checkGoto对广告过筛  -->
+								<!-- <article class="style7" v-if="checkRcmdCard(info.param, info.card_goto)"> -->
+								<article class="style7" v-if="checkGoto(info.goto, info.card_goto)">
 									<el-card id="rcmd_card" :body-style="{ padding: '0px' }" style="height: 23.75rem;"
 										shadow="hover" v-bind:style="dislikeIndex == index ? 'filter: blur(5px)' : ''">
 										<!-- 封面 START -->
@@ -317,24 +319,24 @@
 													{{info.cover_right_text}}
 												</p>
 												<!-- 番剧/剧集 分为ss/ep -->
-												<!-- <p class="card_content"
-													v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'"> -->
+												<p class="card_content"
+													v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
 													<!-- tag -->
-													<!-- <el-tag type="info" effect="plain" size="mini">推荐标签</el-tag> -->
+													<el-tag type="info" effect="plain" size="mini">推荐标签</el-tag>
 													<!-- 理由（会出现undefined报错，暂时不用） -->
-													<!-- {{info.rcmd_reason_style.text ? info.rcmd_reason_style.text : ''}} -->
+													{{info.rcmd_reason_style.text ? info.rcmd_reason_style.text : ''}}
 													<!-- 上映日期 -->
-													<!-- {{info.desc ? info.desc : null}} -->
+													{{info.desc ? info.desc : null}}
 													<!-- 分隔符 -->
-													<!-- {{(info.cover_right_text && info.desc) ? ' | ' : null}} -->
+													{{(info.cover_right_text && info.desc) ? ' | ' : null}}
 													<!-- 评分 -->
-													<!-- {{info.cover_right_text ? info.cover_right_text : null}} -->
-												<!-- </p>
+													{{info.cover_right_text ? info.cover_right_text : null}}
+												</p>
 												<p class="card_content"
 													v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
 													播放: {{info.cover_left_text_1}} &nbsp;&nbsp;追剧:
 													{{info.cover_left_text_2}}
-												</p> -->
+												</p>
 												<!-- 文章 -->
 												<p class="card_content" v-if="info.goto == 'article' || info.goto == 'article_s'">
 													点赞: {{info.cover_left_text_1}}
@@ -342,8 +344,8 @@
 												<!-- 动态 -->
 												<p class="card_content" v-if="info.goto == 'picture'">
 													<!-- up主名 -->
-													<el-tag type="info" effect="plain" size="mini">UP</el-tag>
-													{{info.desc}}
+													<!-- <el-tag type="info" effect="plain" size="mini">UP</el-tag>
+													{{info.desc}} -->
 													<!-- 需要判断 -->
 													{{info.rcmd_reason ? '(' + info.rcmd_reason + ')' : ''}}
 												</p>

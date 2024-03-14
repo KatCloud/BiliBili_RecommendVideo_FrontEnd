@@ -9,7 +9,7 @@ new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '7.1', // 2023.12.18 update
+		biliToolVersion: '7.2', // 2024.3.14 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -85,7 +85,7 @@ new Vue({
 
 		// 显示判断
 		checkGoto(goto, card_goto) {
-			let isHaveUp = ['av', 'vertical_av', 'live', 'article']
+			let isHaveUp = ['av', 'vertical_av', 'live', 'article', 'picture', 'bangumi']
 			let isHaveAd = ['ad', 'banner']
 			if (isHaveUp.includes(goto)) {
 				if (isHaveAd.includes(card_goto)) {
