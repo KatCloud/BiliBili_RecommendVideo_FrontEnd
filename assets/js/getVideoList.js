@@ -5,11 +5,11 @@ let Component = Vue.extend({
 })
 Vue.component('go-top', Component)
 Vue.config.productionTip = false
-new Vue({
+const app = new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '7.2', // 2024.3.14 update
+		biliToolVersion: '7.3', // 2024.4.1 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -513,6 +513,7 @@ new Vue({
 
 		// 拿视频列表（首次）
 		getVideoList() {
+			this.videolist = []
 			const rcmd_load = this.$message({
 				type: 'info',
 				message: '正在获取推荐视频...',
@@ -535,19 +536,19 @@ new Vue({
 						// 列表
 						const videoList = res.data.data.items
 						// 获取头尾idx
-						// const headIdx = res.data.data.items.slice(0, 1)[0].idx
-						// const footIdx = res.data.data.items.slice(-1)[0].idx
-						// // 判断获取的数组是正序还是倒序
-						// if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
-						// 	// headIdx is max
-						// 	this.idx = headIdx
-						// 	// idx大的放最后
-						// 	this.videolist = videoList.reverse()
-						// } else {
-						// 	// footIdx is max
-						// 	this.idx = footIdx
-						// 	this.videolist = videoList
-						// }
+						const headIdx = res.data.data.items.slice(0, 1)[0].idx
+						const footIdx = res.data.data.items.slice(-1)[0].idx
+						// 判断获取的数组是正序还是倒序
+						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
+							// headIdx is max
+							this.idx = headIdx
+							// idx大的放最后
+							this.videolist = videoList.reverse()
+						} else {
+							// footIdx is max
+							this.idx = footIdx
+							this.videolist = videoList
+						}
 						this.videolist = videoList
 						this.isSkeleton = false
 						// 登录鉴定
@@ -574,7 +575,7 @@ new Vue({
 						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						this.isSkeleton = false
 						rcmd_load.close()
-					} else if (res.status == 0 && status == 'error') {
+					} else if (status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						this.isSkeleton = false
 						rcmd_load.close()
@@ -610,30 +611,30 @@ new Vue({
 						// console.log(moreVideoList)
 						// 获取头尾idx
 						const headIdx = res.data.data.items.slice(0, 1)[0].idx
-						this.idx = headIdx
-						// const footIdx = res.data.data.items.slice(-1)[0].idx
-						// // 判断获取的数组是正序还是倒序
-						// if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
-						// 	// 
-						// 	this.idx = headIdx
-						// 	// 原列表正序
-						// 	const videoList = this.videolist
-						// 	// 将获得的列表正序并接在原列表后
-						// 	this.videolist = videoList.concat(moreVideoList.reverse())
-						// 	// 赋值
-						// 	// this.videolist = newList
-						// } else {
-						// 	// 正序
-						// 	this.idx = footIdx
-						// 	// 将原列表正序
-						// 	const videoList = this.videolist
-						// 	// 将获得的列表接在原列表后
-						// 	this.videolist = videoList.concat(moreVideoList)
-						// 	// 赋值
-						// 	// this.videolist = newList
-						// }
-						let oldVideoList = this.videolist
-						oldVideoList.push.apply(oldVideoList, moreVideoList)
+						// this.idx = headIdx
+						const footIdx = res.data.data.items.slice(-1)[0].idx
+						// 判断获取的数组是正序还是倒序
+						if (this.isHeadBiggerThanFoot(headIdx, footIdx)) {
+							// 
+							this.idx = headIdx
+							// 原列表正序
+							const videoList = this.videolist
+							// 将获得的列表正序并接在原列表后
+							this.videolist = videoList.concat(moreVideoList.reverse())
+							// 赋值
+							// this.videolist = newList
+						} else {
+							// 正序
+							this.idx = footIdx
+							// 将原列表正序
+							const videoList = this.videolist
+							// 将获得的列表接在原列表后
+							this.videolist = videoList.concat(moreVideoList)
+							// 赋值
+							// this.videolist = newList
+						}
+						// let oldVideoList = this.videolist
+						// oldVideoList.push.apply(oldVideoList, moreVideoList)
 						// console.log(this.videolist)
 						this.showNotify('success', '好耶', '获得' + moreVideoList.length + '条新内容', 1000)
 						// 登录鉴定
@@ -654,7 +655,7 @@ new Vue({
 					if (status == 'timeout') {
 						this.showNotify('error', '错误', '加载超时，请重试', 0)
 						loading.close()
-					} else if (res.status == 0 && status == 'error') {
+					} else if (status == 'error') {
 						this.showNotify('error', '获取错误', '获取推荐视频错误，请稍后再试吧！')
 						loading.close()
 					}
