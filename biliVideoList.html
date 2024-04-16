@@ -84,10 +84,8 @@
 						</sup>
 						<!-- user info -->
 						<div class="userBox" v-if="isLogin">
-							<el-badge 
-									:value="userBadge(level, vip)"
-									style="letter-spacing: 0.125rem; top: -0.5rem;">
-									<el-avatar :size="50" :src="face" shape="circle"></el-avatar>
+							<el-badge :value="userBadge(level, vip)" style="letter-spacing: 0.125rem; top: -0.5rem;">
+								<el-avatar :size="50" :src="face" shape="circle"></el-avatar>
 							</el-badge>
 							<span>{{nickName}}</span>
 						</div>
@@ -112,6 +110,8 @@
 								v-on:keyup.enter.native="search()"></el-input></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
+					<el-alert title="因恶性BUG难以解决，工具等待重写中..." type="error" effect="light" show-icon>
+					</el-alert>
 					<!-- 已关注的直播 -->
 					<div v-if="isLogin" style="margin-top: 1.5625rem;">
 						<span id="liveNotification" v-if="isLoadLive">正在加载已关注的直播...</span>
@@ -249,8 +249,8 @@
 													v-bind:href="'https://www.bilibili.com/bangumi/play/ep' + info.param"
 													target="_blank" style="border-bottom: #FFFFFF !important;"
 													v-bind:title="info.title">
-													<el-tag type="danger" effect="plain">{{info.badge_style.text 
-																			? info.badge_style.text : '剧集'}}</el-tag>
+													<el-tag type="danger" effect="plain">{{info.badge_style.text
+														? info.badge_style.text : '剧集'}}</el-tag>
 													{{titleLimited(info.title, 29) ?
 													info.title.substring(0,30) + '...' : info.title}}
 												</a>
@@ -338,7 +338,8 @@
 													{{info.cover_left_text_2}}
 												</p>
 												<!-- 文章 -->
-												<p class="card_content" v-if="info.goto == 'article' || info.goto == 'article_s'">
+												<p class="card_content"
+													v-if="info.goto == 'article' || info.goto == 'article_s'">
 													点赞: {{info.cover_left_text_1}}
 												</p>
 												<!-- 动态 -->
@@ -357,7 +358,8 @@
 													<!-- tag -->
 													<el-tag type="info" effect="plain" size="mini">剧名</el-tag>
 													<!-- 影视名 -->
-													{{info.desc_button.text ? info.desc_button.text : ( info.desc ? info.desc : '哔哩哔哩影视' )}}
+													{{info.desc_button.text ? info.desc_button.text : ( info.desc ?
+													info.desc : '哔哩哔哩影视' )}}
 													<!-- {{info.desc ? info.desc : info.desc_button.text}} -->
 													<!-- 评分 -->
 													<!-- {{info.cover_right_text ? ' | 时长：' + info.cover_right_text : ''}} -->
@@ -405,7 +407,8 @@
 															v-if="isLogin && checkDislikeGoto(info.goto) && info.three_point">
 															我不想看：
 														</el-dropdown-item>
-														<template v-if="checkDislikeGoto(info.goto) && info.three_point">
+														<template
+															v-if="checkDislikeGoto(info.goto) && info.three_point">
 															<template
 																v-for="reasons in info.three_point.dislike_reasons">
 																<el-dropdown-item
@@ -426,8 +429,7 @@
 						</template>
 					</section>
 					<!-- more Videos -->
-					<a id="toNew" style="margin-top: 40px;" class="button primary fit"
-						@click="moreVideoList()">获取更多</a>
+					<a id="toNew" style="margin-top: 40px;" class="button primary fit" @click="moreVideoList()">获取更多</a>
 				</div>
 				<!-- Go Top -->
 				<go-top :size="50" :right="80" :bottom="150" bg-color="#8C8C8C">
