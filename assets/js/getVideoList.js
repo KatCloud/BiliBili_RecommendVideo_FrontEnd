@@ -730,17 +730,25 @@ const app = new Vue({
 				},
 				success: (res) => {
 					// console.log(res)
-					if (res.code == 200) {
-						let alltype = res.data.data.alltype_num
-						let article = res.data.data.article_num
-						let video = res.data.data.video_num
-						// if (parseInt(alltype) != 0) {
-						// 	this.dynamicCount = parseInt(alltype) + parseInt(count)
-						// 	this.isDynamicHide = false
-						// }
-						let count = parseInt(alltype) + parseInt(article) + parseInt(video)
-						if(this.dynamicCount < count){
-							this.dynamicCount = count
+					// if (res.code == 200) {
+					// 	let alltype = res.data.data.alltype_num
+					// 	let article = res.data.data.article_num
+					// 	let video = res.data.data.video_num
+					// 	// if (parseInt(alltype) != 0) {
+					// 	// 	this.dynamicCount = parseInt(alltype) + parseInt(count)
+					// 	// 	this.isDynamicHide = false
+					// 	// }
+					// 	let count = parseInt(alltype) + parseInt(article) + parseInt(video)
+					// 	if(this.dynamicCount < count){
+					// 		this.dynamicCount = count
+					// 		this.isDynamicHide = false
+					// 	}
+					// }
+					if (res.code == 200){
+						let count = res.data.data.update_info.item.count
+						// console.log(count)
+						if (parseInt(count) != 0){
+							this.dynamicCount = parseInt(count)
 							this.isDynamicHide = false
 						}
 					}
