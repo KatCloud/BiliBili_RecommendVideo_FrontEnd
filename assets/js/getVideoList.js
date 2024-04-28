@@ -9,7 +9,7 @@ const app = new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '7.3', // 2024.4.1 update
+		biliToolVersion: '7.4', // 2024.4.28 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -758,8 +758,8 @@ const app = new Vue({
 
 		// 点击动态按钮时，计数清零
 		clickDynamicBtn() {
-			this.dynamicCount = 0
 			this.isDynamicHide = true
+			this.dynamicCount = 0
 		},
 
 		// 获取工具最新版本
