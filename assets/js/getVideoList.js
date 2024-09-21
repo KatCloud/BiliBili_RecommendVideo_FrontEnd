@@ -9,7 +9,7 @@ const app = new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '7.4', // 2024.4.28 update
+		biliToolVersion: '7.5', // 2024.9.21 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -37,6 +37,32 @@ const app = new Vue({
 		isDynamicHide: true,
 		// 搜索
 		keyWord: '',
+		searchRcmd: [
+			{
+				"value": "owwc2023",
+                "term": "owwc2023",
+                "ref": 0,
+                "name": "<em class=\"suggest_high_light\">owwc</em>2023",
+                "spid": 5,
+                "type": ""
+			},
+			{
+                "value": "owwc法国",
+                "term": "owwc法国",
+                "ref": 0,
+                "name": "<em class=\"suggest_high_light\">owwc</em>法国",
+                "spid": 5,
+                "type": ""
+            },
+            {
+                "value": "欧文五测评",
+                "term": "欧文五测评",
+                "ref": 0,
+                "name": "欧文五测评",
+                "spid": 5,
+                "type": ""
+            }
+		],
 		// 不喜欢视频的index
 		dislikeIndex: -1,
 		// 用户信息

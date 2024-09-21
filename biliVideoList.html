@@ -14,7 +14,8 @@
 	<link rel="stylesheet" href="assets/css/main.css" />
 	<link rel="stylesheet" href="assets/css/badge.css" />
 	<link rel="stylesheet" href="assets/css/uptop.css" />
-	<link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
+	<!-- <link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui@2.15.7/lib/theme-chalk/index.css"> -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.14/lib/theme-chalk/index.css">
 	<link rel="stylesheet" href="assets/css/btn.css" />
 	<link rel="stylesheet" href="assets/css/card.css" />
 	<noscript>
@@ -106,8 +107,8 @@
 								target="_blank">稍后再看</a></li>
 						<el-divider direction="vertical"></el-divider>
 						<!-- 搜索模块 -->
-						<li style="margin-left: 3em;"><el-input placeholder="使用哔哩哔哩搜索" v-model="keyWord"
-								v-on:keyup.enter.native="search()"></el-input></li>
+						<li style="margin-left: 3em;"><el-autocomplete placeholder="使用哔哩哔哩搜索" v-model="keyWord"
+																	   v-on:keyup.enter.native="search()"></el-autocomplete></li>
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
 					<el-alert title="因恶性BUG难以解决，工具等待重写中..." type="error" effect="light" show-icon>
@@ -456,7 +457,8 @@
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/vue.min.js"></script>
-	<script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script>
+	<!-- <script src="https://unpkg.zhimg.com/element-ui@2.15.7/lib/index.js"></script> -->
+	<script src="https://unpkg.com/element-ui@2.15.14/lib/index.js"></script>
 	<script src="assets/js/baseUrl.js"></script>
 	<script src="assets/js/getVideoList.js"></script>
 	<script src="assets/js/vue-go-top.min.js"></script>
