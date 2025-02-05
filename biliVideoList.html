@@ -112,7 +112,7 @@
 						<li><a class="button primary" v-on:click="search()">搜索</a></li>
 					</ul>
 					<!-- <el-alert title="因恶性BUG难以解决，工具等待重写中..." type="error" effect="light" show-icon> -->
-					</el-alert>
+					<!-- </el-alert> -->
 					<!-- 已关注的直播 -->
 					<div v-if="isLogin" style="margin-top: 1.5625rem;">
 						<span id="liveNotification" v-if="isLoadLive">正在加载已关注的直播...</span>
@@ -325,13 +325,13 @@
 													<!-- tag -->
 													<el-tag type="info" effect="plain" size="mini">推荐标签</el-tag>
 													<!-- 理由（会出现undefined报错，暂时不用） -->
-													{{info.rcmd_reason_style.text ? info.rcmd_reason_style.text : ''}}
+													{{info.rcmd_reason_style.text ? info.rcmd_reason_style.text : '好看'}}
 													<!-- 上映日期 -->
-													{{info.desc ? info.desc : null}}
+													{{info.desc ? info.desc : '日期'}}
 													<!-- 分隔符 -->
-													{{(info.cover_right_text && info.desc) ? ' | ' : null}}
+													{{(info.cover_right_text && info.desc) ? ' | ' : '分隔符'}}
 													<!-- 评分 -->
-													{{info.cover_right_text ? info.cover_right_text : null}}
+													{{info.cover_right_text ? info.cover_right_text : '评分'}}
 												</p>
 												<p class="card_content"
 													v-if="info.goto == 'bangumi' && info.card_goto == 'bangumi'">
@@ -377,7 +377,7 @@
 													<!-- 影视名 -->
 													{{info.desc}}
 													<!-- 评分 -->
-													{{info.cover_right_text ? '(' + info.cover_right_text + ')' : ''}}
+													{{info.cover_right_text ? '(' + info.cover_right_text + ')' : '评分'}}
 												</p>
 												<p class="card_content"
 													v-if="info.goto == 'web' || info.card_goto == 'special_s'">

@@ -9,7 +9,7 @@ const app = new Vue({
 	el: '#videoList',
 	data: {
 		// 工具版本号
-		biliToolVersion: '7.5', // 2024.9.21 update
+		biliToolVersion: '7.6', // 2025.2.5 update
 		toolId: 1,
 		// ---------
 		// 骨架屏
@@ -417,17 +417,15 @@ const app = new Vue({
 			this.dislikeIndex = index
 			$.ajax({
 				url: baseUrl + '/dislikeVideo',
-				type: 'GET',
+				type: 'POST',
 				data: {
 					loginToken: token,
-					dislikeParam: {
-						id: id,
-						rid: rid,
-						type: goto,
-						mid: mid,
-						tid: tid,
-						reasonId: reason_id
-					}
+					type: goto,
+					id: id,
+					rid: rid,
+					mid: mid,
+					tid: tid,
+					reasonId: reason_id
 				},
 				success: (res) => {
 					// console.log(res)
@@ -539,7 +537,7 @@ const app = new Vue({
 
 		// 拿视频列表（首次）
 		getVideoList() {
-			this.videolist = []
+			// this.videolist = []
 			const rcmd_load = this.$message({
 				type: 'info',
 				message: '正在获取推荐视频...',
@@ -558,7 +556,9 @@ const app = new Vue({
 					// console.log(res)
 					// this.isLoading = false
 					// loading.close()
-					if (res.code == 200) {
+					// console.log(res.data.data.items.length)
+					// console.log(res.data.data.items.length > 0)
+					if (res.code == 200 && res.data.data.items.length > 0) {
 						// 列表
 						const videoList = res.data.data.items
 						// 获取头尾idx
@@ -631,7 +631,9 @@ const app = new Vue({
 					isLogin: this.isLogin
 				},
 				success: (res) => {
-					if (res.code == 200) {
+					console.log(res.data.data.items.length)
+					console.log(res.data.data.items.length > 0)
+					if (res.code == 200 && res.data.data.items.length > 0) {
 						// 列表
 						const moreVideoList = res.data.data.items
 						// console.log(moreVideoList)
@@ -746,7 +748,7 @@ const app = new Vue({
 
 		// 拿动态角标
 		getDynamicCount() {
-			let count = this.dynamicCount
+			// let count = this.dynamicCount
 			$.ajax({
 				url: baseUrl + '/getDynamicCount',
 				timeout: 20000,
